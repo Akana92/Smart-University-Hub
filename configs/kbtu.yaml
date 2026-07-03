@@ -1,0 +1,87 @@
+# Конфиг тенанта KBTU для ingestion движка A (docs/00 §7.5).
+# Config-driven: новый вуз = новый такой YAML, без изменения кода.
+university_name: "Казахстанско-Британский технический университет (KBTU)"
+tenant_id: kbtu
+language: ru
+base_url: "https://kbtu.edu.kz"
+
+chunk:
+  target_tokens: 700        # целевой размер чанка (docs/00 §14)
+  max_tokens: 1000          # жёсткий максимум (текст; таблицы атомарны и могут быть больше)
+  overlap_tokens: 90        # ~12% overlap (на token-window ветке)
+  min_tokens: 12            # отбрасывать короткие текстовые обрывки/колонтитулы
+  tokenizer: cl100k_base    # токенайзер OpenAI text-embedding-3 (ADR-007)
+
+embedding:
+  # ФАКТ текущего индекса: local (MiniLM-384, демо — ADR-018). Прод: openai (3072).
+  # ⚠️ Ключ пока ИНФОРМАЦИОННЫЙ: код читает --profile / EMBED_PROFILE, не этот YAML
+  # (задача: подключить чтение конфига). Смена профиля = полная переиндексация (§2.10).
+  profile: local
+
+# Источники (проверены adversarial-проходом, docs/03 §3.2).
+# category: abiturient | student | calendar ; scanned:true → нужен OCR (пропускается на этапе 1)
+sources:
+  - file: "51-2-25_2025.pdf"
+    url: "https://kbtu.edu.kz/images/51-2-25_2025.pdf"
+    category: student
+    doc_type: academic_policy
+    standard_code: "КС ИСМ КБТУ 51-2-25"
+    doc_version: "2025"
+    title: "Академическая политика (бакалавриат): GPA, пересдача FX, академотпуск"
+    scanned: false
+  - file: "514-1-22_2023.pdf"
+    url: "https://kbtu.edu.kz/images/514-1-22_2023.pdf"
+    category: student
+    doc_type: academic_policy
+    standard_code: "КС ИСМ КБТУ 514-1-22"
+    doc_version: "2023"
+    title: "Академическая политика (послевузовское): магистратура/докторантура"
+    scanned: false
+  - file: "59-4-21_2023.pdf"
+    url: "https://kbtu.edu.kz/images/59-4-21_2023.pdf"
+    category: student
+    doc_type: academic_policy
+    standard_code: "КС ИСМ КБТУ 59-4-21"
+    doc_version: "2023"
+    title: "Порядок перезачёта дисциплин / ретейки"
+    scanned: false
+  - file: "59-1-24_2026.pdf"
+    url: "https://kbtu.edu.kz/images/59-1-24_2026.pdf"
+    category: abiturient
+    doc_type: admission_rules
+    standard_code: "КС ИСМ КБТУ 59-1-24"
+    doc_version: "2026"
+    title: "Правила приёма: перечень документов, стоимость, гранты"
+    scanned: false
+  - file: "74-1-24_2026.pdf"
+    url: "https://kbtu.edu.kz/images/74-1-24_2026.pdf"
+    category: abiturient
+    doc_type: admission_rules
+    standard_code: "КС ИСМ КБТУ 74-1-24"
+    doc_version: "2026"
+    title: "Порядок уплаты вступительного взноса"
+    scanned: false
+  - file: "51-9-26_2026.pdf"
+    url: "https://kbtu.edu.kz/images/51-9-26_2026.pdf"
+    category: student
+    doc_type: other
+    standard_code: "КС ИСМ КБТУ 51-9-26"
+    doc_version: "2026"
+    title: "Политика академической честности"
+    scanned: false
+  - file: "ac_2025-2026_bak_rus.pdf"
+    url: "https://kbtu.edu.kz/images/ac_2025-2026_bak_rus.pdf"
+    category: calendar
+    doc_type: academic_calendar
+    standard_code: "AC 2025-2026 бакалавриат"
+    doc_version: "2025-2026"
+    title: "Академический календарь 2025-2026 (бакалавриат)"
+    scanned: true
+  - file: "ac_2025-2026_mag_rus.pdf"
+    url: "https://kbtu.edu.kz/images/ac_2025-2026_mag_rus.pdf"
+    category: calendar
+    doc_type: academic_calendar
+    standard_code: "AC 2025-2026 магистратура"
+    doc_version: "2025-2026"
+    title: "Академический календарь 2025-2026 (магистратура)"
+    scanned: true

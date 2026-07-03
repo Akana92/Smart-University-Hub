@@ -1,0 +1,8 @@
+univ_id,tuition_min_kzt,tuition_max_kzt,tuition_year,source_url,source_type,confidence,note
+u50,1100000,1700000,2025,https://welcome.kaznu.kz/ru/19388/page,official_site,medium,официальный PDF стоимости бакалавриата 2025-2026
+u63,2100000,2400000,2025,https://admissions.kbtu.kz/,official_site,medium,кредитная система ~35-40к тг/кредит
+u47,905760,1278060,2025,https://official.satbayev.university/ru/dlya-studentov/stoimost-obucheniya/stoimost-obucheniya-2025-2026,official_site,medium,IT/инфобезопасность самые дорогие
+u23,1300000,1600000,2025,https://enu.kz/ru/page/for-students/tuition-fees,official_site,medium,рост ~10% к 2024
+u119,7000000,7500000,2025,https://astanait.edu.kz/programs/,official_site,medium,~15000 USD; скидки за Алтын белгі
+u104,1080000,2400000,2025,https://sdu.edu.kz/en/tuition-fees/,official_site,medium,бизнес-школа дороже
+u107,1300000,1860000,2025,https://narxoz.kz/,media_review,low,кредитная система; официальный URL требует проверки

@@ -1,0 +1,9 @@
+# POC движка B (скрейперы + SQLite + FastAPI). Аудит 2026-07-03:
+# добавлены fastapi/uvicorn/httpx (их не было, quickstart падал ModuleNotFoundError),
+# удалён pandas (не импортируется нигде в POC).
+requests==2.32.3
+beautifulsoup4==4.15.0
+lxml==6.1.1
+fastapi==0.115.6
+uvicorn==0.34.0
+httpx==0.28.1

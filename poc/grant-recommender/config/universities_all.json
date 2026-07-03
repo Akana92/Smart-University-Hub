@@ -1,0 +1,611 @@
+[
+ {
+  "uv_id": 3,
+  "slug": "3-akademiya-grazhdanskoy-aviatsii",
+  "univ_id": "u3",
+  "name": "Akademiya grazhdanskoy aviatsii",
+  "is_national": false
+ },
+ {
+  "uv_id": 5,
+  "slug": "5-aktyubinskiy-gosudarstvennyy-regionalnyy-universitet-imeni-k-zhubanova",
+  "univ_id": "u5",
+  "name": "Aktyubinskiy gosudarstvennyy regionalnyy universitet imeni k zhubanova",
+  "is_national": false
+ },
+ {
+  "uv_id": 6,
+  "slug": "6-baishev-universitet",
+  "univ_id": "u6",
+  "name": "Baishev universitet",
+  "is_national": false
+ },
+ {
+  "uv_id": 7,
+  "slug": "7-almatinskaya-akademiya-ekonomiki-i-statistiki",
+  "univ_id": "u7",
+  "name": "Almatinskaya akademiya ekonomiki i statistiki",
+  "is_national": false
+ },
+ {
+  "uv_id": 8,
+  "slug": "8-almatinskiy-tehnologicheskiy-universitet",
+  "univ_id": "u8",
+  "name": "Almatinskiy tehnologicheskiy universitet",
+  "is_national": false
+ },
+ {
+  "uv_id": 9,
+  "slug": "9-almatinskiy-universitet-energetiki-i-svyazi",
+  "univ_id": "u9",
+  "name": "Almatinskiy universitet energetiki i svyazi",
+  "is_national": false
+ },
+ {
+  "uv_id": 10,
+  "slug": "10-almaty-menedzhment-universitet",
+  "univ_id": "u10",
+  "name": "Almaty menedzhment universitet",
+  "is_national": false
+ },
+ {
+  "uv_id": 11,
+  "slug": "11-arkalykskiy-pedagogicheskiy-institut-imeni-i-altynsarina",
+  "univ_id": "u11",
+  "name": "Arkalykskiy pedagogicheskiy institut imeni i altynsarina",
+  "is_national": false
+ },
+ {
+  "uv_id": 12,
+  "slug": "12-atyrauskiy-universitet-imeni-halela-dosmuhamedova",
+  "univ_id": "u12",
+  "name": "Atyrauskiy universitet imeni halela dosmuhamedova",
+  "is_national": false
+ },
+ {
+  "uv_id": 14,
+  "slug": "14-atyrauskiy-universitet-nefti-i-gaza-imeni-s-utebaeva",
+  "univ_id": "u14",
+  "name": "Atyrauskiy universitet nefti i gaza imeni s utebaeva",
+  "is_national": false
+ },
+ {
+  "uv_id": 15,
+  "slug": "15-vostochno-kazahstanskiy-gosudarstvennyy-tehnicheskiy-universitet-imeni-d-serikbaeva",
+  "univ_id": "u15",
+  "name": "Vostochno kazahstanskiy gosudarstvennyy tehnicheskiy universitet imeni d serikbaeva",
+  "is_national": false
+ },
+ {
+  "uv_id": 16,
+  "slug": "16-vostochno-kazahstanskiy-gosudarstvennyy-universitet-imeni-s-amanzholova",
+  "univ_id": "u16",
+  "name": "Vostochno kazahstanskiy gosudarstvennyy universitet imeni s amanzholova",
+  "is_national": false
+ },
+ {
+  "uv_id": 17,
+  "slug": "17-meditsinskiy-universitet-semey",
+  "univ_id": "u17",
+  "name": "Meditsinskiy universitet semey",
+  "is_national": false
+ },
+ {
+  "uv_id": 18,
+  "slug": "18-universitet-imeni-shakarima-goroda-semey",
+  "univ_id": "u18",
+  "name": "Universitet imeni shakarima goroda semey",
+  "is_national": false
+ },
+ {
+  "uv_id": 22,
+  "slug": "22-evraziyskiy-gumanitarnyy-institut",
+  "univ_id": "u22",
+  "name": "Evraziyskiy gumanitarnyy institut",
+  "is_national": false
+ },
+ {
+  "uv_id": 23,
+  "slug": "23-evraziyskiy-natsionalnyy-universitet-im-l-n-gumileva",
+  "univ_id": "u23",
+  "name": "Evraziyskiy natsionalnyy universitet im l n gumileva",
+  "is_national": true
+ },
+ {
+  "uv_id": 24,
+  "slug": "24-evraziyskiy-tehnicheskiy-universitet",
+  "univ_id": "u24",
+  "name": "Evraziyskiy tehnicheskiy universitet",
+  "is_national": false
+ },
+ {
+  "uv_id": 25,
+  "slug": "25-egipetskiy-universitet-islamskoy-kultury-nur-mubarak",
+  "univ_id": "u25",
+  "name": "Egipetskiy universitet islamskoy kultury nur mubarak",
+  "is_national": false
+ },
+ {
+  "uv_id": 26,
+  "slug": "26-ekibastuzskiy-inzhenerno-tehnicheskiy-institut-imeni-akademika-k-satpaeva",
+  "univ_id": "u26",
+  "name": "Ekibastuzskiy inzhenerno tehnicheskiy institut imeni akademika k satpaeva",
+  "is_national": false
+ },
+ {
+  "uv_id": 27,
+  "slug": "27-zhezkazganskiy-universitet-imeni-o-baykonurova",
+  "univ_id": "u27",
+  "name": "Zhezkazganskiy universitet imeni o baykonurova",
+  "is_national": false
+ },
+ {
+  "uv_id": 28,
+  "slug": "28-zhetysuskiy-gosudarstvennyy-universitet-imeni-ilyasa-zhansugurova",
+  "univ_id": "u28",
+  "name": "Zhetysuskiy gosudarstvennyy universitet imeni ilyasa zhansugurova",
+  "is_national": false
+ },
+ {
+  "uv_id": 29,
+  "slug": "29-zapadno-kazahstanskiy-agrarno-tehnicheskiy-universitet-imeni-zhangir-hana",
+  "univ_id": "u29",
+  "name": "Zapadno kazahstanskiy agrarno tehnicheskiy universitet imeni zhangir hana",
+  "is_national": false
+ },
+ {
+  "uv_id": 30,
+  "slug": "30-zapadno-kazahstanskiy-gosudarstvennyy-meditsinskiy-universitet-imeni-m-ospanova",
+  "univ_id": "u30",
+  "name": "Zapadno kazahstanskiy gosudarstvennyy meditsinskiy universitet imeni m ospanova",
+  "is_national": false
+ },
+ {
+  "uv_id": 31,
+  "slug": "31-zapadno-kazahstanskiy-gosudarstvennyy-universitet-imeni-m-utemisova",
+  "univ_id": "u31",
+  "name": "Zapadno kazahstanskiy gosudarstvennyy universitet imeni m utemisova",
+  "is_national": false
+ },
+ {
+  "uv_id": 32,
+  "slug": "32-zapadno-kazahstanskiy-innovatsionno-tehnologicheskiy-universitet",
+  "univ_id": "u32",
+  "name": "Zapadno kazahstanskiy innovatsionno tehnologicheskiy universitet",
+  "is_national": false
+ },
+ {
+  "uv_id": 33,
+  "slug": "33-innovatsionnyy-evraziyskiy-universitet",
+  "univ_id": "u33",
+  "name": "Innovatsionnyy evraziyskiy universitet",
+  "is_national": false
+ },
+ {
+  "uv_id": 34,
+  "slug": "34-kazahskaya-avtomobilno-dorozhnaya-akademiya-imeni-l-goncharova",
+  "univ_id": "u34",
+  "name": "Kazahskaya avtomobilno dorozhnaya akademiya imeni l goncharova",
+  "is_national": false
+ },
+ {
+  "uv_id": 35,
+  "slug": "35-kazahskaya-akademiya-sporta-i-turizma",
+  "univ_id": "u35",
+  "name": "Kazahskaya akademiya sporta i turizma",
+  "is_national": false
+ },
+ {
+  "uv_id": 36,
+  "slug": "36-kazahskaya-akademiya-transporta-i-kommunikatsii-im-m-tynyshbaeva",
+  "univ_id": "u36",
+  "name": "Kazahskaya akademiya transporta i kommunikatsii im m tynyshbaeva",
+  "is_national": false
+ },
+ {
+  "uv_id": 41,
+  "slug": "41-kazahskiy-agrotehnicheskiy-universitet-imeni-s-seyfullina",
+  "univ_id": "u41",
+  "name": "Kazahskiy agrotehnicheskiy universitet imeni s seyfullina",
+  "is_national": false
+ },
+ {
+  "uv_id": 42,
+  "slug": "42-kazahskiy-natsionalnyy-zhenskiy-pedagogicheskiy-universitet",
+  "univ_id": "u42",
+  "name": "Kazahskiy natsionalnyy zhenskiy pedagogicheskiy universitet",
+  "is_national": true
+ },
+ {
+  "uv_id": 43,
+  "slug": "43-kazahskiy-gumanitarno-yuridicheskiy-innovatsionnyy-universitet",
+  "univ_id": "u43",
+  "name": "Kazahskiy gumanitarno yuridicheskiy innovatsionnyy universitet",
+  "is_national": false
+ },
+ {
+  "uv_id": 44,
+  "slug": "44-universitet-kazgyuu-imeni-m-s-narikbaeva",
+  "univ_id": "u44",
+  "name": "Universitet kazgyuu imeni m s narikbaeva",
+  "is_national": false
+ },
+ {
+  "uv_id": 46,
+  "slug": "46-kazahskiy-natsionalnyy-agrarnyy-universitet",
+  "univ_id": "u46",
+  "name": "Kazahskiy natsionalnyy agrarnyy universitet",
+  "is_national": true
+ },
+ {
+  "uv_id": 47,
+  "slug": "47-kazahskiy-natsionalnyy-issledovatelskiy-tehnicheskiy-universitet-imeni-k-i-satpaeva",
+  "univ_id": "u47",
+  "name": "Kazahskiy natsionalnyy issledovatelskiy tehnicheskiy universitet imeni k i satpaeva",
+  "is_national": true
+ },
+ {
+  "uv_id": 48,
+  "slug": "48-kazahskiy-natsionalnyy-meditsinskiy-universitet-imeni-s-d-asfendiyarova",
+  "univ_id": "u48",
+  "name": "Kazahskiy natsionalnyy meditsinskiy universitet imeni s d asfendiyarova",
+  "is_national": true
+ },
+ {
+  "uv_id": 50,
+  "slug": "50-kazahskiy-natsionalnyy-universitet-imeni-al-farabi",
+  "univ_id": "u50",
+  "name": "Kazahskiy natsionalnyy universitet imeni al farabi",
+  "is_national": true
+ },
+ {
+  "uv_id": 51,
+  "slug": "51-kazahskiy-universitet-mezhdunarodnyh-otnosheniy-i-mirovyh-yazykov-imeni-abylay-hana",
+  "univ_id": "u51",
+  "name": "Kazahskiy universitet mezhdunarodnyh otnosheniy i mirovyh yazykov imeni abylay hana",
+  "is_national": false
+ },
+ {
+  "uv_id": 52,
+  "slug": "52-kazahskiy-universitet-putey-soobshcheniy",
+  "univ_id": "u52",
+  "name": "Kazahskiy universitet putey soobshcheniy",
+  "is_national": false
+ },
+ {
+  "uv_id": 53,
+  "slug": "53-kazahskiy-universitet-tehnologii-i-biznesa",
+  "univ_id": "u53",
+  "name": "Kazahskiy universitet tehnologii i biznesa",
+  "is_national": false
+ },
+ {
+  "uv_id": 54,
+  "slug": "54-kazahskiy-universitet-ekonomiki-finansov-i-mezhdunarodnoy-torgovli",
+  "univ_id": "u54",
+  "name": "Kazahskiy universitet ekonomiki finansov i mezhdunarodnoy torgovli",
+  "is_national": false
+ },
+ {
+  "uv_id": 55,
+  "slug": "55-kazahskiy-natsionalnyy-pedagogicheskiy-universitet-imeni-abaya",
+  "univ_id": "u55",
+  "name": "Kazahskiy natsionalnyy pedagogicheskiy universitet imeni abaya",
+  "is_national": true
+ },
+ {
+  "uv_id": 57,
+  "slug": "57-universitet-druzhby-narodov-imeni-akademika-a-kuatbekova",
+  "univ_id": "u57",
+  "name": "Universitet druzhby narodov imeni akademika a kuatbekova",
+  "is_national": false
+ },
+ {
+  "uv_id": 58,
+  "slug": "58-kazahstanskiy-inzhenerno-tehnologicheskiy-universitet",
+  "univ_id": "u58",
+  "name": "Kazahstanskiy inzhenerno tehnologicheskiy universitet",
+  "is_national": false
+ },
+ {
+  "uv_id": 61,
+  "slug": "61-kazahstanskiy-universitet-innovatsionnyh-i-telekommunikatsionnyh-sistem",
+  "univ_id": "u61",
+  "name": "Kazahstanskiy universitet innovatsionnyh i telekommunikatsionnyh sistem",
+  "is_national": false
+ },
+ {
+  "uv_id": 62,
+  "slug": "62-kazahstansko-amerikanskiy-svobodnyy-universitet",
+  "univ_id": "u62",
+  "name": "Kazahstansko amerikanskiy svobodnyy universitet",
+  "is_national": false
+ },
+ {
+  "uv_id": 63,
+  "slug": "63-kazahstansko-britanskiy-tehnicheskiy-universitet",
+  "univ_id": "u63",
+  "name": "Kazahstansko britanskiy tehnicheskiy universitet",
+  "is_national": false
+ },
+ {
+  "uv_id": 64,
+  "slug": "64-kazahstansko-nemetskiy-universitet",
+  "univ_id": "u64",
+  "name": "Kazahstansko nemetskiy universitet",
+  "is_national": false
+ },
+ {
+  "uv_id": 65,
+  "slug": "65-kazahstansko-rossiyskiy-meditsinskiy-universitet",
+  "univ_id": "u65",
+  "name": "Kazahstansko rossiyskiy meditsinskiy universitet",
+  "is_national": false
+ },
+ {
+  "uv_id": 66,
+  "slug": "66-karagandinskiy-gosudarstvennyy-industrialnyy-universitet",
+  "univ_id": "u66",
+  "name": "Karagandinskiy gosudarstvennyy industrialnyy universitet",
+  "is_national": false
+ },
+ {
+  "uv_id": 67,
+  "slug": "67-karagandinskiy-gosudarstvennyy-meditsinskiy-universitet",
+  "univ_id": "u67",
+  "name": "Karagandinskiy gosudarstvennyy meditsinskiy universitet",
+  "is_national": false
+ },
+ {
+  "uv_id": 68,
+  "slug": "68-karagandinskiy-gosudarstvennyy-tehnicheskiy-universitet",
+  "univ_id": "u68",
+  "name": "Karagandinskiy gosudarstvennyy tehnicheskiy universitet",
+  "is_national": false
+ },
+ {
+  "uv_id": 69,
+  "slug": "69-karagandinskiy-gosudarstvennyy-universitet-imeni-akademika-e-buketova",
+  "univ_id": "u69",
+  "name": "Karagandinskiy gosudarstvennyy universitet imeni akademika e buketova",
+  "is_national": false
+ },
+ {
+  "uv_id": 70,
+  "slug": "70-karagandinskiy-ekonomicheskiy-universitet-kazpotrebsoyuza",
+  "univ_id": "u70",
+  "name": "Karagandinskiy ekonomicheskiy universitet kazpotrebsoyuza",
+  "is_national": false
+ },
+ {
+  "uv_id": 71,
+  "slug": "71-kaspiyskiy-gosudarstvennyy-universitet-tehnologii-i-inzhiniringa-imeni-sh-esenova",
+  "univ_id": "u71",
+  "name": "Kaspiyskiy gosudarstvennyy universitet tehnologii i inzhiniringa imeni sh esenova",
+  "is_national": false
+ },
+ {
+  "uv_id": 72,
+  "slug": "72-kaspiyskiy-universitet",
+  "univ_id": "u72",
+  "name": "Kaspiyskiy universitet",
+  "is_national": false
+ },
+ {
+  "uv_id": 73,
+  "slug": "73-kokshetauskiy-gosudarstvennyy-universitet-imeni-sh-ualihanova",
+  "univ_id": "u73",
+  "name": "Kokshetauskiy gosudarstvennyy universitet imeni sh ualihanova",
+  "is_national": false
+ },
+ {
+  "uv_id": 74,
+  "slug": "74-kokshetauskiy-universitet-imeni-a-myrzahmetova",
+  "univ_id": "u74",
+  "name": "Kokshetauskiy universitet imeni a myrzahmetova",
+  "is_national": false
+ },
+ {
+  "uv_id": 76,
+  "slug": "76-kostanayskiy-gosudarstvennyy-universitet-imeni-a-baytursynova",
+  "univ_id": "u76",
+  "name": "Kostanayskiy gosudarstvennyy universitet imeni a baytursynova",
+  "is_national": false
+ },
+ {
+  "uv_id": 77,
+  "slug": "77-kostanayskiy-inzhenerno-ekonomicheskiy-universitet-imeni-m-dulatova",
+  "univ_id": "u77",
+  "name": "Kostanayskiy inzhenerno ekonomicheskiy universitet imeni m dulatova",
+  "is_national": false
+ },
+ {
+  "uv_id": 78,
+  "slug": "78-kostanayskiy-sotsialno-tehnicheskiy-universitet-imeni-z-aldamzhara",
+  "univ_id": "u78",
+  "name": "Kostanayskiy sotsialno tehnicheskiy universitet imeni z aldamzhara",
+  "is_national": false
+ },
+ {
+  "uv_id": 79,
+  "slug": "79-kyzylordinskiy-gosudarstvennyy-universitet-imeni-korkyt-ata",
+  "univ_id": "u79",
+  "name": "Kyzylordinskiy gosudarstvennyy universitet imeni korkyt ata",
+  "is_national": false
+ },
+ {
+  "uv_id": 81,
+  "slug": "81-meditsinskiy-universitet-astana",
+  "univ_id": "u81",
+  "name": "Meditsinskiy universitet astana",
+  "is_national": false
+ },
+ {
+  "uv_id": 82,
+  "slug": "82-mezhdunarodnaya-obrazovatelnaya-korporatsiya",
+  "univ_id": "u82",
+  "name": "Mezhdunarodnaya obrazovatelnaya korporatsiya",
+  "is_national": false
+ },
+ {
+  "uv_id": 84,
+  "slug": "84-mezhdunarodnyy-kazahsko-turetskiy-universitet-imeni-hodzhi-ahmeda-yasavi",
+  "univ_id": "u84",
+  "name": "Mezhdunarodnyy kazahsko turetskiy universitet imeni hodzhi ahmeda yasavi",
+  "is_national": false
+ },
+ {
+  "uv_id": 85,
+  "slug": "85-mezhdunarodnyy-universitet-informatsionnyh-tehnologiy",
+  "univ_id": "u85",
+  "name": "Mezhdunarodnyy universitet informatsionnyh tehnologiy",
+  "is_national": false
+ },
+ {
+  "uv_id": 87,
+  "slug": "87-pavlodarskiy-pedagogicheskiy-universitet",
+  "univ_id": "u87",
+  "name": "Pavlodarskiy pedagogicheskiy universitet",
+  "is_national": false
+ },
+ {
+  "uv_id": 88,
+  "slug": "88-pavlodarskiy-gosudarstvennyy-universitet-imeni-s-toraygyrova",
+  "univ_id": "u88",
+  "name": "Pavlodarskiy gosudarstvennyy universitet imeni s toraygyrova",
+  "is_national": false
+ },
+ {
+  "uv_id": 90,
+  "slug": "90-rudnenskiy-industrialnyy-institut",
+  "univ_id": "u90",
+  "name": "Rudnenskiy industrialnyy institut",
+  "is_national": false
+ },
+ {
+  "uv_id": 91,
+  "slug": "91-severo-kazahstanskiy-gosudarstvennyy-universitet-imeni-manasha-kozybaeva",
+  "univ_id": "u91",
+  "name": "Severo kazahstanskiy gosudarstvennyy universitet imeni manasha kozybaeva",
+  "is_national": false
+ },
+ {
+  "uv_id": 93,
+  "slug": "93-tarazskiy-regionalnyy-universitet-imeni-m-h-dulati",
+  "univ_id": "u93",
+  "name": "Tarazskiy regionalnyy universitet imeni m h dulati",
+  "is_national": false
+ },
+ {
+  "uv_id": 94,
+  "slug": "94-tarazskiy-innovatsionno-gumanitarnyy-universitet",
+  "univ_id": "u94",
+  "name": "Tarazskiy innovatsionno gumanitarnyy universitet",
+  "is_national": false
+ },
+ {
+  "uv_id": 97,
+  "slug": "97-kyzylordinskiy-universitet-bolashak",
+  "univ_id": "u97",
+  "name": "Kyzylordinskiy universitet bolashak",
+  "is_national": false
+ },
+ {
+  "uv_id": 98,
+  "slug": "98-universitet-kaynar",
+  "univ_id": "u98",
+  "name": "Universitet kaynar",
+  "is_national": false
+ },
+ {
+  "uv_id": 101,
+  "slug": "101-universitet-syrdariya",
+  "univ_id": "u101",
+  "name": "Universitet syrdariya",
+  "is_national": false
+ },
+ {
+  "uv_id": 102,
+  "slug": "102-universitet-turan",
+  "univ_id": "u102",
+  "name": "Universitet turan",
+  "is_national": false
+ },
+ {
+  "uv_id": 103,
+  "slug": "103-universitet-turan-astana",
+  "univ_id": "u103",
+  "name": "Universitet turan astana",
+  "is_national": false
+ },
+ {
+  "uv_id": 104,
+  "slug": "104-universitet-imeni-suleymana-demirelya",
+  "univ_id": "u104",
+  "name": "Universitet imeni suleymana demirelya",
+  "is_national": false
+ },
+ {
+  "uv_id": 106,
+  "slug": "106-universitet-mezhdunarodnogo-biznesa",
+  "univ_id": "u106",
+  "name": "Universitet mezhdunarodnogo biznesa",
+  "is_national": false
+ },
+ {
+  "uv_id": 107,
+  "slug": "107-universitet-narhoz",
+  "univ_id": "u107",
+  "name": "Universitet narhoz",
+  "is_national": false
+ },
+ {
+  "uv_id": 112,
+  "slug": "112-yuzhno-kazahstanskaya-meditsinskaya-akademiya",
+  "univ_id": "u112",
+  "name": "Yuzhno kazahstanskaya meditsinskaya akademiya",
+  "is_national": false
+ },
+ {
+  "uv_id": 113,
+  "slug": "113-yuzhno-kazahstanskiy-gosudarstvennyy-pedagogicheskiy-institut",
+  "univ_id": "u113",
+  "name": "Yuzhno kazahstanskiy gosudarstvennyy pedagogicheskiy institut",
+  "is_national": false
+ },
+ {
+  "uv_id": 114,
+  "slug": "114-yuzhno-kazahstanskiy-gosudarstvennyy-universitet-imeni-m-auezova",
+  "univ_id": "u114",
+  "name": "Yuzhno kazahstanskiy gosudarstvennyy universitet imeni m auezova",
+  "is_national": false
+ },
+ {
+  "uv_id": 119,
+  "slug": "119-astana-it-university",
+  "univ_id": "u119",
+  "name": "Astana it university",
+  "is_national": false
+ },
+ {
+  "uv_id": 120,
+  "slug": "120-mezhdunarodnyy-universitet-astana",
+  "univ_id": "u120",
+  "name": "Mezhdunarodnyy universitet astana",
+  "is_national": false
+ },
+ {
+  "uv_id": 124,
+  "slug": "124-mezhdunarodnyy-transportno-gumanitarnyy-universitet",
+  "univ_id": "u124",
+  "name": "Mezhdunarodnyy transportno gumanitarnyy universitet",
+  "is_national": false
+ },
+ {
+  "uv_id": 126,
+  "slug": "126-mezhdunarodnyy-transportno-gumanitarnyy-universitet",
+  "univ_id": "u126",
+  "name": "Mezhdunarodnyy transportno gumanitarnyy universitet",
+  "is_national": false
+ }
+]

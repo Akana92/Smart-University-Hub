@@ -1,0 +1,31 @@
+# Smart University — корневые зависимости (весь репозиторий).
+# Версии запинены по фактически проверенному окружению (аудит/тесты 2026-07-03, Python 3.13).
+# Установка:  pip install -r requirements.txt
+# Прод-опции НЕ входят (ставятся при включении соответствующего пути):
+#   openai            — OpenAIEmbedder / генерация (этап 3), нужен OPENAI_API_KEY
+#   psycopg[binary]   — PgVectorHybridStore / load_postgres (нужен Postgres)
+#   pgvector          — типы pgvector для psycopg
+
+# --- общие (HTTP, парсинг, конфиги) ---
+requests==2.32.3
+beautifulsoup4==4.15.0
+lxml==6.1.1
+PyYAML==6.0.2
+numpy==2.4.6
+
+# --- ingestion (движок A: PDF -> чанки) ---
+pymupdf4llm==1.28.0
+PyMuPDF==1.28.0
+tiktoken==0.13.0
+easyocr==1.7.2            # OCR сканов-календарей (тянет torch)
+
+# --- retrieval (движок A: эмбеддинги + гибридный поиск) ---
+sentence-transformers==5.6.0   # LocalEmbedder (демо-профиль)
+
+# --- API (движок B POC) ---
+fastapi==0.115.6
+uvicorn==0.34.0
+httpx==0.28.1             # нужен fastapi.testclient
+
+# --- тесты ---
+pytest==9.0.3

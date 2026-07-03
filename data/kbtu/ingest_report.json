@@ -1,0 +1,84 @@
+{
+ "tenant": "kbtu",
+ "total_chunks": 531,
+ "docs": [
+  {
+   "file": "51-2-25_2025.pdf",
+   "status": "ok",
+   "pages": 40,
+   "chunks": 131,
+   "table_chunks": 8,
+   "text_chunks": 123,
+   "tokens_min": 16,
+   "tokens_max": 981,
+   "tokens_avg": 454
+  },
+  {
+   "file": "514-1-22_2023.pdf",
+   "status": "ok",
+   "pages": 41,
+   "chunks": 129,
+   "table_chunks": 3,
+   "text_chunks": 126,
+   "tokens_min": 17,
+   "tokens_max": 951,
+   "tokens_avg": 447
+  },
+  {
+   "file": "59-4-21_2023.pdf",
+   "status": "ok",
+   "pages": 14,
+   "chunks": 37,
+   "table_chunks": 6,
+   "text_chunks": 31,
+   "tokens_min": 17,
+   "tokens_max": 947,
+   "tokens_avg": 290
+  },
+  {
+   "file": "59-1-24_2026.pdf",
+   "status": "ok",
+   "pages": 63,
+   "chunks": 159,
+   "table_chunks": 43,
+   "text_chunks": 116,
+   "tokens_min": 13,
+   "tokens_max": 1546,
+   "tokens_avg": 410
+  },
+  {
+   "file": "74-1-24_2026.pdf",
+   "status": "ok",
+   "pages": 7,
+   "chunks": 21,
+   "table_chunks": 3,
+   "text_chunks": 18,
+   "tokens_min": 17,
+   "tokens_max": 517,
+   "tokens_avg": 149
+  },
+  {
+   "file": "51-9-26_2026.pdf",
+   "status": "ok",
+   "pages": 19,
+   "chunks": 54,
+   "table_chunks": 5,
+   "text_chunks": 49,
+   "tokens_min": 17,
+   "tokens_max": 915,
+   "tokens_avg": 309
+  },
+  {
+   "file": "ac_2025-2026_bak_rus.pdf",
+   "status": "needs_ocr",
+   "chunks": 0,
+   "note": "скан-изображение → OCR (этап 1 пропускает)"
+  },
+  {
+   "file": "ac_2025-2026_mag_rus.pdf",
+   "status": "needs_ocr",
+   "chunks": 0,
+   "note": "скан-изображение → OCR (этап 1 пропускает)"
+  }
+ ]
+}

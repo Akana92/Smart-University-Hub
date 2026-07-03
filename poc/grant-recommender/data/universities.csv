@@ -1,0 +1,88 @@
+univ_id,name,city,univ_type,is_national,admission_track,univision_id,source_url
+u3,Akademiya grazhdanskoy aviatsii,,other,False,ent,3,https://univision.kz/univ/3-akademiya-grazhdanskoy-aviatsii/ball
+u5,Aktyubinskiy gosudarstvennyy regionalnyy universitet imeni k zhubanova,,other,False,ent,5,https://univision.kz/univ/5-aktyubinskiy-gosudarstvennyy-regionalnyy-universitet-imeni-k-zhubanova/ball
+u6,Baishev universitet,,other,False,ent,6,https://univision.kz/univ/6-baishev-universitet/ball
+u7,Almatinskaya akademiya ekonomiki i statistiki,,other,False,ent,7,https://univision.kz/univ/7-almatinskaya-akademiya-ekonomiki-i-statistiki/ball
+u8,Almatinskiy tehnologicheskiy universitet,,other,False,ent,8,https://univision.kz/univ/8-almatinskiy-tehnologicheskiy-universitet/ball
+u9,Almatinskiy universitet energetiki i svyazi,,other,False,ent,9,https://univision.kz/univ/9-almatinskiy-universitet-energetiki-i-svyazi/ball
+u10,Almaty menedzhment universitet,,other,False,ent,10,https://univision.kz/univ/10-almaty-menedzhment-universitet/ball
+u11,Arkalykskiy pedagogicheskiy institut imeni i altynsarina,,other,False,ent,11,https://univision.kz/univ/11-arkalykskiy-pedagogicheskiy-institut-imeni-i-altynsarina/ball
+u12,Atyrauskiy universitet imeni halela dosmuhamedova,,other,False,ent,12,https://univision.kz/univ/12-atyrauskiy-universitet-imeni-halela-dosmuhamedova/ball
+u14,Atyrauskiy universitet nefti i gaza imeni s utebaeva,,other,False,ent,14,https://univision.kz/univ/14-atyrauskiy-universitet-nefti-i-gaza-imeni-s-utebaeva/ball
+u15,Vostochno kazahstanskiy gosudarstvennyy tehnicheskiy universitet imeni d serikbaeva,,other,False,ent,15,https://univision.kz/univ/15-vostochno-kazahstanskiy-gosudarstvennyy-tehnicheskiy-universitet-imeni-d-serikbaeva/ball
+u16,Vostochno kazahstanskiy gosudarstvennyy universitet imeni s amanzholova,,other,False,ent,16,https://univision.kz/univ/16-vostochno-kazahstanskiy-gosudarstvennyy-universitet-imeni-s-amanzholova/ball
+u17,Meditsinskiy universitet semey,,other,False,ent,17,https://univision.kz/univ/17-meditsinskiy-universitet-semey/ball
+u18,Universitet imeni shakarima goroda semey,,other,False,ent,18,https://univision.kz/univ/18-universitet-imeni-shakarima-goroda-semey/ball
+u22,Evraziyskiy gumanitarnyy institut,,other,False,ent,22,https://univision.kz/univ/22-evraziyskiy-gumanitarnyy-institut/ball
+u23,ЕНУ им. Гумилёва,Астана,national,True,ent,23,https://univision.kz/univ/23-evraziyskiy-natsionalnyy-universitet-im-l-n-gumileva/ball
+u24,Evraziyskiy tehnicheskiy universitet,,other,False,ent,24,https://univision.kz/univ/24-evraziyskiy-tehnicheskiy-universitet/ball
+u25,Egipetskiy universitet islamskoy kultury nur mubarak,,other,False,ent,25,https://univision.kz/univ/25-egipetskiy-universitet-islamskoy-kultury-nur-mubarak/ball
+u26,Ekibastuzskiy inzhenerno tehnicheskiy institut imeni akademika k satpaeva,,other,False,ent,26,https://univision.kz/univ/26-ekibastuzskiy-inzhenerno-tehnicheskiy-institut-imeni-akademika-k-satpaeva/ball
+u27,Zhezkazganskiy universitet imeni o baykonurova,,other,False,ent,27,https://univision.kz/univ/27-zhezkazganskiy-universitet-imeni-o-baykonurova/ball
+u28,Zhetysuskiy gosudarstvennyy universitet imeni ilyasa zhansugurova,,other,False,ent,28,https://univision.kz/univ/28-zhetysuskiy-gosudarstvennyy-universitet-imeni-ilyasa-zhansugurova/ball
+u29,Zapadno kazahstanskiy agrarno tehnicheskiy universitet imeni zhangir hana,,other,False,ent,29,https://univision.kz/univ/29-zapadno-kazahstanskiy-agrarno-tehnicheskiy-universitet-imeni-zhangir-hana/ball
+u30,Zapadno kazahstanskiy gosudarstvennyy meditsinskiy universitet imeni m ospanova,,other,False,ent,30,https://univision.kz/univ/30-zapadno-kazahstanskiy-gosudarstvennyy-meditsinskiy-universitet-imeni-m-ospanova/ball
+u31,Zapadno kazahstanskiy gosudarstvennyy universitet imeni m utemisova,,other,False,ent,31,https://univision.kz/univ/31-zapadno-kazahstanskiy-gosudarstvennyy-universitet-imeni-m-utemisova/ball
+u32,Zapadno kazahstanskiy innovatsionno tehnologicheskiy universitet,,other,False,ent,32,https://univision.kz/univ/32-zapadno-kazahstanskiy-innovatsionno-tehnologicheskiy-universitet/ball
+u33,Innovatsionnyy evraziyskiy universitet,,other,False,ent,33,https://univision.kz/univ/33-innovatsionnyy-evraziyskiy-universitet/ball
+u34,Kazahskaya avtomobilno dorozhnaya akademiya imeni l goncharova,,other,False,ent,34,https://univision.kz/univ/34-kazahskaya-avtomobilno-dorozhnaya-akademiya-imeni-l-goncharova/ball
+u35,Kazahskaya akademiya sporta i turizma,,other,False,ent,35,https://univision.kz/univ/35-kazahskaya-akademiya-sporta-i-turizma/ball
+u36,Kazahskaya akademiya transporta i kommunikatsii im m tynyshbaeva,,other,False,ent,36,https://univision.kz/univ/36-kazahskaya-akademiya-transporta-i-kommunikatsii-im-m-tynyshbaeva/ball
+u41,Kazahskiy agrotehnicheskiy universitet imeni s seyfullina,,other,False,ent,41,https://univision.kz/univ/41-kazahskiy-agrotehnicheskiy-universitet-imeni-s-seyfullina/ball
+u42,Kazahskiy natsionalnyy zhenskiy pedagogicheskiy universitet,,other,True,ent,42,https://univision.kz/univ/42-kazahskiy-natsionalnyy-zhenskiy-pedagogicheskiy-universitet/ball
+u43,Kazahskiy gumanitarno yuridicheskiy innovatsionnyy universitet,,other,False,ent,43,https://univision.kz/univ/43-kazahskiy-gumanitarno-yuridicheskiy-innovatsionnyy-universitet/ball
+u44,Universitet kazgyuu imeni m s narikbaeva,,other,False,ent,44,https://univision.kz/univ/44-universitet-kazgyuu-imeni-m-s-narikbaeva/ball
+u46,Kazahskiy natsionalnyy agrarnyy universitet,,other,True,ent,46,https://univision.kz/univ/46-kazahskiy-natsionalnyy-agrarnyy-universitet/ball
+u47,Satbayev University,Алматы,national,True,ent,47,https://univision.kz/univ/47-kazahskiy-natsionalnyy-issledovatelskiy-tehnicheskiy-universitet-imeni-k-i-satpaeva/ball
+u48,Kazahskiy natsionalnyy meditsinskiy universitet imeni s d asfendiyarova,,other,True,ent,48,https://univision.kz/univ/48-kazahskiy-natsionalnyy-meditsinskiy-universitet-imeni-s-d-asfendiyarova/ball
+u50,КазНУ им. аль-Фараби,Алматы,national,True,ent,50,https://univision.kz/univ/50-kazahskiy-natsionalnyy-universitet-imeni-al-farabi/ball
+u51,Kazahskiy universitet mezhdunarodnyh otnosheniy i mirovyh yazykov imeni abylay hana,,other,False,ent,51,https://univision.kz/univ/51-kazahskiy-universitet-mezhdunarodnyh-otnosheniy-i-mirovyh-yazykov-imeni-abylay-hana/ball
+u52,Kazahskiy universitet putey soobshcheniy,,other,False,ent,52,https://univision.kz/univ/52-kazahskiy-universitet-putey-soobshcheniy/ball
+u53,Kazahskiy universitet tehnologii i biznesa,,other,False,ent,53,https://univision.kz/univ/53-kazahskiy-universitet-tehnologii-i-biznesa/ball
+u54,Kazahskiy universitet ekonomiki finansov i mezhdunarodnoy torgovli,,other,False,ent,54,https://univision.kz/univ/54-kazahskiy-universitet-ekonomiki-finansov-i-mezhdunarodnoy-torgovli/ball
+u55,Kazahskiy natsionalnyy pedagogicheskiy universitet imeni abaya,,other,True,ent,55,https://univision.kz/univ/55-kazahskiy-natsionalnyy-pedagogicheskiy-universitet-imeni-abaya/ball
+u57,Universitet druzhby narodov imeni akademika a kuatbekova,,other,False,ent,57,https://univision.kz/univ/57-universitet-druzhby-narodov-imeni-akademika-a-kuatbekova/ball
+u58,Kazahstanskiy inzhenerno tehnologicheskiy universitet,,other,False,ent,58,https://univision.kz/univ/58-kazahstanskiy-inzhenerno-tehnologicheskiy-universitet/ball
+u61,Kazahstanskiy universitet innovatsionnyh i telekommunikatsionnyh sistem,,other,False,ent,61,https://univision.kz/univ/61-kazahstanskiy-universitet-innovatsionnyh-i-telekommunikatsionnyh-sistem/ball
+u62,Kazahstansko amerikanskiy svobodnyy universitet,,other,False,ent,62,https://univision.kz/univ/62-kazahstansko-amerikanskiy-svobodnyy-universitet/ball
+u63,KBTU (Каз.-Британский ТУ),Алматы,private,False,ent,63,https://univision.kz/univ/63-kazahstansko-britanskiy-tehnicheskiy-universitet/ball
+u64,Kazahstansko nemetskiy universitet,,other,False,ent,64,https://univision.kz/univ/64-kazahstansko-nemetskiy-universitet/ball
+u65,Kazahstansko rossiyskiy meditsinskiy universitet,,other,False,ent,65,https://univision.kz/univ/65-kazahstansko-rossiyskiy-meditsinskiy-universitet/ball
+u66,Karagandinskiy gosudarstvennyy industrialnyy universitet,,other,False,ent,66,https://univision.kz/univ/66-karagandinskiy-gosudarstvennyy-industrialnyy-universitet/ball
+u67,Karagandinskiy gosudarstvennyy meditsinskiy universitet,,other,False,ent,67,https://univision.kz/univ/67-karagandinskiy-gosudarstvennyy-meditsinskiy-universitet/ball
+u68,Karagandinskiy gosudarstvennyy tehnicheskiy universitet,,other,False,ent,68,https://univision.kz/univ/68-karagandinskiy-gosudarstvennyy-tehnicheskiy-universitet/ball
+u69,Karagandinskiy gosudarstvennyy universitet imeni akademika e buketova,,other,False,ent,69,https://univision.kz/univ/69-karagandinskiy-gosudarstvennyy-universitet-imeni-akademika-e-buketova/ball
+u70,Karagandinskiy ekonomicheskiy universitet kazpotrebsoyuza,,other,False,ent,70,https://univision.kz/univ/70-karagandinskiy-ekonomicheskiy-universitet-kazpotrebsoyuza/ball
+u71,Kaspiyskiy gosudarstvennyy universitet tehnologii i inzhiniringa imeni sh esenova,,other,False,ent,71,https://univision.kz/univ/71-kaspiyskiy-gosudarstvennyy-universitet-tehnologii-i-inzhiniringa-imeni-sh-esenova/ball
+u72,Kaspiyskiy universitet,,other,False,ent,72,https://univision.kz/univ/72-kaspiyskiy-universitet/ball
+u73,Kokshetauskiy gosudarstvennyy universitet imeni sh ualihanova,,other,False,ent,73,https://univision.kz/univ/73-kokshetauskiy-gosudarstvennyy-universitet-imeni-sh-ualihanova/ball
+u74,Kokshetauskiy universitet imeni a myrzahmetova,,other,False,ent,74,https://univision.kz/univ/74-kokshetauskiy-universitet-imeni-a-myrzahmetova/ball
+u76,Kostanayskiy gosudarstvennyy universitet imeni a baytursynova,,other,False,ent,76,https://univision.kz/univ/76-kostanayskiy-gosudarstvennyy-universitet-imeni-a-baytursynova/ball
+u77,Kostanayskiy inzhenerno ekonomicheskiy universitet imeni m dulatova,,other,False,ent,77,https://univision.kz/univ/77-kostanayskiy-inzhenerno-ekonomicheskiy-universitet-imeni-m-dulatova/ball
+u78,Kostanayskiy sotsialno tehnicheskiy universitet imeni z aldamzhara,,other,False,ent,78,https://univision.kz/univ/78-kostanayskiy-sotsialno-tehnicheskiy-universitet-imeni-z-aldamzhara/ball
+u79,Kyzylordinskiy gosudarstvennyy universitet imeni korkyt ata,,other,False,ent,79,https://univision.kz/univ/79-kyzylordinskiy-gosudarstvennyy-universitet-imeni-korkyt-ata/ball
+u81,Meditsinskiy universitet astana,,other,False,ent,81,https://univision.kz/univ/81-meditsinskiy-universitet-astana/ball
+u82,Mezhdunarodnaya obrazovatelnaya korporatsiya,,other,False,ent,82,https://univision.kz/univ/82-mezhdunarodnaya-obrazovatelnaya-korporatsiya/ball
+u84,Mezhdunarodnyy kazahsko turetskiy universitet imeni hodzhi ahmeda yasavi,,other,False,ent,84,https://univision.kz/univ/84-mezhdunarodnyy-kazahsko-turetskiy-universitet-imeni-hodzhi-ahmeda-yasavi/ball
+u85,Mezhdunarodnyy universitet informatsionnyh tehnologiy,,other,False,ent,85,https://univision.kz/univ/85-mezhdunarodnyy-universitet-informatsionnyh-tehnologiy/ball
+u87,Pavlodarskiy pedagogicheskiy universitet,,other,False,ent,87,https://univision.kz/univ/87-pavlodarskiy-pedagogicheskiy-universitet/ball
+u88,Pavlodarskiy gosudarstvennyy universitet imeni s toraygyrova,,other,False,ent,88,https://univision.kz/univ/88-pavlodarskiy-gosudarstvennyy-universitet-imeni-s-toraygyrova/ball
+u90,Rudnenskiy industrialnyy institut,,other,False,ent,90,https://univision.kz/univ/90-rudnenskiy-industrialnyy-institut/ball
+u91,Severo kazahstanskiy gosudarstvennyy universitet imeni manasha kozybaeva,,other,False,ent,91,https://univision.kz/univ/91-severo-kazahstanskiy-gosudarstvennyy-universitet-imeni-manasha-kozybaeva/ball
+u93,Tarazskiy regionalnyy universitet imeni m h dulati,,other,False,ent,93,https://univision.kz/univ/93-tarazskiy-regionalnyy-universitet-imeni-m-h-dulati/ball
+u94,Tarazskiy innovatsionno gumanitarnyy universitet,,other,False,ent,94,https://univision.kz/univ/94-tarazskiy-innovatsionno-gumanitarnyy-universitet/ball
+u97,Kyzylordinskiy universitet bolashak,,other,False,ent,97,https://univision.kz/univ/97-kyzylordinskiy-universitet-bolashak/ball
+u98,Universitet kaynar,,other,False,ent,98,https://univision.kz/univ/98-universitet-kaynar/ball
+u101,Universitet syrdariya,,other,False,ent,101,https://univision.kz/univ/101-universitet-syrdariya/ball
+u102,Universitet turan,,other,False,ent,102,https://univision.kz/univ/102-universitet-turan/ball
+u103,Universitet turan astana,,other,False,ent,103,https://univision.kz/univ/103-universitet-turan-astana/ball
+u104,Universitet imeni suleymana demirelya,,other,False,ent,104,https://univision.kz/univ/104-universitet-imeni-suleymana-demirelya/ball
+u106,Universitet mezhdunarodnogo biznesa,,other,False,ent,106,https://univision.kz/univ/106-universitet-mezhdunarodnogo-biznesa/ball
+u107,Universitet narhoz,,other,False,ent,107,https://univision.kz/univ/107-universitet-narhoz/ball
+u112,Yuzhno kazahstanskaya meditsinskaya akademiya,,other,False,ent,112,https://univision.kz/univ/112-yuzhno-kazahstanskaya-meditsinskaya-akademiya/ball
+u113,Yuzhno kazahstanskiy gosudarstvennyy pedagogicheskiy institut,,other,False,ent,113,https://univision.kz/univ/113-yuzhno-kazahstanskiy-gosudarstvennyy-pedagogicheskiy-institut/ball
+u114,Yuzhno kazahstanskiy gosudarstvennyy universitet imeni m auezova,,other,False,ent,114,https://univision.kz/univ/114-yuzhno-kazahstanskiy-gosudarstvennyy-universitet-imeni-m-auezova/ball
+u119,Astana IT University,Астана,private,False,ent,119,https://univision.kz/univ/119-astana-it-university/ball
+u120,Mezhdunarodnyy universitet astana,,other,False,ent,120,https://univision.kz/univ/120-mezhdunarodnyy-universitet-astana/ball
+u124,Mezhdunarodnyy transportno gumanitarnyy universitet,,other,False,ent,124,https://univision.kz/univ/124-mezhdunarodnyy-transportno-gumanitarnyy-universitet/ball
+u126,Mezhdunarodnyy transportno gumanitarnyy universitet,,other,False,ent,126,https://univision.kz/univ/126-mezhdunarodnyy-transportno-gumanitarnyy-universitet/ball
