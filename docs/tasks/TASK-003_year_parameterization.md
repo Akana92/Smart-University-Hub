@@ -27,7 +27,7 @@
 
 **Тесты.** `tests/test_year_param.py`: recommend с мини-БД, где есть годы 2025 и 2026 → без `--year` берётся 2026; с `--year 2025` — 2025.
 
-**Definition of Done.** Критерии 1–3; весь `pytest tests -q` зелёный; коммит `TASK-003: ...`.
+**Definition of Done.** Критерии 1–3; весь `pytest tests -q` зелёный — **примечание:** он УЖЕ включает POC-API-смоук (`tests/test_poc_api.py` запускает `python -m api.test_api` сабпроцессом и требует «ALL PASS»), отдельной команды не нужно, но убедись, что этот тест не заskipан; коммит `TASK-003: ...`.
 
 **Как проверить.** Команды из критериев + diff вывода recommend до/после.
 

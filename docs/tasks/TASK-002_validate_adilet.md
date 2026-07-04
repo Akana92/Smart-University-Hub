@@ -7,7 +7,7 @@
 **Контекст.**
 - Официальный источник: приказ МНВО РК **G24HN000193** на adilet.zan.kz — объёмы грантов по ГОП на 2024-2027, машиночитаем (HTML-таблицы / DOCX). URL: `https://adilet.zan.kz/rus/docs/G24HN000193`. Парсинг: `pandas.read_html` или bs4; если отдаёт DOCX — `python-docx` (добавить в requirements при необходимости).
 - Наши данные: `data/grant_scores.db` → `SELECT gop_code, SUM(grants_count) FROM passing_scores WHERE metric='passing' AND quota_type='general' AND year=? GROUP BY gop_code` — сумма мест по вузам ≈ национальный объём ГОП (не 1:1: у нас 84 вуза из всех → наша сумма ≤ adilet; verdict-логика: `univision_sum <= adilet_total` = `plausible`, `>` = `conflict`).
-- Дубли квот: подсчёт конфликтов по UNIQUE-ключу `(univ_id, gop_code, year, quota_type, metric)` — ожидаемо ~179; только посчитать и перечислить (фикс скрейпера = RB-201, НЕ эта задача).
+- Дубли квот: подсчёт по **натуральному ключу** `(univ_id, gop_code, year, quota_type, metric)` — ключ ЛОГИЧЕСКИЙ, в схеме SQLite он НЕ enforced (в `passing_scores` только autoincrement-PK; не ищи constraint). **Эталонный SQL:** `SELECT univ_id,gop_code,year,quota_type,metric,COUNT(*) n FROM passing_scores GROUP BY 1,2,3,4,5 HAVING n>1`. Считаем **группы-конфликты** (ожидаемо 179 на данных 2025). Только посчитать и перечислить (фикс скрейпера = RB-201, НЕ эта задача).
 
 **Границы.** Новый скрипт + отчёт + тест. Скрейперы, recommend.py, схему БД НЕ менять (запись `validation`-таблицы — опционально, можно ограничиться JSON-отчётом).
 
@@ -27,7 +27,7 @@
 
 **Definition of Done.** Критерии 1–4; отчёт на реальных данных 2025 сгенерирован и закоммичен; `pytest` зелёный; коммит `TASK-002: ...`.
 
-**Как проверить.** Запустить на реальной БД; открыть отчёт; сверить 2–3 ГОП глазами с adilet-страницей (B057 ИТ: adilet_total=5425 — известное опорное число из docs/03-strategy §3).
+**Как проверить.** Запустить на реальной БД; открыть отчёт; сверить 2–3 ГОП глазами с adilet-страницей (B057 ИТ: adilet_total=5425 — опорное число из docs/03-strategy §3, зафиксированное на 2026-07; **приказ могли обновить — сверяйся с текущей страницей adilet, а не слепо с этим числом**).
 
 **Документы обновить:** галочка §19.2 launch-checklist; docs/05 TASK-002; если найдены conflicts — задача на бейджи уходит в TASK-005 (передать список).
 

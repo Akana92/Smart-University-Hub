@@ -9,6 +9,8 @@
 - Формат `DATA` (обратная инженерия из собранного html — сохранить совместимость с JS!):
   `meta{unis, programs, year, source, generated}` · `thresholds{base, national, kw{...}}` · `profiles{ "<пара-предметов-sorted>": [keywords...] }` (ключи нормализованы: предметы lowercase, отсортированы, через `+`) · `unis[[name, city, is_national(0/1), tuition_min|0]]` · `progs[[uni_index, gop_code, gop_name, passing, grants]]`.
 - Источники: `data/grant_scores.db` (только `metric='passing' AND quota_type='general' AND year=<--year>`), `config/thresholds.json`, `config/profile_map.json`, `tuition` из БД.
+- ⚠️ **Ремап ключей thresholds (иначе JS молча получит undefined-пороги):** `national_university` → `national`, `by_gop_keyword` → `kw` (JS в шаблоне читает `DATA.thresholds.national` / `.kw`, строки ~190-191). Ключи `profiles` нормализуются: предметы lowercase, сортировка, разделитель `+`.
+- **`meta.coverage` (контракт для TASK-005, §14 ТЗ):** добавить в `meta` объект `coverage: {unis_collected: 87, unis_live: <COUNT DISTINCT univ_id по выборке>, programs_live: <COUNT строк>, tuition_unis: <COUNT из tuition>}` — числа считаются из БД, не хардкодятся.
 - **Детерминизм:** `meta.generated` = max(`scraped_at`) из выбранных данных, НЕ текущая дата — иначе критерий «байт-в-байт» невыполним.
 - Канонический артефакт — ТОЛЬКО `grant-navigator.html`; `pitch/index.html` больше не производится и **удаляется из репо** (двух правд быть не должно).
 
