@@ -27,5 +27,14 @@ fastapi==0.115.6
 uvicorn==0.34.0
 httpx==0.28.1             # нужен fastapi.testclient
 
+# --- Track A: генерация (движок A этапы 2-3) ---
+openai==2.44.0
+python-dotenv==1.1.0             # загрузка .env (OPENAI_API_KEY, DATABASE_URL)
+psycopg[binary]==3.3.4           # pgvector-стор
+pgvector==0.4.2
+llama-index-core==0.14.23        # оркестрация RAG (ТЗ §3.3)
+llama-index-llms-openai==0.7.9   # gpt-4o-mini через LlamaIndex
+# приватный режим (опц.): pip install llama-index-llms-ollama ; ollama pull qwen2.5:7b-instruct
+
 # --- тесты ---
 pytest==9.0.3
