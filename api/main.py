@@ -23,6 +23,7 @@ from pydantic import BaseModel, Field  # noqa: E402
 
 load_dotenv(os.path.join(ROOT, ".env"))
 
+from core import faq as faq_store  # noqa: E402  (клик-слой FAQ, Слой 1)
 from core import recommender  # noqa: E402  (движок B: адаптер + детерминированный парсер интента)
 from core.query_log import log_query  # noqa: E402
 from generation.pipeline import RagPipeline  # noqa: E402
@@ -86,6 +87,13 @@ def _buckets(results: list[dict]) -> dict:
     for r in results:
         b[r["bucket"]] = b.get(r["bucket"], 0) + 1
     return b
+
+
+@app.get("/v1/faq")
+def faq(category: str | None = Query(None, description="student | abiturient | calendar | student_life")):
+    """Клик-слой (Слой 1, 0 LLM): статические карточки частых вопросов Q→ответ+источник."""
+    cards = faq_store.faq_cards(TENANT, category)
+    return {"count": len(cards), "categories": faq_store.faq_categories(TENANT), "cards": cards}
 
 
 @app.get("/v1/recommend")
