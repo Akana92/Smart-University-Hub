@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="dark">
-<title>Smart University — узнай, куда пройдёшь на грант</title>
+<title>Smart University — поступи на грант по плану, а не наугад</title>
 <style>
   :root{
     --bg:#08090D; --bg-soft:#0D0F16; --surface:#12141C; --surface-2:#171A24;
@@ -65,17 +65,18 @@
   /* ---------- nav ---------- */
   .nav{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
     padding:16px clamp(18px,4vw,48px);backdrop-filter:blur(16px) saturate(140%);
-    background:rgba(8,9,13,.62);border-bottom:1px solid var(--line)}
-  .nav .logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:15.5px;letter-spacing:-.01em}
+    background:rgba(8,9,13,.62);border-bottom:1px solid var(--line);gap:18px}
+  .nav .logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:15.5px;letter-spacing:-.01em;flex:none}
   .nav .logo .mark{width:26px;height:26px;border-radius:8px;background:var(--grad-brand);position:relative;flex:none;
     box-shadow:0 4px 18px -4px rgba(139,124,255,.7)}
   .nav .logo .mark::after{content:"";position:absolute;inset:6px;border-radius:4px;background:var(--bg);opacity:.18}
-  .nav-links{display:flex;gap:26px;font-size:14px;color:var(--muted)}
-  .nav-links a{color:var(--muted);transition:color .2s var(--ease)}
+  .nav-links{display:flex;gap:22px;font-size:13.5px;color:var(--muted);overflow-x:auto;scrollbar-width:none}
+  .nav-links::-webkit-scrollbar{display:none}
+  .nav-links a{color:var(--muted);transition:color .2s var(--ease);white-space:nowrap;display:flex;align-items:center;gap:5px}
   .nav-links a:hover{color:var(--ink)}
-  @media (max-width:720px){.nav-links{display:none}}
+  @media (max-width:860px){.nav-links{display:none}}
   .nav-cta{font-size:13.5px;font-weight:600;padding:8px 16px;border-radius:999px;border:1px solid var(--line-strong);
-    color:var(--ink);background:rgba(255,255,255,.03);transition:all .2s var(--ease)}
+    color:var(--ink);background:rgba(255,255,255,.03);transition:all .2s var(--ease);white-space:nowrap;flex:none}
   .nav-cta:hover{border-color:rgba(139,124,255,.5);background:rgba(139,124,255,.08)}
 
   /* ---------- hero ---------- */
@@ -86,10 +87,10 @@
   .eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--cyan);box-shadow:0 0 8px var(--cyan);
     animation:pulse 2s ease-in-out infinite}
   @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
-  .hero h1{font-size:clamp(34px,6.4vw,74px);line-height:1.03;max-width:16ch;margin:0 auto;
+  .hero h1{font-size:clamp(34px,6.4vw,72px);line-height:1.05;max-width:19ch;margin:0 auto;
     opacity:0;animation:rise .8s var(--ease) .12s forwards}
   .hero h1 .grad{background:var(--grad-text);-webkit-background-clip:text;background-clip:text;color:transparent}
-  .hero .sub{margin:22px auto 0;max-width:56ch;font-size:clamp(15px,2vw,18.5px);color:var(--ink-dim);line-height:1.6;
+  .hero .sub{margin:22px auto 0;max-width:58ch;font-size:clamp(15px,2vw,18.5px);color:var(--ink-dim);line-height:1.6;
     opacity:0;animation:rise .8s var(--ease) .2s forwards}
   .hero .sub b{color:var(--ink);font-weight:700}
   .hero-badges{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:30px;
@@ -97,6 +98,12 @@
   .hbadge{display:flex;align-items:center;gap:7px;font-size:13px;color:var(--muted);padding:7px 13px;border-radius:999px;
     border:1px solid var(--line);background:rgba(255,255,255,.02)}
   .hbadge b{color:var(--ink)}
+  .hero-actions{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:34px;
+    opacity:0;animation:rise .8s var(--ease) .38s forwards}
+  .btn-ghost{display:inline-flex;align-items:center;gap:8px;font-size:14.5px;font-weight:600;padding:13px 22px;
+    border-radius:12px;border:1px solid var(--line-strong);color:var(--ink-dim);background:rgba(255,255,255,.02);
+    transition:all .2s var(--ease)}
+  .btn-ghost:hover{color:#fff;border-color:rgba(139,124,255,.5);background:rgba(139,124,255,.08);transform:translateY(-2px)}
   @keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
 
   .main{max-width:1180px;margin:0 auto;padding:0 clamp(16px,4vw,48px) 100px}
@@ -106,14 +113,17 @@
   .reveal.in{opacity:1;transform:translateY(0)}
 
   /* ---------- section chrome ---------- */
-  .sec{margin-top:clamp(48px,7vw,88px)}
+  .sec{margin-top:clamp(56px,8vw,108px);scroll-margin-top:84px}
   .sec-head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:14px;margin-bottom:22px}
+  .sec-head .htext .kicker{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--muted-2);margin-bottom:8px;display:block}
   .sec-head .htext h2{font-size:clamp(22px,3.4vw,32px)}
-  .sec-head .htext .sub{color:var(--muted);font-size:14.5px;margin-top:6px;max-width:60ch}
+  .sec-head .htext .sub{color:var(--muted);font-size:14.5px;margin-top:8px;max-width:62ch;line-height:1.6}
   .tag{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;
     border-radius:999px;padding:5px 11px;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
   .tag.free{color:var(--cyan);border:1px solid rgba(61,235,209,.3);background:rgba(61,235,209,.07)}
   .tag.llm{color:var(--violet);border:1px solid rgba(139,124,255,.32);background:rgba(139,124,255,.08)}
+  .tag.soon{color:var(--muted);border:1px solid var(--line-strong);background:rgba(255,255,255,.03)}
 
   .panel{position:relative;background:linear-gradient(180deg,var(--surface),var(--bg-soft));
     border:1px solid var(--line);border-radius:var(--r-xl);
@@ -121,6 +131,91 @@
   .panel::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;
     background:linear-gradient(90deg,transparent,rgba(139,124,255,.5),rgba(61,235,209,.5),transparent);opacity:.6}
   .pad{padding:clamp(20px,3vw,34px)}
+
+  /* ================= ГИД АБИТУРИЕНТА / roadmap ================= */
+  .roadmap{position:relative;padding:8px 0 4px}
+  .roadmap-line{position:absolute;left:27px;top:8px;bottom:8px;width:2px;
+    background:linear-gradient(180deg,var(--violet) 0%,var(--cyan) 100%);opacity:.35}
+  @media(max-width:640px){.roadmap-line{left:21px}}
+  .rstep{position:relative;display:grid;grid-template-columns:56px 1fr;gap:20px;padding-bottom:clamp(22px,3.5vw,34px)}
+  @media(max-width:640px){.rstep{grid-template-columns:44px 1fr;gap:14px}}
+  .rstep:last-child{padding-bottom:4px}
+  .rstep-badge{position:relative;z-index:1;width:56px;height:56px;border-radius:16px;background:var(--surface);
+    border:1px solid var(--line-strong);display:flex;flex-direction:column;align-items:center;justify-content:center;
+    flex:none;box-shadow:0 10px 30px -14px rgba(0,0,0,.6)}
+  @media(max-width:640px){.rstep-badge{width:44px;height:44px;border-radius:12px}}
+  .rstep-badge .num{font-family:var(--mono);font-weight:800;font-size:18px;background:var(--grad-text);
+    -webkit-background-clip:text;background-clip:text;color:transparent;line-height:1}
+  @media(max-width:640px){.rstep-badge .num{font-size:14px}}
+  .rstep-badge .season{font-size:9px;color:var(--muted-2);text-transform:uppercase;letter-spacing:.06em;margin-top:2px}
+  @media(max-width:640px){.rstep-badge .season{display:none}}
+  .rstep-card{border:1px solid var(--line);border-radius:var(--r-lg);padding:clamp(16px,2.4vw,24px);
+    background:rgba(255,255,255,.02);transition:border-color .25s var(--ease),transform .25s var(--ease),box-shadow .25s var(--ease)}
+  .rstep-card:hover{border-color:var(--line-strong);transform:translateY(-2px);box-shadow:0 20px 40px -24px rgba(0,0,0,.7)}
+  .rstep-top{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:10px}
+  .rstep-top .season-pill{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--cyan);border:1px solid rgba(61,235,209,.3);background:rgba(61,235,209,.07);border-radius:999px;padding:4px 10px}
+  .rstep-top h3{font-size:clamp(16.5px,2vw,19px);color:var(--ink)}
+  .rstep-card p{color:var(--ink-dim);font-size:14.5px;line-height:1.65}
+  .rstep-list{margin:12px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px}
+  .rstep-list li{display:flex;gap:9px;align-items:flex-start;font-size:14px;color:var(--ink-dim);line-height:1.55}
+  .rstep-list li::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--violet);flex:none;margin-top:7px;
+    box-shadow:0 0 6px rgba(139,124,255,.6)}
+  .rstep-docs{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+  .doc-chip{font-size:12.5px;font-family:var(--mono);color:var(--ink-dim);border:1px dashed var(--line-strong);
+    border-radius:999px;padding:6px 12px;background:rgba(255,255,255,.02)}
+  .rstep-cta{margin-top:16px}
+  .rstep-cta a{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:700;color:var(--cyan);
+    border-bottom:1px solid rgba(61,235,209,.35);padding-bottom:2px;transition:gap .2s var(--ease),color .2s}
+  .rstep-cta a:hover{gap:12px;color:#fff}
+
+  /* native ad slots inside roadmap */
+  .adslot{margin-top:18px;border:1px dashed rgba(139,124,255,.35);border-radius:var(--r-md);
+    padding:16px 18px;background:linear-gradient(120deg,rgba(139,124,255,.06),rgba(61,235,209,.05));
+    display:flex;align-items:center;gap:14px}
+  .adslot .ic{font-size:22px;flex:none;opacity:.85}
+  .adslot .body{flex:1;min-width:0}
+  .adslot .ttl{font-size:14px;font-weight:700;color:var(--ink-dim)}
+  .adslot .desc{font-size:12.5px;color:var(--muted-2);margin-top:3px;line-height:1.5}
+  .adslot .mark{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted-2);
+    border:1px solid var(--line-strong);border-radius:999px;padding:3px 9px;flex:none;white-space:nowrap}
+
+  .strategy-note{margin-top:16px;border-radius:var(--r-md);border:1px solid rgba(255,194,75,.28);
+    background:rgba(255,194,75,.06);padding:14px 18px;font-size:13.5px;color:#E8C77E;line-height:1.6;display:flex;gap:10px}
+  .strategy-note .ic{flex:none}
+
+  /* ================= university teaser cards ================= */
+  .uni-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  @media(max-width:900px){.uni-grid{grid-template-columns:1fr}}
+  .uni-card{position:relative;border:1px solid var(--line);border-radius:var(--r-lg);padding:24px;
+    background:linear-gradient(180deg,var(--surface),var(--bg-soft));overflow:hidden;
+    transition:transform .25s var(--ease),border-color .25s var(--ease),box-shadow .25s var(--ease)}
+  .uni-card:hover{transform:translateY(-4px);box-shadow:0 24px 48px -24px rgba(0,0,0,.7)}
+  .uni-card.ready{border-color:rgba(61,235,209,.35)}
+  .uni-card.ready:hover{border-color:rgba(61,235,209,.6)}
+  .uni-card .uni-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:14px}
+  .uni-mark{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;
+    font-weight:800;font-size:15px;flex:none}
+  .uni-card.ready .uni-mark{background:var(--grad-brand);color:#fff;box-shadow:var(--glow-violet)}
+  .uni-card.soon .uni-mark{background:rgba(255,255,255,.05);color:var(--muted);border:1px solid var(--line-strong)}
+  .uni-card h3{font-size:17px;margin-bottom:4px}
+  .uni-card .loc{font-size:12.5px;color:var(--muted-2)}
+  .uni-card .desc{font-size:13.5px;color:var(--ink-dim);line-height:1.6;margin-top:14px}
+  .uni-card .feat{margin:16px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:7px}
+  .uni-card .feat li{font-size:12.5px;color:var(--muted);display:flex;gap:8px;align-items:center}
+  .uni-card .feat li b{color:var(--ink-dim);font-weight:600}
+  .uni-card .cta{margin-top:18px}
+
+  /* ================= compare teaser ================= */
+  .compare-teaser{display:flex;flex-direction:column;align-items:center;text-align:center;gap:16px;
+    padding:clamp(40px,6vw,64px) 24px}
+  .compare-teaser .icons{display:flex;gap:-8px}
+  .compare-teaser .vs-row{display:flex;align-items:center;gap:14px}
+  .compare-mark{width:52px;height:52px;border-radius:14px;background:rgba(255,255,255,.04);
+    border:1px solid var(--line-strong);display:flex;align-items:center;justify-content:center;font-size:20px}
+  .compare-teaser .vs{font-family:var(--mono);font-size:12px;color:var(--muted-2);letter-spacing:.1em}
+  .compare-teaser h3{font-size:clamp(18px,2.6vw,24px);max-width:26ch}
+  .compare-teaser p{color:var(--muted);font-size:14.5px;max-width:48ch;line-height:1.6}
 
   /* ---------- navigator controls ---------- */
   .grid2{display:grid;grid-template-columns:1.3fr 1fr;gap:22px 28px}
@@ -335,34 +430,244 @@
     <nav class="nav">
       <div class="logo"><span class="mark" aria-hidden="true"></span> Smart University</div>
       <div class="nav-links">
-        <a href="#navigator">Навигатор грантов</a>
-        <a href="#faq">Частые вопросы</a>
-        <a href="#assistant">AI-ассистент</a>
+        <a href="#guide">🎯 Гид абитуриента</a>
+        <a href="#universities">🏛️ Университеты</a>
+        <a href="#navigator">📊 Навигатор грантов</a>
+        <a href="#compare">⚖️ Сравнить вузы</a>
+        <a href="#assistant">🤖 AI-ассистент</a>
       </div>
       <a href="#navigator" class="nav-cta">Узнать балл →</a>
     </nav>
 
     <header class="hero">
       <span class="eyebrow"><span class="dot"></span> KBTU · бесплатно · без регистрации</span>
-      <h1>Узнай, куда пройдёшь <span class="grad">на грант</span> — за 5 секунд</h1>
-      <p class="sub">Введи балл ЕНТ и профильные предметы — увидишь реальные проходные баллы 2025 года
-        по программам с грантами. <b>Без LLM, без ожидания, без регистрации.</b> Если ответа нет —
-        спроси AI-ассистента, он ответит по документам вуза.</p>
+      <h1>Поступи на грант <span class="grad">по плану</span>, а не наугад</h1>
+      <p class="sub">Smart University ведёт тебя от «куда вообще поступать» до «забрал грант»: пошаговый план на год,
+        реальные проходные баллы 2025-го и AI-ассистент, который отвечает по документам вуза, а не выдумывает.
+        <b>Без воды, без ожидания, без регистрации.</b></p>
       <div class="hero-badges">
+        <span class="hbadge">🗺️ <b>Гид на весь год</b> — от выбора направления до зачисления</span>
         <span class="hbadge">⚡ <b>0 токенов</b> на подбор программ</span>
-        <span class="hbadge">📎 <b>Ссылки на источники</b> в каждом ответе</span>
         <span class="hbadge">🤖 <b>AI-ассистент</b> — только когда готового ответа нет</span>
+      </div>
+      <div class="hero-actions">
+        <a href="#guide" class="btn"><span class="btxt">Начать с плана →</span></a>
+        <a href="#navigator" class="btn-ghost">Сразу к баллам</a>
       </div>
     </header>
 
     <div class="main">
 
-      <!-- ================= НАВИГАТОР ГРАНТОВ ================= -->
+      <!-- ================= 1. ГИД АБИТУРИЕНТА ================= -->
+      <section class="sec reveal" id="guide">
+        <div class="sec-head">
+          <div class="htext">
+            <span class="kicker">Шаг за шагом · 12 месяцев</span>
+            <h2>🎯 Гид абитуриента</h2>
+            <p class="sub">Поступление — это не один экзамен, а год решений. Вот дорожная карта, по которой прошли
+              тысячи абитуриентов до тебя: что делать осенью, зимой, весной и летом, чтобы не упустить дедлайн
+              и не потерять грант на мелочи.</p>
+          </div>
+          <span class="tag free">🗺️ бесплатный план</span>
+        </div>
+
+        <div class="panel pad">
+          <div class="roadmap">
+            <div class="roadmap-line" aria-hidden="true"></div>
+
+            <!-- Шаг 1 -->
+            <div class="rstep">
+              <div class="rstep-badge"><span class="num mono">01</span><span class="season">Осень</span></div>
+              <div class="rstep-card">
+                <div class="rstep-top"><span class="season-pill">За год до ЕНТ</span><h3>Выбери направление и 2–3 вуза</h3></div>
+                <p>Не жди весны, чтобы решить «куда я вообще иду». Определись с направлением сейчас — это даст время
+                  подтянуть именно те предметы, которые считаются при поступлении, а не гадать в последний момент.</p>
+                <ul class="rstep-list">
+                  <li>Выпиши 2–3 вуза-кандидата и по 1–2 программы в каждом — без этого дальше план не построить.</li>
+                  <li>Узнай, какие профильные предметы ЕНТ нужны именно на твою программу — они разные у разных ГОП.</li>
+                  <li>Прикинь целевой балл: сколько набирали на грант в прошлом году по похожим программам.</li>
+                </ul>
+                <div class="rstep-cta"><a href="#navigator">Прикинуть целевой балл в Навигаторе →</a></div>
+              </div>
+            </div>
+
+            <!-- Шаг 2 -->
+            <div class="rstep">
+              <div class="rstep-badge"><span class="num mono">02</span><span class="season">Зима</span></div>
+              <div class="rstep-card">
+                <div class="rstep-top"><span class="season-pill">Декабрь – февраль</span><h3>Начни готовиться к ЕНТ</h3></div>
+                <p>Зима решает больше, чем кажется: те, кто стартует сейчас, а не в апреле, приходят на экзамен
+                  без паники. Заодно — самое время закрыть бумажную часть, чтобы весной не бегать за справками.</p>
+                <ul class="rstep-list">
+                  <li>Составь план подготовки по профильным предметам — регулярность важнее марафонов за неделю до ЕНТ.</li>
+                  <li>Собери список документов заранее: сейчас есть время, весной его уже не будет.</li>
+                </ul>
+                <div class="adslot">
+                  <span class="ic">📚</span>
+                  <div class="body">
+                    <div class="ttl">Где подготовиться к ЕНТ</div>
+                    <div class="desc">Здесь может быть ваш курс подготовки — партнёрский слот для образовательных центров.</div>
+                  </div>
+                  <span class="mark">партнёрский слот</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Шаг 3 -->
+            <div class="rstep">
+              <div class="rstep-badge"><span class="num mono">03</span><span class="season">Весна</span></div>
+              <div class="rstep-card">
+                <div class="rstep-top"><span class="season-pill">Март – май</span><h3>Регистрация на ЕНТ и документы</h3></div>
+                <p>Весна — период дедлайнов. Здесь чаще всего теряют время не на подготовке, а на бюрократии:
+                  успей зарегистрироваться и собрать всё до того, как сроки начнут поджимать.</p>
+                <ul class="rstep-list">
+                  <li>Зарегистрируйся на ЕНТ в отведённое окно — пропустишь срок, придётся ждать пересдачи.</li>
+                  <li>Следи за сроками приёма документов — они публикуются заранее, не в последний день.</li>
+                  <li>Подготовь пакет документов: аттестат, удостоверение личности, фото 3×4, медсправка формы 075-У.</li>
+                </ul>
+                <div class="rstep-docs">
+                  <span class="doc-chip">📄 Аттестат</span>
+                  <span class="doc-chip">🪪 Удостоверение личности</span>
+                  <span class="doc-chip">📸 Фото 3×4</span>
+                  <span class="doc-chip">🏥 Справка 075-У</span>
+                </div>
+                <div class="adslot">
+                  <span class="ic">🎓</span>
+                  <div class="body">
+                    <div class="ttl">Интенсив перед ЕНТ</div>
+                    <div class="desc">Партнёрский слот — курсы последнего рывка перед экзаменом появятся здесь.</div>
+                  </div>
+                  <span class="mark">партнёрский слот</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Шаг 4 -->
+            <div class="rstep">
+              <div class="rstep-badge"><span class="num mono">04</span><span class="season">Лето</span></div>
+              <div class="rstep-card">
+                <div class="rstep-top"><span class="season-pill">Июнь</span><h3>Сдай ЕНТ и узнай, куда проходишь</h3></div>
+                <p>Экзамен позади, балл на руках — и вот тут начинается самое интересное. Не жди приёмной комиссии,
+                  чтобы узнать свои шансы: за минуту прогони балл через Навигатор и увидь картину по грантам сразу.</p>
+                <ul class="rstep-list">
+                  <li>Сдай ЕНТ, дождись официального балла.</li>
+                  <li>Сразу проверь через Навигатор, на какие программы и вузы ты проходишь на грант уже сейчас.</li>
+                </ul>
+                <div class="rstep-cta"><a href="#navigator">Проверить свой балл в Навигаторе →</a></div>
+              </div>
+            </div>
+
+            <!-- Шаг 5 -->
+            <div class="rstep">
+              <div class="rstep-badge"><span class="num mono">05</span><span class="season">Лето</span></div>
+              <div class="rstep-card">
+                <div class="rstep-top"><span class="season-pill">Июль</span><h3>Подай заявление на грант</h3></div>
+                <p>Конкурс на грант идёт не по вузам, а по группам образовательных программ (ГОП) — это меняет всю
+                  стратегию выбора приоритетов. Один неверный расчёт в приоритетах — и грант уходит тому, кто был готов к риску.</p>
+                <ul class="rstep-list">
+                  <li>Помни: конкуренция считается внутри ГОП, а не внутри одного вуза.</li>
+                  <li>Выбери 4 приоритета с умом — не все подряд «мечты».</li>
+                </ul>
+                <div class="strategy-note"><span class="ic">💡</span><span>
+                  Рабочая стратегия приоритетов: <b style="color:#F3F4F8">1–2 амбициозных</b> направления
+                  (куда метишь, но не гарантировано) + <b style="color:#F3F4F8">3–4 запасных</b>
+                  (где твой балл уверенно проходит). Так грант не уходит мимо из-за одной ставки ва-банк.
+                </span></div>
+              </div>
+            </div>
+
+            <!-- Шаг 6 -->
+            <div class="rstep">
+              <div class="rstep-badge"><span class="num mono">06</span><span class="season">Август</span></div>
+              <div class="rstep-card">
+                <div class="rstep-top"><span class="season-pill">Зачисление</span><h3>Следи за результатами и знай план Б</h3></div>
+                <p>Списки зачисленных публикуются волнами — не пропусти свою. А если грант не достался, это ещё не
+                  финал: есть рабочие пути, которыми каждый год пользуются тысячи абитуриентов.</p>
+                <ul class="rstep-list">
+                  <li>Следи за результатами конкурса по своим приоритетам в указанные даты.</li>
+                  <li>Не хватило балла на грант? Варианты: обучение на платной основе, пересдача ЕНТ в следующем заходе,
+                    либо колледж с последующим переводом — Навигатор поможет прикинуть, что реалистичнее именно для тебя.</li>
+                </ul>
+                <div class="rstep-cta"><a href="#navigator">Посмотреть варианты плана Б →</a></div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 2. УНИВЕРСИТЕТЫ (тизер) ================= -->
+      <section class="sec reveal" id="universities">
+        <div class="sec-head">
+          <div class="htext">
+            <span class="kicker">Профили вузов</span>
+            <h2>🏛️ Университеты</h2>
+            <p class="sub">Глубокая карточка по каждому вузу: программы, документы, реальные проходные, студжизнь.
+              Сейчас глубоко раскрыт KBTU — остальные вузы добавляем по одному, честно, без выдумок.</p>
+          </div>
+          <span class="tag soon">в работе</span>
+        </div>
+
+        <div class="uni-grid">
+          <div class="uni-card ready">
+            <div class="uni-top">
+              <div class="uni-mark">KBTU</div>
+              <span class="tag free">⚡ готово</span>
+            </div>
+            <h3>KBTU</h3>
+            <div class="loc">Алматы</div>
+            <div class="desc">Эталонный профиль платформы: проходные баллы 2025 по ГОП, документы приёмной комиссии
+              и AI-ассистент, который отвечает по официальным материалам вуза с цитатами.</div>
+            <ul class="feat">
+              <li><b>Навигатор грантов</b> — по всем ГОП KBTU</li>
+              <li><b>AI-ассистент</b> — с ссылками на источник</li>
+              <li><b>FAQ</b> — частые вопросы абитуриентов</li>
+            </ul>
+            <div class="cta"><a href="#navigator" class="btn-ghost">Смотреть программы KBTU →</a></div>
+          </div>
+
+          <div class="uni-card soon">
+            <div class="uni-top">
+              <div class="uni-mark">КазНУ</div>
+              <span class="tag soon">скоро</span>
+            </div>
+            <h3>КазНУ им. аль-Фараби</h3>
+            <div class="loc">Алматы</div>
+            <div class="desc">Готовим тот же уровень глубины: программы, проходные баллы, документы и студенческая
+              жизнь — без приблизительных цифр, только когда данные подтверждены.</div>
+            <ul class="feat">
+              <li>Программы и ГОП — <b>в работе</b></li>
+              <li>Проходные баллы — <b>в работе</b></li>
+              <li>Студжизнь — <b>в работе</b></li>
+            </ul>
+          </div>
+
+          <div class="uni-card soon">
+            <div class="uni-top">
+              <div class="uni-mark">NU</div>
+              <span class="tag soon">скоро</span>
+            </div>
+            <h3>Nazarbayev University</h3>
+            <div class="loc">Астана</div>
+            <div class="desc">Следующий вуз в очереди на полный профиль. Пока собираем и проверяем данные — публикуем
+              только то, что подтверждено официальными источниками.</div>
+            <ul class="feat">
+              <li>Программы и ГОП — <b>в работе</b></li>
+              <li>Проходные баллы — <b>в работе</b></li>
+              <li>Студжизнь — <b>в работе</b></li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 3. НАВИГАТОР ГРАНТОВ ================= -->
       <section class="sec reveal" id="navigator">
         <div class="sec-head">
           <div class="htext">
-            <h2>Навигатор грантов</h2>
-            <p class="sub">Балл ЕНТ + профильные предметы → куда проходили на грант в 2025 году</p>
+            <span class="kicker">Движок B · без LLM</span>
+            <h2>📊 Навигатор грантов</h2>
+            <p class="sub">Балл ЕНТ + профильные предметы → куда проходили на грант в 2025 году. Реальные отсечки,
+              не прогноз — за 5 секунд ты видишь, где шансы твёрдые, где стоит побороться, а где рассматривать план Б.</p>
           </div>
           <span class="tag free">⚡ 0 токенов</span>
         </div>
@@ -417,25 +722,38 @@
         </div>
       </section>
 
-      <!-- ================= FAQ ================= -->
-      <section class="sec reveal" id="faq">
+      <!-- ================= 4. СРАВНИТЬ ВУЗЫ (тизер) ================= -->
+      <section class="sec reveal" id="compare">
         <div class="sec-head">
           <div class="htext">
-            <h2>Частые вопросы</h2>
-            <p class="sub">Клик → готовый ответ со ссылкой на официальный документ</p>
+            <span class="kicker">Скоро на платформе</span>
+            <h2>⚖️ Сравнить вузы</h2>
+            <p class="sub">Один экран — и всё понятно: где грантов больше, где дешевле платное, где студжизнь тебе ближе.</p>
           </div>
-          <span class="tag free">⚡ 0 токенов</span>
+          <span class="tag soon">в разработке</span>
         </div>
-        <div class="cats" id="faqCats" role="tablist" aria-label="Категории вопросов"></div>
-        <div class="faq" id="faqList"><div class="loading-block" style="grid-column:1/-1"><div class="pulse-ring"></div><div class="loading-text">Загрузка вопросов…</div></div></div>
+        <div class="panel">
+          <div class="compare-teaser">
+            <div class="vs-row">
+              <span class="compare-mark">🏛️</span>
+              <span class="vs">VS</span>
+              <span class="compare-mark">🏛️</span>
+            </div>
+            <h3>Сравнение вузов бок о бок уже в разработке</h3>
+            <p>Планируем сравнение по грантам, стоимости обучения и студенческой жизни — чтобы выбор между
+              двумя вузами занимал минуту, а не неделю вкладок в браузере. Честно: пока в разработке, без готовых цифр.</p>
+          </div>
+        </div>
       </section>
 
-      <!-- ================= AI-АССИСТЕНТ ================= -->
+      <!-- ================= 5. AI-АССИСТЕНТ + FAQ ================= -->
       <section class="sec reveal" id="assistant">
         <div class="sec-head">
           <div class="htext">
-            <h2>AI-ассистент</h2>
-            <p class="sub">Отвечает по официальным документам KBTU с цитатами. Если данных нет — честно скажет об этом.</p>
+            <span class="kicker">Движок A · RAG по документам</span>
+            <h2>🤖 AI-ассистент</h2>
+            <p class="sub">Отвечает по официальным документам KBTU с цитатами. Если данных нет — честно скажет
+              об этом, а не придумает красивый, но неверный ответ.</p>
           </div>
           <span class="tag llm">🤖 LLM · если нет ответа выше</span>
         </div>
@@ -453,6 +771,17 @@
           </div>
           <div class="thread" id="thread"></div>
         </div>
+
+        <div class="sec-head" style="margin-top:44px">
+          <div class="htext">
+            <span class="kicker">Быстрые ответы</span>
+            <h2 style="font-size:clamp(19px,2.6vw,24px)">Частые вопросы</h2>
+            <p class="sub">Клик → готовый ответ со ссылкой на официальный документ, без запроса к ассистенту.</p>
+          </div>
+          <span class="tag free">⚡ 0 токенов</span>
+        </div>
+        <div class="cats" id="faqCats" role="tablist" aria-label="Категории вопросов"></div>
+        <div class="faq" id="faqList"><div class="loading-block" style="grid-column:1/-1"><div class="pulse-ring"></div><div class="loading-text">Загрузка вопросов…</div></div></div>
       </section>
 
     </div>
@@ -795,7 +1124,7 @@ $("#suggestRow").querySelectorAll(".suggest").forEach(s=>{
 /* ---------- scroll reveal ---------- */
 const io = new IntersectionObserver(entries=>{
   entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target); } });
-}, {threshold:0.12, rootMargin:"0px 0px -60px 0px"});
+}, {threshold:0, rootMargin:"0px 0px -40px 0px"});  // threshold:0 — высокие секции (Гид/ассистент) не застревают на opacity:0
 document.querySelectorAll(".reveal").forEach(el=>io.observe(el));
 
 loadFaq();
