@@ -36,5 +36,8 @@ llama-index-core==0.14.23        # оркестрация RAG (ТЗ §3.3)
 llama-index-llms-openai==0.7.9   # gpt-4o-mini через LlamaIndex
 # приватный режим (опц.): pip install llama-index-llms-ollama ; ollama pull qwen2.5:7b-instruct
 
+# --- Track A: UI (этап 4) ---
+streamlit<1.50            # <1.50 = Tornado-бэкенд; ≥1.50 конфликтует со starlette из FastAPI
+
 # --- тесты ---
 pytest==9.0.3
