@@ -75,6 +75,50 @@ def _match_subjects(q: str, vocab: set[str]) -> list[str]:
     return sorted(s for s in vocab if _STEMS.get(s, s) in q)
 
 
+# область/направление (естественная речь «хочу в IT / в медицину») → пара-профиль
+_FIELD_PROFILE = {
+    "программир": "математика+информатика", "информатик": "математика+информатика",
+    "кибербез": "математика+информатика", "робототехн": "математика+информатика",
+    "медицин": "химия+биология", "врач": "химия+биология", "фармац": "химия+биология",
+    "стоматолог": "химия+биология", "биолог": "химия+биология",
+    "инженер": "математика+физика", "нефтегаз": "математика+физика",
+    "энергетик": "математика+физика", "электр": "математика+физика", "строитель": "математика+физика",
+    "экономик": "математика+география", "бизнес": "математика+география", "финанс": "математика+география",
+    "менеджмент": "математика+география", "маркетинг": "математика+география",
+    "юрист": "история+основы права", "юриспруд": "история+основы права", "право": "история+основы права",
+}
+
+
+def field_profile(question: str) -> str | None:
+    """Определить профиль по названию области в свободной речи («в IT», «в медицину»)."""
+    q = (question or "").lower()
+    if re.search(r"\bit\b", q) or "айти" in q or "ай-ти" in q:
+        return "математика+информатика"
+    for kw, prof in _FIELD_PROFILE.items():
+        if kw in q:
+            return prof
+    return None
+
+
+def resolve_profile(subjects: list[str]) -> str | None:
+    """Собрать валидную пару-профиль из списка предметов (напр. из навигатора клиента)."""
+    try:
+        pmap = _b().PROFILE_MAP
+        norm = _b().norm_profile
+    except Exception:
+        return None
+    subs = [s.strip().lower() for s in (subjects or []) if s and s.strip()]
+    if len(subs) >= 2:
+        cand = norm(",".join(subs))
+        if cand in pmap:
+            return cand
+        found = set(subs)
+        for key in pmap:
+            if set(key.split("+")).issubset(found):
+                return key
+    return None
+
+
 def parse_admission_query(question: str) -> dict:
     """
     Детерминированный разбор вопроса про поступление (Слой 1, 0 токенов).
@@ -96,10 +140,11 @@ def parse_admission_query(question: str) -> dict:
         return {"is_admission_intent": False, "score": score, "subjects": [], "profile": None}
 
     subjects = _match_subjects(q, vocab)
+    fld = field_profile(q)  # «хочу в IT / в медицину» → профиль по области
     kw = any(k in q for k in _INTENT_KW)
-    is_intent = bool(score) and (bool(subjects) or kw)
+    is_intent = bool(score) and (bool(subjects) or bool(fld) or kw)
 
-    # собрать валидную пару-профиль из найденных предметов
+    # собрать валидную пару-профиль: сначала из явных предметов, иначе — по области
     profile = None
     if len(subjects) >= 2:
         cand = norm(",".join(subjects))
@@ -111,4 +156,6 @@ def parse_admission_query(question: str) -> dict:
                 if set(key.split("+")).issubset(found):
                     profile = key
                     break
+    if profile is None and fld:
+        profile = fld
     return {"is_admission_intent": is_intent, "score": score, "subjects": subjects, "profile": profile}

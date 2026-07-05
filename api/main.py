@@ -125,6 +125,7 @@ def recommend_endpoint(
 class AskRequest(BaseModel):
     question: str = Field(..., min_length=1)
     category: str | None = Field(None, description="student | abiturient | calendar | student_life (для движка A)")
+    subjects: list[str] | None = Field(None, description="выбранные в навигаторе профильные предметы (fallback профиля)")
     city: str | None = None
     budget: int | None = None
 
@@ -136,14 +137,16 @@ def ask(req: AskRequest, pipe: RagPipeline = Depends(get_pipeline)):
     p = recommender.parse_admission_query(req.question)
 
     if p["is_admission_intent"]:
-        if p["profile"]:  # балл + валидная пара предметов → движок B, без токенов
-            rec = recommender.recommend(p["score"], p["profile"], req.city, req.budget)
+        # профиль: из текста вопроса (предметы/область) ИЛИ из выбранных в навигаторе предметов
+        profile = p["profile"] or recommender.resolve_profile(req.subjects)
+        if profile:  # балл + профиль → движок B, без токенов
+            rec = recommender.recommend(p["score"], profile, req.city, req.budget)
             results = rec.get("results", [])
             log_query({"request_id": rid, "tenant": TENANT, "engine": "B", "intent": "recommend",
-                       "question": req.question, "score": p["score"], "profile": p["profile"],
+                       "question": req.question, "score": p["score"], "profile": profile,
                        "summary": _buckets(results) if results else None, "tokens": None})
             return {"request_id": rid, "engine": "B", "intent": "recommend", "refused": False,
-                    "score": p["score"], "profile": p["profile"], "summary": _buckets(results),
+                    "score": p["score"], "profile": profile, "summary": _buckets(results),
                     "results": results, "disclaimer": DISCLAIMER_B}
         # балл есть, но пары предметов нет → просим уточнить (UI откроет навигатор), тоже 0 токенов
         log_query({"request_id": rid, "tenant": TENANT, "engine": "B", "intent": "need_profile",

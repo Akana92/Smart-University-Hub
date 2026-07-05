@@ -54,6 +54,23 @@ def test_parse_single_subject_no_pair():
     assert p["profile"] is None  # одного предмета мало для пары-профиля
 
 
+def test_parse_field_it():
+    # «хочу в it» → профиль по области (математика+информатика), ассистент ответит, а не перенаправит
+    p = recommender.parse_admission_query("Куда я могу пройти со 104 баллами, хочу в it")
+    assert p["is_admission_intent"] is True and p["score"] == 104
+    assert p["profile"] == "математика+информатика"
+
+
+def test_parse_field_medicine():
+    p = recommender.parse_admission_query("100 баллов, хочу в медицину")
+    assert p["profile"] == "химия+биология"
+
+
+def test_resolve_profile_from_subjects():
+    assert recommender.resolve_profile(["математика", "физика"]) == "математика+физика"
+    assert recommender.resolve_profile(["физика"]) is None
+
+
 def test_parse_non_admission():
     assert recommender.parse_admission_query("Как рассчитывается GPA?")["is_admission_intent"] is False
 
@@ -67,6 +84,20 @@ def test_ask_routes_to_engine_b(monkeypatch):
     assert j["score"] == 104 and j["profile"] == "математика+физика"
     assert j["summary"]["pass"] == 1 and j["summary"]["risk"] == 1
     assert j["refused"] is False
+
+
+def test_ask_uses_client_subjects(monkeypatch):
+    # предметы уже выбраны в навигаторе → ассистент использует их (не перенаправляет)
+    monkeypatch.setattr(recommender, "recommend", lambda s, pr, c=None, b=None: {"results": [{"bucket": "pass"}]})
+    j = client.post("/v1/ask", json={"question": "куда со 104 баллами",
+                                      "subjects": ["математика", "физика"]}).json()
+    assert j["engine"] == "B" and j["intent"] == "recommend" and j["profile"] == "математика+физика"
+
+
+def test_ask_field_it_recommends(monkeypatch):
+    monkeypatch.setattr(recommender, "recommend", lambda s, pr, c=None, b=None: {"results": [{"bucket": "pass"}]})
+    j = client.post("/v1/ask", json={"question": "куда со 104 баллами хочу в it"}).json()
+    assert j["engine"] == "B" and j["intent"] == "recommend" and j["profile"] == "математика+информатика"
 
 
 def test_ask_need_profile():

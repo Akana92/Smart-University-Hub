@@ -2,309 +2,804 @@
 <html lang="ru">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Smart University — поступление и студенческий помощник</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<title>Smart University — узнай, куда пройдёшь на грант</title>
 <style>
   :root{
-    --ink:#16202E; --muted:#5A6675; --paper:#EEF1EF; --card:#FFFFFF;
-    --petrol:#0F6E68; --petrol-deep:#0A4744; --gold:#B98A2E;
-    --pass:#2E7D52; --risk:#BE861F; --fail:#B23B3B; --blocked:#7A8590;
-    --line:rgba(16,32,46,.10); --line-strong:rgba(16,32,46,.18);
-    --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
-    --sans:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-    --mono:ui-monospace,"Cascadia Code","SF Mono",Consolas,monospace;
+    --bg:#08090D; --bg-soft:#0D0F16; --surface:#12141C; --surface-2:#171A24;
+    --line:rgba(255,255,255,.08); --line-strong:rgba(255,255,255,.16);
+    --ink:#F3F4F8; --ink-dim:#C7CBDA; --muted:#8A8FA3; --muted-2:#5D6178;
+
+    --violet:#8B7CFF; --violet-2:#6D5CE8; --cyan:#3DEBD1; --cyan-2:#2BC8B4;
+    --grad-brand: linear-gradient(120deg,#8B7CFF 0%,#6D5CE8 32%,#3DEBD1 100%);
+    --grad-text: linear-gradient(100deg,#EDEBFF 0%,#C9C2FF 45%,#9FF3E6 100%);
+    --glow-violet: 0 0 0 1px rgba(139,124,255,.25), 0 8px 40px -8px rgba(139,124,255,.45);
+    --glow-cyan: 0 0 0 1px rgba(61,235,209,.25), 0 8px 40px -8px rgba(61,235,209,.4);
+
+    --pass:#3DEBD1; --pass-dim:rgba(61,235,209,.14); --pass-line:rgba(61,235,209,.4);
+    --risk:#FFC24B; --risk-dim:rgba(255,194,75,.14); --risk-line:rgba(255,194,75,.4);
+    --fail:#FF6B7A; --fail-dim:rgba(255,107,122,.14); --fail-line:rgba(255,107,122,.4);
+    --blocked:#8A8FA3;
+
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI","SF Pro Display",Roboto,"Helvetica Neue",Arial,sans-serif;
+    --mono:ui-monospace,"Cascadia Mono","SF Mono",Consolas,"Roboto Mono",monospace;
+
+    --ease: cubic-bezier(.16,1,.3,1);
+    --ease-spring: cubic-bezier(.34,1.56,.64,1);
+    --r-sm:10px; --r-md:14px; --r-lg:20px; --r-xl:28px;
   }
-  *{box-sizing:border-box}
-  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);
-    font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
-  h1,h2,h3{font-family:var(--serif);font-weight:600;margin:0;text-wrap:balance}
+
+  *,*::before,*::after{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);
+    font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+    overflow-x:hidden}
+  ::selection{background:rgba(139,124,255,.35);color:#fff}
+  h1,h2,h3,h4{margin:0;font-weight:700;letter-spacing:-0.02em;text-wrap:balance}
+  p{margin:0}
+  a{color:var(--cyan);text-decoration:none}
+  button{font-family:inherit}
   .mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
-  a{color:var(--petrol-deep)}
+  .visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
-  .brand{background:linear-gradient(160deg,var(--petrol-deep),var(--petrol));color:#EAF3F1;
-    padding:26px clamp(18px,4vw,44px) 28px}
-  .brand .kicker{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;
-    color:#9FD3CD;margin-bottom:10px}
-  .brand h1{color:#fff;font-size:clamp(24px,4.2vw,38px);line-height:1.07;max-width:22ch}
-  .brand p{margin:12px 0 0;max-width:64ch;color:#CFE6E2;font-size:clamp(14px,1.6vw,16px)}
-  .main{max-width:1120px;margin:0 auto;padding:clamp(16px,3vw,30px)}
+  /* ---------- ambient background ---------- */
+  .bg-fx{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+  .bg-fx::before{content:"";position:absolute;top:-30%;left:-10%;width:70vw;height:70vw;max-width:900px;max-height:900px;
+    background:radial-gradient(circle at center,rgba(139,124,255,.28),transparent 65%);filter:blur(10px);
+    animation:drift1 26s ease-in-out infinite alternate}
+  .bg-fx::after{content:"";position:absolute;bottom:-35%;right:-15%;width:65vw;height:65vw;max-width:820px;max-height:820px;
+    background:radial-gradient(circle at center,rgba(61,235,209,.22),transparent 65%);filter:blur(10px);
+    animation:drift2 30s ease-in-out infinite alternate}
+  .grain{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.035;mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+  @keyframes drift1{0%{transform:translate(0,0) scale(1)}100%{transform:translate(6%,8%) scale(1.12)}}
+  @keyframes drift2{0%{transform:translate(0,0) scale(1)}100%{transform:translate(-6%,-6%) scale(1.15)}}
+  @media (prefers-reduced-motion: reduce){
+    .bg-fx::before,.bg-fx::after{animation:none}
+    *{scroll-behavior:auto !important}
+  }
 
-  .sec{margin-bottom:26px}
-  .sec-head{display:flex;align-items:baseline;gap:12px;margin:0 2px 12px}
-  .sec-head h2{font-size:21px}
-  .sec-head .tag{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;
-    color:var(--petrol);border:1px solid var(--line-strong);border-radius:999px;padding:3px 9px}
-  .sec-head .sub{color:var(--muted);font-size:13px}
-  .panel{background:var(--card);border:1px solid var(--line);border-radius:14px;
-    box-shadow:0 1px 0 rgba(16,32,46,.03),0 12px 30px -22px rgba(16,32,46,.4)}
-  .pad{padding:clamp(16px,2.4vw,24px)}
+  .shell{position:relative;z-index:2}
 
-  /* Navigator controls */
-  .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px 22px}
-  @media(max-width:640px){.grid{grid-template-columns:1fr}}
-  .field label{display:block;font-size:12px;letter-spacing:.04em;text-transform:uppercase;
-    color:var(--muted);margin-bottom:7px;font-weight:600}
-  .scorewrap{display:flex;align-items:center;gap:14px}
-  .scoreval{font-family:var(--mono);font-size:30px;font-weight:600;min-width:2.6ch;color:var(--petrol-deep)}
-  input[type=range]{flex:1;accent-color:var(--petrol);height:4px}
-  select,input[type=number],input[type=text],textarea{width:100%;font-family:var(--sans);font-size:15px;
-    color:var(--ink);padding:10px 12px;border:1px solid var(--line-strong);border-radius:9px;background:#fff}
-  select:focus,input:focus,textarea:focus{outline:2px solid var(--petrol);outline-offset:1px;border-color:var(--petrol)}
-  .presets{display:flex;flex-wrap:wrap;gap:8px;margin:2px 0 0}
-  .chip{font-size:12.5px;padding:6px 11px;border-radius:999px;cursor:pointer;border:1px solid var(--line-strong);
-    background:#fff;color:var(--ink)}
-  .chip:hover{border-color:var(--petrol);color:var(--petrol-deep)}
-  .btn{display:inline-flex;align-items:center;gap:8px;cursor:pointer;border:0;border-radius:10px;
-    background:var(--petrol);color:#fff;font-family:var(--sans);font-size:15px;font-weight:600;padding:11px 20px}
-  .btn:hover{background:var(--petrol-deep)}
-  .btn.ghost{background:#fff;color:var(--petrol-deep);border:1px solid var(--line-strong)}
-  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:16px}
+  /* ---------- nav ---------- */
+  .nav{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
+    padding:16px clamp(18px,4vw,48px);backdrop-filter:blur(16px) saturate(140%);
+    background:rgba(8,9,13,.62);border-bottom:1px solid var(--line)}
+  .nav .logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:15.5px;letter-spacing:-.01em}
+  .nav .logo .mark{width:26px;height:26px;border-radius:8px;background:var(--grad-brand);position:relative;flex:none;
+    box-shadow:0 4px 18px -4px rgba(139,124,255,.7)}
+  .nav .logo .mark::after{content:"";position:absolute;inset:6px;border-radius:4px;background:var(--bg);opacity:.18}
+  .nav-links{display:flex;gap:26px;font-size:14px;color:var(--muted)}
+  .nav-links a{color:var(--muted);transition:color .2s var(--ease)}
+  .nav-links a:hover{color:var(--ink)}
+  @media (max-width:720px){.nav-links{display:none}}
+  .nav-cta{font-size:13.5px;font-weight:600;padding:8px 16px;border-radius:999px;border:1px solid var(--line-strong);
+    color:var(--ink);background:rgba(255,255,255,.03);transition:all .2s var(--ease)}
+  .nav-cta:hover{border-color:rgba(139,124,255,.5);background:rgba(139,124,255,.08)}
 
-  /* Summary + buckets */
-  .summary{display:flex;flex-wrap:wrap;gap:10px;padding:16px clamp(16px,2.4vw,24px);align-items:center;
-    border-top:1px solid var(--line);background:#FAFBFA}
-  .stat{display:inline-flex;align-items:baseline;gap:8px;padding:7px 13px;border-radius:10px;border:1px solid var(--line);background:#fff}
-  .stat .n{font-family:var(--mono);font-weight:600;font-size:18px}
-  .stat .l{font-size:12.5px;color:var(--muted)}
+  /* ---------- hero ---------- */
+  .hero{padding:clamp(52px,9vw,104px) clamp(18px,4vw,48px) clamp(28px,5vw,56px);max-width:1180px;margin:0 auto;text-align:center}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--cyan);border:1px solid rgba(61,235,209,.28);background:rgba(61,235,209,.06);
+    border-radius:999px;padding:6px 14px 6px 10px;margin-bottom:22px;opacity:0;animation:rise .7s var(--ease) .05s forwards}
+  .eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--cyan);box-shadow:0 0 8px var(--cyan);
+    animation:pulse 2s ease-in-out infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+  .hero h1{font-size:clamp(34px,6.4vw,74px);line-height:1.03;max-width:16ch;margin:0 auto;
+    opacity:0;animation:rise .8s var(--ease) .12s forwards}
+  .hero h1 .grad{background:var(--grad-text);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero .sub{margin:22px auto 0;max-width:56ch;font-size:clamp(15px,2vw,18.5px);color:var(--ink-dim);line-height:1.6;
+    opacity:0;animation:rise .8s var(--ease) .2s forwards}
+  .hero .sub b{color:var(--ink);font-weight:700}
+  .hero-badges{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:30px;
+    opacity:0;animation:rise .8s var(--ease) .3s forwards}
+  .hbadge{display:flex;align-items:center;gap:7px;font-size:13px;color:var(--muted);padding:7px 13px;border-radius:999px;
+    border:1px solid var(--line);background:rgba(255,255,255,.02)}
+  .hbadge b{color:var(--ink)}
+  @keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+
+  .main{max-width:1180px;margin:0 auto;padding:0 clamp(16px,4vw,48px) 100px}
+
+  /* ---------- reveal-on-scroll ---------- */
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+  .reveal.in{opacity:1;transform:translateY(0)}
+
+  /* ---------- section chrome ---------- */
+  .sec{margin-top:clamp(48px,7vw,88px)}
+  .sec-head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:14px;margin-bottom:22px}
+  .sec-head .htext h2{font-size:clamp(22px,3.4vw,32px)}
+  .sec-head .htext .sub{color:var(--muted);font-size:14.5px;margin-top:6px;max-width:60ch}
+  .tag{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;
+    border-radius:999px;padding:5px 11px;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+  .tag.free{color:var(--cyan);border:1px solid rgba(61,235,209,.3);background:rgba(61,235,209,.07)}
+  .tag.llm{color:var(--violet);border:1px solid rgba(139,124,255,.32);background:rgba(139,124,255,.08)}
+
+  .panel{position:relative;background:linear-gradient(180deg,var(--surface),var(--bg-soft));
+    border:1px solid var(--line);border-radius:var(--r-xl);
+    box-shadow:0 1px 0 rgba(255,255,255,.03) inset, 0 30px 60px -30px rgba(0,0,0,.6);overflow:hidden}
+  .panel::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;
+    background:linear-gradient(90deg,transparent,rgba(139,124,255,.5),rgba(61,235,209,.5),transparent);opacity:.6}
+  .pad{padding:clamp(20px,3vw,34px)}
+
+  /* ---------- navigator controls ---------- */
+  .grid2{display:grid;grid-template-columns:1.3fr 1fr;gap:22px 28px}
+  @media(max-width:780px){.grid2{grid-template-columns:1fr}}
+  .field label{display:block;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--muted);margin-bottom:10px;font-weight:700}
+  .score-card{border:1px solid var(--line);border-radius:var(--r-lg);padding:20px 22px;background:rgba(255,255,255,.02)}
+  .scorewrap{display:flex;align-items:baseline;gap:16px;margin-bottom:16px}
+  .scoreval{font-family:var(--mono);font-size:clamp(40px,6vw,56px);font-weight:700;min-width:2.4ch;
+    background:var(--grad-text);-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1}
+  .scoremax{font-size:13px;color:var(--muted-2)}
+
+  input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:6px;border-radius:99px;
+    background:linear-gradient(90deg,var(--violet),var(--cyan)) 0/var(--fill,50%) 100% no-repeat, rgba(255,255,255,.08);
+    cursor:pointer;outline:none}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:22px;height:22px;border-radius:50%;
+    background:#fff;box-shadow:0 0 0 4px rgba(139,124,255,.35),0 4px 14px rgba(0,0,0,.5);cursor:grab;
+    transition:transform .15s var(--ease-spring),box-shadow .2s}
+  input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.12)}
+  input[type=range]::-webkit-slider-thumb:active{cursor:grabbing;transform:scale(1.2);box-shadow:0 0 0 7px rgba(139,124,255,.4)}
+  input[type=range]::-moz-range-thumb{width:22px;height:22px;border:0;border-radius:50%;background:#fff;
+    box-shadow:0 0 0 4px rgba(139,124,255,.35),0 4px 14px rgba(0,0,0,.5);cursor:grab}
+  input[type=range]::-moz-range-track{height:6px;border-radius:99px;background:rgba(255,255,255,.08)}
+  input[type=range]::-moz-range-progress{height:6px;border-radius:99px;background:linear-gradient(90deg,var(--violet),var(--cyan))}
+  .score-ticks{display:flex;justify-content:space-between;margin-top:8px;font-size:11px;color:var(--muted-2);font-family:var(--mono)}
+
+  select,input[type=text],textarea{width:100%;font-family:var(--sans);font-size:15px;
+    color:var(--ink);padding:12px 14px;border:1px solid var(--line-strong);border-radius:var(--r-sm);
+    background:rgba(255,255,255,.03);transition:border-color .2s var(--ease),background .2s var(--ease),box-shadow .2s var(--ease)}
+  select{appearance:none;-webkit-appearance:none;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%238A8FA3' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat:no-repeat;background-position:right 14px center;padding-right:34px}
+  select:focus,input:focus,textarea:focus{outline:none;border-color:var(--violet);background:rgba(139,124,255,.06);
+    box-shadow:0 0 0 3px rgba(139,124,255,.15)}
+  select option{background:#14161f;color:var(--ink)}
+  ::placeholder{color:var(--muted-2)}
+
+  .subj-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  @media(max-width:480px){.subj-row{grid-template-columns:1fr}}
+
+  .chips{display:flex;flex-wrap:wrap;gap:9px}
+  .chip{position:relative;font-size:13.5px;font-weight:600;padding:9px 16px;border-radius:999px;cursor:pointer;
+    border:1px solid var(--line-strong);background:rgba(255,255,255,.03);color:var(--ink-dim);
+    transition:all .22s var(--ease);display:inline-flex;align-items:center;gap:7px;overflow:hidden}
+  .chip .ic{font-size:14px}
+  .chip:hover{transform:translateY(-2px);border-color:rgba(139,124,255,.5);color:#fff;
+    box-shadow:0 8px 22px -10px rgba(139,124,255,.6)}
+  .chip:active{transform:translateY(0) scale(.97)}
+  .chip.on{background:var(--grad-brand);color:#fff;border-color:transparent;box-shadow:var(--glow-violet)}
+
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;cursor:pointer;border:0;border-radius:12px;
+    background:var(--grad-brand);color:#fff;font-size:15.5px;font-weight:700;padding:14px 26px;letter-spacing:-.01em;
+    box-shadow:var(--glow-violet);transition:transform .2s var(--ease-spring),box-shadow .25s var(--ease),filter .2s;
+    position:relative;isolation:isolate}
+  .btn::after{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(120deg,rgba(255,255,255,.25),transparent 40%);
+    opacity:0;transition:opacity .25s}
+  .btn:hover{transform:translateY(-2px);box-shadow:0 14px 40px -10px rgba(139,124,255,.65),0 0 0 1px rgba(255,255,255,.1)}
+  .btn:hover::after{opacity:1}
+  .btn:active{transform:translateY(0) scale(.98)}
+  .btn:disabled{opacity:.55;cursor:not-allowed;transform:none}
+  .btn.block{width:100%}
+  .btn .spin{width:16px;height:16px;border-radius:50%;border:2px solid rgba(255,255,255,.35);border-top-color:#fff;
+    animation:spin .7s linear infinite;display:none}
+  .btn.loading .spin{display:inline-block}
+  .btn.loading .btxt{opacity:.75}
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  .row{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-top:22px}
+  .hint{font-size:12.5px;color:var(--muted-2)}
+
+  /* ---------- results: summary + buckets ---------- */
+  .divider{height:1px;background:var(--line);margin:0}
+  .summary{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line)}
+  @media(max-width:640px){.summary{grid-template-columns:1fr}}
+  .stat{background:var(--bg-soft);padding:20px clamp(18px,3vw,28px);display:flex;align-items:center;gap:16px}
+  .stat .n{font-family:var(--mono);font-weight:800;font-size:clamp(28px,4vw,38px);line-height:1;min-width:2ch}
   .stat.pass .n{color:var(--pass)} .stat.risk .n{color:var(--risk)} .stat.fail .n{color:var(--fail)}
-  .cols{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;padding:clamp(16px,2.4vw,24px)}
-  @media(max-width:860px){.cols{grid-template-columns:1fr}}
-  .col h3{font-family:var(--sans);font-weight:700;font-size:12.5px;letter-spacing:.05em;text-transform:uppercase;
-    margin-bottom:12px;display:flex;align-items:center;gap:8px}
-  .dot{width:9px;height:9px;border-radius:50%;display:inline-block}
-  .col.pass h3{color:var(--pass)} .col.pass .dot{background:var(--pass)}
-  .col.risk h3{color:var(--risk)} .col.risk .dot{background:var(--risk)}
-  .col.fail h3{color:var(--fail)} .col.fail .dot{background:var(--fail)}
-  .rcard{border:1px solid var(--line);border-left:3px solid var(--blocked);border-radius:10px;padding:11px 13px;
-    background:#fff;margin-bottom:9px}
-  .rcard.pass{border-left-color:var(--pass)} .rcard.risk{border-left-color:var(--risk)} .rcard.fail{border-left-color:var(--fail)}
+  .stat .l{font-size:13px;color:var(--muted);line-height:1.3}
+  .stat .l small{display:block;color:var(--muted-2);font-size:11px;margin-top:1px}
+
+  .cols{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;padding:clamp(18px,3vw,28px)}
+  @media(max-width:900px){.cols{grid-template-columns:1fr}}
+  .col-head{display:flex;align-items:center;gap:8px;margin-bottom:14px;font-weight:800;font-size:12.5px;
+    letter-spacing:.06em;text-transform:uppercase}
+  .dot{width:9px;height:9px;border-radius:50%;flex:none}
+  .col.pass .col-head{color:var(--pass)} .col.pass .dot{background:var(--pass);box-shadow:0 0 10px var(--pass)}
+  .col.risk .col-head{color:var(--risk)} .col.risk .dot{background:var(--risk);box-shadow:0 0 10px var(--risk)}
+  .col.fail .col-head{color:var(--fail)} .col.fail .dot{background:var(--fail);box-shadow:0 0 10px var(--fail)}
+  .col-count{margin-left:auto;font-family:var(--mono);color:var(--muted);font-weight:600}
+
+  .rcard{border:1px solid var(--line);border-radius:var(--r-md);padding:14px 16px;margin-bottom:10px;
+    background:rgba(255,255,255,.025);transition:transform .22s var(--ease),border-color .22s var(--ease),box-shadow .22s var(--ease);
+    opacity:0;transform:translateY(10px);animation:cardIn .5s var(--ease) forwards}
+  @keyframes cardIn{to{opacity:1;transform:translateY(0)}}
+  .rcard:hover{transform:translateY(-3px);border-color:var(--line-strong);box-shadow:0 14px 30px -16px rgba(0,0,0,.6)}
+  .rcard.pass{border-left:3px solid var(--pass)} .rcard.risk{border-left:3px solid var(--risk)} .rcard.fail{border-left:3px solid var(--fail)}
   .rcard .top{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
-  .rcard .code{font-family:var(--mono);font-size:12px;color:var(--muted)}
-  .rcard .score{font-family:var(--mono);font-weight:600;font-size:19px}
+  .rcard .code{font-family:var(--mono);font-size:11.5px;color:var(--muted-2)}
+  .rcard .score{font-family:var(--mono);font-weight:800;font-size:20px}
   .rcard.pass .score{color:var(--pass)} .rcard.risk .score{color:var(--risk)} .rcard.fail .score{color:var(--fail)}
-  .rcard .gop{font-weight:600;font-size:14px;margin:3px 0 2px;line-height:1.25}
+  .rcard .gop{font-weight:700;font-size:14.5px;margin:5px 0 2px;line-height:1.3;color:var(--ink)}
   .rcard .uni{font-size:12.5px;color:var(--muted)}
-  .rcard .meta{display:flex;flex-wrap:wrap;gap:6px 12px;margin-top:8px;font-size:11.5px;color:var(--muted)}
-  .empty{color:var(--muted);font-size:13px;padding:6px 2px}
+  .rcard .meta{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:10px;font-size:11.5px;color:var(--muted)}
+  .rcard .meta b{color:var(--ink-dim);font-family:var(--mono)}
+  .rcard .meta a{color:var(--cyan);border-bottom:1px solid rgba(61,235,209,.3)}
+  .empty{color:var(--muted-2);font-size:13px;padding:10px 2px;font-style:italic}
 
-  /* FAQ */
-  .cats{display:flex;flex-wrap:wrap;gap:8px;margin:0 2px 14px}
-  .cattab{font-size:13px;padding:7px 13px;border-radius:999px;cursor:pointer;border:1px solid var(--line-strong);
-    background:#fff;color:var(--ink)}
-  .cattab.on{background:var(--petrol);color:#fff;border-color:var(--petrol)}
-  .faq{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-  @media(max-width:760px){.faq{grid-template-columns:1fr}}
-  details.qa{background:var(--card);border:1px solid var(--line);border-radius:11px;padding:2px 4px}
-  details.qa summary{cursor:pointer;list-style:none;padding:13px 14px;font-weight:600;font-size:14.5px;display:flex;
-    justify-content:space-between;gap:10px;align-items:center}
+  .loading-block{display:flex;flex-direction:column;align-items:center;gap:14px;padding:52px 20px;color:var(--muted)}
+  .pulse-ring{width:44px;height:44px;border-radius:50%;border:3px solid rgba(139,124,255,.25);border-top-color:var(--violet);
+    animation:spin .8s linear infinite}
+  .loading-text{font-size:13.5px}
+
+  .placeholder-cta{display:flex;flex-direction:column;align-items:center;gap:10px;padding:56px 24px;text-align:center;color:var(--muted)}
+  .placeholder-cta .big{font-size:34px}
+  .placeholder-cta b{color:var(--ink-dim)}
+
+  .disc{margin:0;border-top:1px solid var(--line);background:rgba(255,194,75,.05);padding:14px clamp(18px,3vw,28px);
+    font-size:12.5px;color:#E8C77E;display:flex;gap:9px;align-items:flex-start}
+  .disc .ic{flex:none}
+
+  /* ---------- FAQ ---------- */
+  .cats{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:20px}
+  .cattab{font-size:13.5px;font-weight:600;padding:8px 16px;border-radius:999px;cursor:pointer;border:1px solid var(--line-strong);
+    background:rgba(255,255,255,.03);color:var(--muted);transition:all .2s var(--ease)}
+  .cattab:hover{color:var(--ink);border-color:var(--line-strong)}
+  .cattab.on{background:var(--grad-brand);color:#fff;border-color:transparent;box-shadow:var(--glow-violet)}
+  .faq{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  @media(max-width:780px){.faq{grid-template-columns:1fr}}
+  details.qa{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden;
+    transition:border-color .2s var(--ease)}
+  details.qa:hover{border-color:var(--line-strong)}
+  details.qa[open]{border-color:rgba(139,124,255,.35)}
+  details.qa summary{cursor:pointer;list-style:none;padding:16px 18px;font-weight:600;font-size:14.5px;display:flex;
+    justify-content:space-between;gap:14px;align-items:center;color:var(--ink)}
   details.qa summary::-webkit-details-marker{display:none}
-  details.qa summary::after{content:"+";color:var(--petrol);font-family:var(--mono);font-size:18px}
-  details.qa[open] summary::after{content:"–"}
-  details.qa .ans{padding:0 14px 14px;font-size:14px;color:#243040;line-height:1.55}
-  details.qa .src{margin-top:9px;font-size:12.5px}
-  details.qa .src a{text-decoration:none;border-bottom:1px solid rgba(15,110,104,.35)}
-  .catname{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);
-    margin:16px 2px 8px;grid-column:1/-1}
+  details.qa summary .plus{flex:none;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    border:1px solid var(--line-strong);color:var(--muted);font-size:16px;transition:all .25s var(--ease-spring)}
+  details.qa[open] summary .plus{transform:rotate(135deg);background:var(--grad-brand);color:#fff;border-color:transparent}
+  details.qa .ans{padding:0 18px 18px;font-size:14px;color:var(--ink-dim);line-height:1.65;
+    animation:ansIn .3s var(--ease)}
+  @keyframes ansIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
+  details.qa .src{margin-top:12px;font-size:12.5px}
+  details.qa .src a{color:var(--cyan);border-bottom:1px solid rgba(61,235,209,.3);padding-bottom:1px}
+  .catname{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted-2);
+    margin:20px 2px 10px;grid-column:1/-1}
 
-  /* Assistant */
-  .askbox{display:flex;gap:10px;flex-wrap:wrap}
-  .askbox textarea{flex:1;min-height:52px;resize:vertical;min-width:240px}
-  .ans-panel{margin-top:14px;border-left:3px solid var(--petrol);background:#F5FAF9;border-radius:0 10px 10px 0;
-    padding:14px 16px;font-size:14.5px;line-height:1.6;white-space:pre-wrap}
-  .ans-panel.refuse{border-left-color:var(--fail);background:#FCF6F5}
-  .cites{margin-top:10px;font-size:12.5px}
-  .cites a{display:inline-block;margin:3px 8px 0 0;border-bottom:1px solid rgba(15,110,104,.35);text-decoration:none}
-  .engtag{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--petrol);
-    border:1px solid var(--line);border-radius:999px;padding:2px 8px;margin-left:8px}
-  .loading{color:var(--muted);font-style:italic;font-size:13.5px}
+  /* ---------- assistant ---------- */
+  .askbox{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-start}
+  .askbox textarea{flex:1;min-height:56px;resize:vertical;min-width:240px;font-size:15.5px}
+  .ask-context{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+  .ctx-pill{font-size:12px;font-family:var(--mono);color:var(--muted);border:1px dashed var(--line-strong);
+    border-radius:999px;padding:5px 12px}
+  .ctx-pill b{color:var(--ink-dim)}
 
-  .disc{margin-top:18px;border-left:3px solid var(--gold);background:#FBF6EC;padding:12px 16px;border-radius:0 10px 10px 0;
-    font-size:12.5px;color:#5b4a24}
-  footer{margin-top:26px;padding:18px clamp(16px,2.4vw,24px);border-top:1px solid var(--line);font-size:12px;
-    color:var(--muted);text-align:center}
+  .thread{margin-top:20px;display:flex;flex-direction:column;gap:14px}
+  .msg-user{align-self:flex-end;max-width:80%;background:rgba(139,124,255,.12);border:1px solid rgba(139,124,255,.28);
+    border-radius:16px 16px 4px 16px;padding:12px 16px;font-size:14.5px;color:var(--ink);
+    opacity:0;animation:msgIn .4s var(--ease) forwards}
+  .msg-bot{align-self:flex-start;max-width:100%;width:100%;background:var(--surface);border:1px solid var(--line);
+    border-radius:16px 16px 16px 4px;padding:18px 20px;font-size:14.5px;color:var(--ink-dim);line-height:1.65;
+    opacity:0;animation:msgIn .4s var(--ease) forwards}
+  @keyframes msgIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+  .msg-bot.refuse{border-color:rgba(255,107,122,.35);background:rgba(255,107,122,.05)}
+  .msg-bot .ans-text{white-space:pre-wrap;color:var(--ink-dim)}
+  .msg-bot .head{display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap}
+  .msg-bot .avatar{width:26px;height:26px;border-radius:8px;background:var(--grad-brand);flex:none;
+    display:flex;align-items:center;justify-content:center;font-size:13px}
+  .engtag{font-family:var(--mono);font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--violet);
+    border:1px solid rgba(139,124,255,.3);border-radius:999px;padding:3px 9px;margin-left:auto}
+  .cites{margin-top:14px;display:flex;flex-direction:column;gap:6px;font-size:12.5px}
+  .cites a{display:inline-flex;color:var(--cyan);border-bottom:1px solid rgba(61,235,209,.3);width:fit-content}
+
+  .quick-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+  .quick-chip{font-size:13px;font-weight:600;padding:8px 15px;border-radius:999px;cursor:pointer;
+    border:1px solid rgba(139,124,255,.35);background:rgba(139,124,255,.08);color:var(--ink);
+    transition:all .2s var(--ease)}
+  .quick-chip:hover{background:var(--grad-brand);color:#fff;transform:translateY(-2px);box-shadow:var(--glow-violet)}
+
+  .typing{display:inline-flex;gap:4px;align-items:center;padding:4px 0}
+  .typing span{width:6px;height:6px;border-radius:50%;background:var(--muted);animation:typing 1.2s infinite ease-in-out}
+  .typing span:nth-child(2){animation-delay:.15s}.typing span:nth-child(3){animation-delay:.3s}
+  @keyframes typing{0%,60%,100%{opacity:.3;transform:translateY(0)}30%{opacity:1;transform:translateY(-3px)}}
+
+  .suggest-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+  .suggest{font-size:12.5px;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:7px 13px;
+    cursor:pointer;transition:all .2s var(--ease);background:rgba(255,255,255,.02)}
+  .suggest:hover{color:var(--ink);border-color:var(--line-strong);transform:translateY(-1px)}
+
+  /* ---------- footer ---------- */
+  footer{margin-top:60px;padding:28px clamp(18px,4vw,48px);border-top:1px solid var(--line);font-size:12.5px;
+    color:var(--muted-2);text-align:center;line-height:1.7}
+  footer b{color:var(--muted)}
+
+  /* ---------- scrollbar ---------- */
+  ::-webkit-scrollbar{width:10px;height:10px}
+  ::-webkit-scrollbar-track{background:var(--bg)}
+  ::-webkit-scrollbar-thumb{background:var(--surface-2);border-radius:99px;border:2px solid var(--bg)}
+  ::-webkit-scrollbar-thumb:hover{background:var(--line-strong)}
+
+  @media (max-width:360px){
+    .hero h1{font-size:30px}
+    .pad{padding:16px}
+  }
 </style>
 </head>
 <body>
-  <header class="brand">
-    <div class="kicker">Smart University · KBTU</div>
-    <h1>Поступление и студенческий помощник</h1>
-    <p>Быстрый ответ — по клику и бесплатно: подбор грантов по баллу и частые вопросы со ссылкой на источник.
-       Не нашли? Спросите AI-ассистента — он ответит по официальным документам вуза.</p>
-  </header>
 
-  <div class="main">
+  <div class="bg-fx" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
 
-    <!-- СЛОЙ 1a: НАВИГАТОР -->
-    <section class="sec">
-      <div class="sec-head"><h2>Навигатор грантов</h2><span class="tag">0 токенов</span>
-        <span class="sub">балл ЕНТ + профильные предметы → куда проходили на грант в 2025</span></div>
-      <div class="panel">
-        <div class="pad">
-          <div class="grid">
-            <div class="field">
-              <label>Балл ЕНТ</label>
-              <div class="scorewrap"><span class="scoreval mono" id="scoreVal">104</span>
-                <input type="range" id="score" min="30" max="140" value="104"></div>
+  <div class="shell">
+    <nav class="nav">
+      <div class="logo"><span class="mark" aria-hidden="true"></span> Smart University</div>
+      <div class="nav-links">
+        <a href="#navigator">Навигатор грантов</a>
+        <a href="#faq">Частые вопросы</a>
+        <a href="#assistant">AI-ассистент</a>
+      </div>
+      <a href="#navigator" class="nav-cta">Узнать балл →</a>
+    </nav>
+
+    <header class="hero">
+      <span class="eyebrow"><span class="dot"></span> KBTU · бесплатно · без регистрации</span>
+      <h1>Узнай, куда пройдёшь <span class="grad">на грант</span> — за 5 секунд</h1>
+      <p class="sub">Введи балл ЕНТ и профильные предметы — увидишь реальные проходные баллы 2025 года
+        по программам с грантами. <b>Без LLM, без ожидания, без регистрации.</b> Если ответа нет —
+        спроси AI-ассистента, он ответит по документам вуза.</p>
+      <div class="hero-badges">
+        <span class="hbadge">⚡ <b>0 токенов</b> на подбор программ</span>
+        <span class="hbadge">📎 <b>Ссылки на источники</b> в каждом ответе</span>
+        <span class="hbadge">🤖 <b>AI-ассистент</b> — только когда готового ответа нет</span>
+      </div>
+    </header>
+
+    <div class="main">
+
+      <!-- ================= НАВИГАТОР ГРАНТОВ ================= -->
+      <section class="sec reveal" id="navigator">
+        <div class="sec-head">
+          <div class="htext">
+            <h2>Навигатор грантов</h2>
+            <p class="sub">Балл ЕНТ + профильные предметы → куда проходили на грант в 2025 году</p>
+          </div>
+          <span class="tag free">⚡ 0 токенов</span>
+        </div>
+
+        <div class="panel">
+          <div class="pad">
+            <div class="grid2">
+              <div class="field">
+                <label for="score">Балл ЕНТ</label>
+                <div class="score-card">
+                  <div class="scorewrap">
+                    <span class="scoreval mono" id="scoreVal">104</span>
+                    <span class="scoremax">из 140</span>
+                  </div>
+                  <input type="range" id="score" min="30" max="140" value="104" aria-label="Балл ЕНТ">
+                  <div class="score-ticks"><span>30</span><span>85</span><span>140</span></div>
+                </div>
+              </div>
+
+              <div class="field">
+                <label>Быстрый выбор направления</label>
+                <div class="chips" id="presets" role="group" aria-label="Направление"></div>
+                <div class="subj-row" style="margin-top:16px">
+                  <div>
+                    <label for="subj1" style="margin-bottom:6px;font-size:11px">Предмет 1</label>
+                    <select id="subj1" aria-label="Профильный предмет 1"></select>
+                  </div>
+                  <div>
+                    <label for="subj2" style="margin-bottom:6px;font-size:11px">Предмет 2</label>
+                    <select id="subj2" aria-label="Профильный предмет 2"></select>
+                  </div>
+                </div>
+                <div style="margin-top:12px">
+                  <label for="city" style="margin-bottom:6px;font-size:11px">Город (необязательно)</label>
+                  <input type="text" id="city" placeholder="напр. Алматы">
+                </div>
+              </div>
             </div>
-            <div class="field">
-              <label>Город (необязательно)</label>
-              <input type="text" id="city" placeholder="напр. Алматы">
-            </div>
-            <div class="field">
-              <label>Профильный предмет 1</label>
-              <select id="subj1"></select>
-            </div>
-            <div class="field">
-              <label>Профильный предмет 2</label>
-              <select id="subj2"></select>
+
+            <div class="row">
+              <button class="btn" id="recBtn"><span class="spin" aria-hidden="true"></span><span class="btxt">Подобрать программы →</span></button>
+              <span class="hint">Данные — исторические отсечки 2025. Обновляются по мере доступности.</span>
             </div>
           </div>
-          <div class="field" style="margin-top:14px">
-            <label>Быстрый выбор профиля</label>
-            <div class="presets" id="presets"></div>
+
+          <div id="recOut">
+            <div class="placeholder-cta">
+              <div class="big">🎯</div>
+              <div><b>Задай балл и предметы</b> — результат появится здесь мгновенно.</div>
+            </div>
           </div>
-          <div class="row"><button class="btn" id="recBtn">Подобрать программы</button></div>
         </div>
-        <div id="recOut"></div>
-      </div>
-    </section>
+      </section>
 
-    <!-- СЛОЙ 1b: КЛИК-FAQ -->
-    <section class="sec">
-      <div class="sec-head"><h2>Частые вопросы</h2><span class="tag">0 токенов</span>
-        <span class="sub">клик → готовый ответ + источник</span></div>
-      <div class="cats" id="faqCats"></div>
-      <div class="faq" id="faqList"><div class="loading">Загрузка…</div></div>
-    </section>
-
-    <!-- СЛОЙ 2: АССИСТЕНТ -->
-    <section class="sec">
-      <div class="sec-head"><h2>AI-ассистент</h2><span class="tag">LLM · если нет ответа выше</span>
-        <span class="sub">ответ по документам вуза с цитатами; если данных нет — честный отказ</span></div>
-      <div class="panel pad">
-        <div class="askbox">
-          <textarea id="q" placeholder="Например: можно ли пересдать экзамен с FX? Или: куда пройду со 104 баллами, физика и математика?"></textarea>
-          <button class="btn" id="askBtn">Спросить</button>
+      <!-- ================= FAQ ================= -->
+      <section class="sec reveal" id="faq">
+        <div class="sec-head">
+          <div class="htext">
+            <h2>Частые вопросы</h2>
+            <p class="sub">Клик → готовый ответ со ссылкой на официальный документ</p>
+          </div>
+          <span class="tag free">⚡ 0 токенов</span>
         </div>
-        <div id="askOut"></div>
-        <div class="disc">Ассистент отвечает только из официальных документов и страниц KBTU. Если точной информации нет —
-          он направит в Студенческий офис, а не выдумает ответ.</div>
-      </div>
-    </section>
+        <div class="cats" id="faqCats" role="tablist" aria-label="Категории вопросов"></div>
+        <div class="faq" id="faqList"><div class="loading-block" style="grid-column:1/-1"><div class="pulse-ring"></div><div class="loading-text">Загрузка вопросов…</div></div></div>
+      </section>
 
+      <!-- ================= AI-АССИСТЕНТ ================= -->
+      <section class="sec reveal" id="assistant">
+        <div class="sec-head">
+          <div class="htext">
+            <h2>AI-ассистент</h2>
+            <p class="sub">Отвечает по официальным документам KBTU с цитатами. Если данных нет — честно скажет об этом.</p>
+          </div>
+          <span class="tag llm">🤖 LLM · если нет ответа выше</span>
+        </div>
+
+        <div class="panel pad">
+          <div class="ask-context" id="askContext"></div>
+          <div class="askbox">
+            <textarea id="q" placeholder="Например: можно ли пересдать экзамен с FX? Или: куда пройду со 104 баллами, физика и математика?" aria-label="Вопрос ассистенту"></textarea>
+            <button class="btn" id="askBtn"><span class="spin" aria-hidden="true"></span><span class="btxt">Спросить →</span></button>
+          </div>
+          <div class="suggest-row" id="suggestRow">
+            <span class="suggest" data-q="Можно ли пересдать экзамен с FX?">Можно ли пересдать экзамен с FX?</span>
+            <span class="suggest" data-q="Куда пройду со 104 баллами?">Куда пройду со 104 баллами?</span>
+            <span class="suggest" data-q="Как рассчитывается GPA?">Как рассчитывается GPA?</span>
+          </div>
+          <div class="thread" id="thread"></div>
+        </div>
+      </section>
+
+    </div>
+
+    <footer>
+      <b>Smart University</b> · движок B (навигатор грантов, 0 токенов) + движок A (RAG-ассистент по документам) · данные KBTU<br>
+      Проходные баллы 2025 года не гарантируют результат приёма 2026 — конкурс формируется числом грантов и силой заявителей.
+    </footer>
   </div>
-  <footer>Smart University · движок A (RAG по документам) + движок B (навигатор грантов) · данные KBTU · отсечки 2025 — не гарантия</footer>
 
 <script>
+(function(){
+"use strict";
+
 const SUBJECTS = ["математика","информатика","физика","химия","биология","история","основы права","география"];
 const PRESETS = [
-  {label:"IT / информатика", p:["математика","информатика"]},
-  {label:"Инженерия / физика", p:["математика","физика"]},
-  {label:"Медицина / биология", p:["химия","биология"]},
-  {label:"Экономика / бизнес", p:["математика","география"]},
-  {label:"Право", p:["история","основы права"]},
+  {label:"IT", ic:"💻", p:["математика","информатика"]},
+  {label:"Инженерия", ic:"⚙️", p:["математика","физика"]},
+  {label:"Медицина", ic:"🧬", p:["химия","биология"]},
+  {label:"Экономика / бизнес", ic:"📊", p:["математика","география"]},
+  {label:"Право", ic:"⚖️", p:["история","основы права"]},
 ];
-const $ = s => document.querySelector(s);
-const esc = s => (s==null?"":String(s)).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
 
-// селекты предметов
+const $ = s => document.querySelector(s);
+const esc = s => (s==null?"":String(s)).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
+
+/* ---------- populate controls ---------- */
 for(const sub of SUBJECTS){
   for(const id of ["#subj1","#subj2"]){ const o=document.createElement("option"); o.value=sub; o.textContent=sub; $(id).appendChild(o); }
 }
 $("#subj1").value="математика"; $("#subj2").value="физика";
-// пресеты
-const presetBox=$("#presets");
-PRESETS.forEach(pr=>{ const c=document.createElement("span"); c.className="chip"; c.textContent=pr.label;
-  c.onclick=()=>{ $("#subj1").value=pr.p[0]; $("#subj2").value=pr.p[1]; runRecommend(); }; presetBox.appendChild(c); });
-// слайдер
-$("#score").addEventListener("input",e=>$("#scoreVal").textContent=e.target.value);
 
-// ---- Навигатор (движок B) ----
+const presetBox=$("#presets");
+let activePreset=null;
+function renderPresets(){
+  presetBox.innerHTML="";
+  PRESETS.forEach(pr=>{
+    const c=document.createElement("span");
+    c.className="chip"+(activePreset===pr.label?" on":"");
+    c.innerHTML=`<span class="ic">${pr.ic}</span>${esc(pr.label)}`;
+    c.onclick=()=>{ activePreset=pr.label; $("#subj1").value=pr.p[0]; $("#subj2").value=pr.p[1]; renderPresets(); runRecommend(); };
+    presetBox.appendChild(c);
+  });
+}
+renderPresets();
+$("#subj1").addEventListener("change",()=>{activePreset=null;renderPresets();});
+$("#subj2").addEventListener("change",()=>{activePreset=null;renderPresets();});
+
+/* ---------- score slider fill + big number ---------- */
+const scoreEl=$("#score");
+function syncScoreFill(){
+  const min=+scoreEl.min, max=+scoreEl.max, v=+scoreEl.value;
+  const pct=((v-min)/(max-min))*100;
+  scoreEl.style.setProperty("--fill", pct+"%");
+  $("#scoreVal").textContent=v;
+}
+scoreEl.addEventListener("input", syncScoreFill);
+syncScoreFill();
+
+/* ---------- animated counters ---------- */
+function animateCount(el, to, duration){
+  duration = duration || 700;
+  const from = 0;
+  const start = performance.now();
+  function tick(now){
+    const p = Math.min(1, (now-start)/duration);
+    const eased = 1 - Math.pow(1-p, 3);
+    el.textContent = Math.round(from + (to-from)*eased);
+    if(p<1) requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
+
+/* ---------- shared: render recommend buckets (used by navigator AND assistant) ---------- */
+function bucketsHtml(d, opts){
+  opts = opts || {};
+  const s = d.summary || {pass:0,risk:0,fail:0,blocked:0};
+  const res = d.results || [];
+  const by = b => res.filter(x=>x.bucket===b);
+
+  const cardHtml = (x, i) => {
+    const gapNum = Number(x.gap);
+    const g = isFinite(gapNum) ? (gapNum>=0?("+"+gapNum):(""+gapNum)) : esc(x.gap);
+    let host = "";
+    try{ host = (x.source_url||"").split("//")[1] || ""; }catch(e){ host = ""; }
+    const srcLink = x.source_url ? `<a href="${esc(x.source_url)}" target="_blank" rel="noopener">📎 источник</a>` : "";
+    return `<div class="rcard ${esc(x.bucket)}" style="animation-delay:${(i*45)}ms">
+      <div class="top"><span class="code mono">${esc(x.gop_code)}</span><span class="score mono">${esc(x.passing_2025)}</span></div>
+      <div class="gop">${esc(x.gop_name)}</div>
+      <div class="uni">${esc(x.univ)}${x.city?" · "+esc(x.city):""}</div>
+      <div class="meta">
+        <span>ваш балл <b class="mono">${g}</b> к отсечке</span>
+        <span>грантов: <b class="mono">${esc(x.grants)}</b></span>
+        <span>порог ${esc(x.threshold)}</span>
+        ${srcLink}
+        <span>${esc(x.year)}</span>
+      </div>
+    </div>`;
+  };
+
+  const col = (b, title) => {
+    const items = by(b);
+    const shown = items.slice(0, opts.limit || 6);
+    return `<div class="col ${b}">
+      <div class="col-head"><span class="dot"></span>${title}<span class="col-count">${items.length}</span></div>
+      ${shown.length ? shown.map(cardHtml).join("") : '<div class="empty">Пока пусто</div>'}
+    </div>`;
+  };
+
+  const idBase = "cnt"+Math.random().toString(36).slice(2,8);
+  const html = `
+    <div class="summary">
+      <span class="stat pass"><span class="n mono" id="${idBase}p">0</span><span class="l">проходите<small>грант почти гарантирован</small></span></span>
+      <span class="stat risk"><span class="n mono" id="${idBase}r">0</span><span class="l">на грани<small>конкурентно, но реально</small></span></span>
+      <span class="stat fail"><span class="n mono" id="${idBase}f">0</span><span class="l">не хватает<small>стоит рассмотреть платное</small></span></span>
+    </div>
+    <div class="divider"></div>
+    <div class="cols">${col("pass","Проходите")}${col("risk","На грани")}${col("fail","Не хватает")}</div>
+    <div class="disc"><span class="ic">⚠️</span><span>${esc(d.disclaimer||"")}</span></div>
+  `;
+  return {html, counts:{p:s.pass||0, r:s.risk||0, f:s.fail||0}, idBase};
+}
+
+function mountBucketsAnimated(container, d, opts){
+  const {html, counts, idBase} = bucketsHtml(d, opts);
+  container.innerHTML = html;
+  requestAnimationFrame(()=>{
+    const pEl=document.getElementById(idBase+"p"), rEl=document.getElementById(idBase+"r"), fEl=document.getElementById(idBase+"f");
+    if(pEl) animateCount(pEl, counts.p);
+    if(rEl) animateCount(rEl, counts.r);
+    if(fEl) animateCount(fEl, counts.f);
+  });
+}
+
+/* ---------- Навигатор (движок B) ---------- */
+const recBtn = $("#recBtn");
 async function runRecommend(){
   const score=$("#score").value, profile=$("#subj1").value+","+$("#subj2").value, city=$("#city").value.trim();
-  const out=$("#recOut"); out.innerHTML='<div class="pad loading">Считаю по базе баллов…</div>';
+  const out=$("#recOut");
+  recBtn.classList.add("loading"); recBtn.disabled=true;
+  out.innerHTML='<div class="loading-block"><div class="pulse-ring"></div><div class="loading-text">Считаю по базе проходных баллов…</div></div>';
   const qs=new URLSearchParams({score,profile}); if(city) qs.set("city",city);
   try{
     const r=await fetch("/v1/recommend?"+qs.toString());
-    if(r.status===422){ out.innerHTML='<div class="pad empty">Эта пара предметов пока не поддержана в POC. Доступные профили — см. быстрый выбор выше.</div>'; return; }
-    const d=await r.json(); renderRecommend(d,out);
-  }catch(e){ out.innerHTML='<div class="pad empty">Не удалось получить данные ('+esc(e.message)+').</div>'; }
+    if(r.status===422){
+      out.innerHTML='<div class="placeholder-cta"><div class="big">🤔</div><div>Эта пара предметов пока не поддержана в POC.<br>Попробуй один из вариантов быстрого выбора выше.</div></div>';
+      return;
+    }
+    if(!r.ok) throw new Error("HTTP "+r.status);
+    const d=await r.json();
+    mountBucketsAnimated(out, d, {limit:6});
+  }catch(e){
+    out.innerHTML='<div class="placeholder-cta"><div class="big">⚠️</div><div>Не удалось получить данные ('+esc(e.message)+').</div></div>';
+  }finally{
+    recBtn.classList.remove("loading"); recBtn.disabled=false;
+  }
 }
-function renderRecommend(d,out){
-  const s=d.summary||{pass:0,risk:0,fail:0,blocked:0};
-  const res=d.results||[];
-  const by=b=>res.filter(x=>x.bucket===b);
-  const cardHtml=x=>{ const g=x.gap>=0?"+"+x.gap:(""+x.gap); const host=(x.source_url||"").split("//")[1]||"";
-    return `<div class="rcard ${x.bucket}"><div class="top"><span class="code mono">${esc(x.gop_code)}</span>
-      <span class="score mono">${esc(x.passing_2025)}</span></div>
-      <div class="gop">${esc(x.gop_name)}</div><div class="uni">${esc(x.univ)}${x.city?" · "+esc(x.city):""}</div>
-      <div class="meta"><span>ваш балл <b class="mono">${g}</b> к отсечке</span><span>грантов: ${esc(x.grants)}</span>
-      <span>порог ${esc(x.threshold)}</span><span>📎 ${esc(host.slice(0,26))}… · ${esc(x.year)}</span></div></div>`; };
-  const col=(b,title)=>{ const g=by(b).slice(0,6); return `<div class="col ${b}"><h3><span class="dot"></span>${title} · ${by(b).length}</h3>
-    ${g.length?g.map(cardHtml).join(""):'<div class="empty">—</div>'}</div>`; };
-  out.innerHTML=`<div class="summary">
-      <span class="stat pass"><span class="n mono">${s.pass}</span><span class="l">проходите</span></span>
-      <span class="stat risk"><span class="n mono">${s.risk}</span><span class="l">на грани</span></span>
-      <span class="stat fail"><span class="n mono">${s.fail}</span><span class="l">не хватает</span></span>
-      ${s.blocked?`<span class="stat"><span class="n mono">${s.blocked}</span><span class="l">ниже порога</span></span>`:""}</div>
-    <div class="cols">${col("pass","Проходите")}${col("risk","На грани")}${col("fail","Не хватает")}</div>
-    <div class="disc">${esc(d.disclaimer||"")}</div>`;
-}
-$("#recBtn").onclick=runRecommend;
+recBtn.onclick=runRecommend;
 
-// ---- FAQ (клик-слой) ----
+/* ---------- FAQ ---------- */
 let FAQ={cards:[],cats:[]}, activeCat=null;
 async function loadFaq(){
-  try{ const d=await (await fetch("/v1/faq")).json(); FAQ.cards=d.cards||[]; FAQ.cats=d.categories||[]; renderCats(); renderFaq(); }
-  catch(e){ $("#faqList").innerHTML='<div class="empty">FAQ недоступен.</div>'; }
+  try{
+    const d=await (await fetch("/v1/faq")).json();
+    FAQ.cards=d.cards||[]; FAQ.cats=d.categories||[];
+    renderCats(); renderFaq();
+  }catch(e){
+    $("#faqList").innerHTML='<div class="empty" style="grid-column:1/-1">FAQ временно недоступен.</div>';
+  }
 }
 function renderCats(){
   const box=$("#faqCats"); box.innerHTML="";
-  const all=document.createElement("span"); all.className="cattab"+(activeCat===null?" on":""); all.textContent="Все";
-  all.onclick=()=>{activeCat=null;renderCats();renderFaq();}; box.appendChild(all);
-  FAQ.cats.forEach(c=>{ const t=document.createElement("span"); t.className="cattab"+(activeCat===c.category?" on":"");
-    t.textContent=c.label+" · "+c.count; t.onclick=()=>{activeCat=c.category;renderCats();renderFaq();}; box.appendChild(t); });
+  const all=document.createElement("span");
+  all.className="cattab"+(activeCat===null?" on":""); all.textContent="Все · "+FAQ.cards.length;
+  all.onclick=()=>{activeCat=null;renderCats();renderFaq();};
+  box.appendChild(all);
+  FAQ.cats.forEach(c=>{
+    const t=document.createElement("span");
+    t.className="cattab"+(activeCat===c.category?" on":"");
+    t.textContent=c.label+" · "+c.count;
+    t.onclick=()=>{activeCat=c.category;renderCats();renderFaq();};
+    box.appendChild(t);
+  });
+}
+function srcHtml(s){
+  if(!s||!s.url) return "";
+  const pg = s.page ? (" · стр. "+esc(s.page)) : "";
+  const sec = s.section ? (" · "+esc(s.section)) : "";
+  return `<div class="src">📎 <a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.label)}${pg}${sec}</a></div>`;
 }
 function renderFaq(){
-  const cards=activeCat?FAQ.cards.filter(c=>c.category===activeCat):FAQ.cards;
+  const cards = activeCat ? FAQ.cards.filter(c=>c.category===activeCat) : FAQ.cards;
   const list=$("#faqList");
-  if(!cards.length){ list.innerHTML='<div class="empty">Нет карточек.</div>'; return; }
-  const srcHtml=s=>{ if(!s||!s.url) return ""; const pg=s.page?(" · стр. "+s.page):""; const sec=s.section?(" · "+s.section):"";
-    return `<div class="src">📎 <a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.label)}${pg}${sec}</a></div>`; };
-  list.innerHTML=cards.map(c=>`<details class="qa"><summary>${esc(c.question)}</summary>
-    <div class="ans">${esc(c.answer)}${srcHtml(c.source)}</div></details>`).join("");
+  if(!cards.length){ list.innerHTML='<div class="empty" style="grid-column:1/-1">Нет карточек.</div>'; return; }
+  list.innerHTML = cards.map(c=>`<details class="qa">
+    <summary>${esc(c.question)}<span class="plus" aria-hidden="true">+</span></summary>
+    <div class="ans">${esc(c.answer)}${srcHtml(c.source)}</div>
+  </details>`).join("");
 }
 
-// ---- Ассистент (единый роутер /v1/ask) ----
-async function ask(){
-  const q=$("#q").value.trim(); if(!q) return;
-  const out=$("#askOut"); out.innerHTML='<div class="ans-panel loading">Думаю…</div>';
-  try{
-    const d=await (await fetch("/v1/ask",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({question:q})})).json();
-    if(d.engine==="B" && d.intent==="recommend"){
-      out.innerHTML=`<div class="ans-panel">Похоже на вопрос про баллы — показал в навигаторе выше.<span class="engtag">движок B</span></div>`;
-      renderRecommend(d,$("#recOut")); $("#score").value=d.score; $("#scoreVal").textContent=d.score;
-      window.scrollTo({top:0,behavior:"smooth"}); return;
-    }
-    if(d.engine==="B" && d.intent==="need_profile"){
-      out.innerHTML=`<div class="ans-panel">Вижу балл <b>${esc(d.score)}</b>${d.subjects&&d.subjects.length?(" и предмет «"+esc(d.subjects[0])+"»"):""}.
-        Уточните вторую профильную дисциплину в навигаторе выше, чтобы подобрать программы.<span class="engtag">движок B</span></div>`;
-      $("#score").value=d.score; $("#scoreVal").textContent=d.score;
-      if(d.subjects&&d.subjects[0]) $("#subj1").value=d.subjects[0];
-      window.scrollTo({top:0,behavior:"smooth"}); return;
-    }
-    // движок A (RAG)
-    const refuse=d.refused?" refuse":"";
-    let cites="";
-    if(d.citations&&d.citations.length){ cites='<div class="cites">'+d.citations.map(c=>{ const pg=c.page?(" · стр. "+c.page):"";
-      const sec=c.section?(" · "+c.section):""; return `<a href="${esc(c.url)}" target="_blank" rel="noopener">📎 ${esc(c.label)}${pg}${sec}</a>`; }).join("")+"</div>"; }
-    out.innerHTML=`<div class="ans-panel${refuse}">${esc(d.answer)}<span class="engtag">движок A · RAG</span>${cites}</div>`;
-  }catch(e){ out.innerHTML='<div class="ans-panel refuse">Ошибка запроса: '+esc(e.message)+'</div>'; }
+/* ---------- Assistant context pills (always reflects navigator state) ---------- */
+function renderAskContext(){
+  const s1=$("#subj1").value, s2=$("#subj2").value, score=$("#score").value, city=$("#city").value.trim();
+  $("#askContext").innerHTML = `
+    <span class="ctx-pill">Профиль: <b>${esc(s1)} + ${esc(s2)}</b></span>
+    <span class="ctx-pill">Балл: <b>${esc(score)}</b></span>
+    ${city?`<span class="ctx-pill">Город: <b>${esc(city)}</b></span>`:""}
+  `;
 }
-$("#askBtn").onclick=ask;
-$("#q").addEventListener("keydown",e=>{ if(e.key==="Enter"&&(e.ctrlKey||e.metaKey)) ask(); });
+renderAskContext();
+["#subj1","#subj2","#score","#city"].forEach(sel=>$(sel).addEventListener("input",renderAskContext));
+["#subj1","#subj2"].forEach(sel=>$(sel).addEventListener("change",renderAskContext));
+
+/* ---------- Assistant thread rendering ---------- */
+const thread = $("#thread");
+
+function addUserBubble(text){
+  const div=document.createElement("div");
+  div.className="msg-user";
+  div.textContent=text;
+  thread.appendChild(div);
+  return div;
+}
+function addBotPlaceholder(){
+  const div=document.createElement("div");
+  div.className="msg-bot";
+  div.innerHTML=`<div class="head"><span class="avatar">✦</span><span>Думаю</span><span class="typing"><span></span><span></span><span></span></span></div>`;
+  thread.appendChild(div);
+  div.scrollIntoView({behavior:"smooth", block:"end"});
+  return div;
+}
+
+function renderEngineA(d, botEl){
+  const refuse = d.refused ? " refuse" : "";
+  botEl.className = "msg-bot"+refuse;
+  let cites = "";
+  if(d.citations && d.citations.length){
+    cites = '<div class="cites">' + d.citations.map(c=>{
+      const pg = c.page ? (" · стр. "+esc(c.page)) : "";
+      const sec = c.section ? (" · "+esc(c.section)) : "";
+      return `<a href="${esc(c.url)}" target="_blank" rel="noopener">📎 ${esc(c.label)}${pg}${sec}</a>`;
+    }).join("") + '</div>';
+  }
+  botEl.innerHTML = `
+    <div class="head"><span class="avatar">✦</span><span>${d.refused ? "Честный отказ" : "Ответ по документам"}</span><span class="engtag">RAG · движок A</span></div>
+    <div class="ans-text">${esc(d.answer)}</div>
+    ${cites}
+  `;
+}
+
+function renderEngineBRecommend(d, botEl){
+  botEl.className = "msg-bot";
+  const {html} = bucketsHtml(d, {limit:4});
+  botEl.innerHTML = `
+    <div class="head"><span class="avatar">✦</span><span>Балл ${esc(d.score)} · профиль ${esc((d.profile||"").replace("+"," + "))}</span><span class="engtag">навигатор · движок B</span></div>
+    <div class="ans-text" style="margin-bottom:12px">Вот куда вы проходите с этими вводными:</div>
+    ${html}
+  `;
+  // sync navigator UI + animate its counters too, without re-fetching
+  if(d.score){ $("#score").value=d.score; syncScoreFill(); }
+  if(d.profile){
+    const parts=String(d.profile).split(/[+,]/).map(s=>s.trim()).filter(Boolean);
+    if(parts[0]) $("#subj1").value=parts[0];
+    if(parts[1]) $("#subj2").value=parts[1];
+    activePreset=null; renderPresets(); renderAskContext();
+  }
+  const nums = botEl.querySelectorAll(".n.mono");
+  nums.forEach(n=>{ const target=+n.textContent||0; n.textContent="0"; animateCount(n,target); });
+}
+
+function renderEngineBNeedProfile(d, botEl){
+  botEl.className = "msg-bot";
+  const subj = (d.subjects && d.subjects.length) ? d.subjects.join(", ") : null;
+  const known = {
+    "IT": ["математика","информатика"], "Инженерия": ["математика","физика"],
+    "Медицина": ["химия","биология"], "Экономика / бизнес": ["математика","география"], "Право": ["история","основы права"]
+  };
+  const chips = Object.keys(known).map(label=>`<span class="quick-chip" data-label="${esc(label)}">${esc(label)}</span>`).join("");
+  botEl.innerHTML = `
+    <div class="head"><span class="avatar">✦</span><span>Уточню один момент</span><span class="engtag">навигатор · движок B</span></div>
+    <div class="ans-text">Вижу балл <b class="mono">${esc(d.score)}</b>${subj?(" и предмет «"+esc(subj)+"»"):""}.
+      Выберите направление — и я сразу покажу программы, куда вы проходите:</div>
+    <div class="quick-chips">${chips}</div>
+  `;
+  botEl.querySelectorAll(".quick-chip").forEach(ch=>{
+    ch.addEventListener("click", async ()=>{
+      const label = ch.getAttribute("data-label");
+      const pair = known[label];
+      $("#subj1").value=pair[0]; $("#subj2").value=pair[1]; activePreset=label; renderPresets(); renderAskContext();
+      const thinking = addBotPlaceholder();
+      try{
+        const r = await fetch("/v1/ask",{method:"POST",headers:{"Content-Type":"application/json"},
+          body:JSON.stringify({question:"куда пройду со "+d.score+" баллами", subjects:pair, city:$("#city").value.trim()||null})});
+        const dd = await r.json();
+        routeAskResponse(dd, thinking);
+      }catch(e){
+        thinking.className="msg-bot refuse";
+        thinking.innerHTML=`<div class="ans-text">Ошибка запроса: ${esc(e.message)}</div>`;
+      }
+    });
+  });
+}
+
+function routeAskResponse(d, botEl){
+  if(d.engine==="B" && d.intent==="recommend"){ renderEngineBRecommend(d, botEl); return; }
+  if(d.engine==="B" && d.intent==="need_profile"){ renderEngineBNeedProfile(d, botEl); return; }
+  renderEngineA(d, botEl);
+}
+
+/* ---------- Ask flow ---------- */
+const askBtn = $("#askBtn");
+async function ask(question){
+  const q = (question!=null ? question : $("#q").value).trim();
+  if(!q) return;
+  $("#q").value="";
+  addUserBubble(q);
+  const thinking = addBotPlaceholder();
+  askBtn.classList.add("loading"); askBtn.disabled=true;
+  try{
+    const subjects = [$("#subj1").value, $("#subj2").value].filter(Boolean);
+    const city = $("#city").value.trim() || null;
+    const r = await fetch("/v1/ask",{method:"POST",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({question:q, subjects, city})});
+    const d = await r.json();
+    routeAskResponse(d, thinking);
+  }catch(e){
+    thinking.className="msg-bot refuse";
+    thinking.innerHTML=`<div class="head"><span class="avatar">✦</span><span>Ошибка</span></div><div class="ans-text">Не удалось получить ответ: ${esc(e.message)}</div>`;
+  }finally{
+    askBtn.classList.remove("loading"); askBtn.disabled=false;
+    thinking.scrollIntoView({behavior:"smooth", block:"end"});
+  }
+}
+askBtn.onclick=()=>ask();
+$("#q").addEventListener("keydown", e=>{ if(e.key==="Enter" && (e.ctrlKey||e.metaKey)) ask(); });
+$("#suggestRow").querySelectorAll(".suggest").forEach(s=>{
+  s.addEventListener("click", ()=>ask(s.getAttribute("data-q")));
+});
+
+/* ---------- scroll reveal ---------- */
+const io = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target); } });
+}, {threshold:0.12, rootMargin:"0px 0px -60px 0px"});
+document.querySelectorAll(".reveal").forEach(el=>io.observe(el));
 
 loadFaq();
+})();
 </script>
 </body>
 </html>
