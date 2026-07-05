@@ -50,6 +50,26 @@ def build_citations(chunks: list[dict], answer: str) -> list[dict]:
     return cites
 
 
+def _retrieved_summary(chunks: list[dict]) -> list[dict]:
+    """Компактная сводка найденных чанков (для лога: запрос→чанки+скоры→ответ, §12)."""
+    return [{"n": i + 1, "source": c.get("source"), "page": c.get("page_number"),
+             "section": c.get("section_title"), "content_type": c.get("content_type"),
+             "score": round(float(c.get("_score") or 0), 5)} for i, c in enumerate(chunks)]
+
+
+def _usage(resp) -> dict | None:
+    """Извлекает токены из ответа LLM (LlamaIndex .raw.usage), если есть."""
+    raw = getattr(resp, "raw", None)
+    u = getattr(raw, "usage", None)
+    if u is None and isinstance(raw, dict):
+        u = raw.get("usage")
+    if u is None:
+        return None
+    get = (lambda o, k: o.get(k)) if isinstance(u, dict) else (lambda o, k: getattr(o, k, None))
+    return {"prompt": get(u, "prompt_tokens"), "completion": get(u, "completion_tokens"),
+            "total": get(u, "total_tokens")}
+
+
 class RagPipeline:
     def __init__(self, store, embedder, llm, tenant_id: str, top_k: int = 5, min_results: int = 1):
         self.store = store
@@ -66,7 +86,7 @@ class RagPipeline:
         # Рубеж 1: pre-LLM gate — нет контекста → отказ без обращения к LLM
         if len(chunks) < self.min_results:
             return {"refused": True, "answer": REFUSAL, "citations": [],
-                    "chunks_used": 0, "reason": "no_context"}
+                    "chunks_used": 0, "retrieved": [], "tokens": None, "reason": "no_context"}
 
         # Рубеж 2: context-only генерация через LlamaIndex-LLM
         messages = [
@@ -74,7 +94,8 @@ class RagPipeline:
             ChatMessage(role=MessageRole.USER,
                         content=USER_TEMPLATE.format(context=format_context(chunks), question=question)),
         ]
-        answer = str(self.llm.chat(messages).message.content).strip()
+        resp = self.llm.chat(messages)
+        answer = str(resp.message.content).strip()
 
         # Детекция отказа, сгенерированного LLM (в контексте не нашлось ответа)
         refused = REFUSAL_MARKER in answer
@@ -83,4 +104,5 @@ class RagPipeline:
         # Рубеж 3: цитаты только из метаданных чанков; при отказе — без цитат
         citations = [] if refused else build_citations(chunks, answer)
         return {"refused": refused, "answer": answer, "citations": citations,
-                "chunks_used": len(chunks), "reason": "llm_refusal" if refused else "answered"}
+                "chunks_used": len(chunks), "retrieved": _retrieved_summary(chunks),
+                "tokens": _usage(resp), "reason": "llm_refusal" if refused else "answered"}
