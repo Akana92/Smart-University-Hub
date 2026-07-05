@@ -1,0 +1,43 @@
+{
+ "tenant": "kaznu",
+ "category": "student_life",
+ "total_chunks": 25,
+ "pages": [
+  {
+   "slug": "bachelor",
+   "status": "ok",
+   "chunks": 3,
+   "table_chunks": 0
+  },
+  {
+   "slug": "documents",
+   "status": "ok",
+   "chunks": 2,
+   "table_chunks": 0
+  },
+  {
+   "slug": "foreign",
+   "status": "ok",
+   "chunks": 10,
+   "table_chunks": 0
+  },
+  {
+   "slug": "portal",
+   "status": "ok",
+   "chunks": 2,
+   "table_chunks": 0
+  },
+  {
+   "slug": "priem-pravila",
+   "status": "ok",
+   "chunks": 6,
+   "table_chunks": 2
+  },
+  {
+   "slug": "programs",
+   "status": "ok",
+   "chunks": 2,
+   "table_chunks": 1
+  }
+ ]
+}

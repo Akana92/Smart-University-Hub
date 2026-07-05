@@ -1,0 +1,52 @@
+# NU — How to Apply
+
+- Send an official electronic report of a valid IELTS/TOEFL certificate via the test administrator directly to NU;
+- Upload a scanned copy and insert the TRF number into the “Upload IELTS/TOEFL results” section of your personal account. Applicants can submit any number of certificates for the competition, but the last certificate uploaded to their personal account will be considered.
+- Code for IELTS: NU, Admissions Department
+- Code for TOEFL iBT: 6762
+- Minimum requirements for language test results are available in the “Entry examinations and requirements” section;
+- Tests taken remotely, such as IELTS Online, TOEFL iBT Home Edition, and TOEFL PDT, are not considered in the competition;
+- All provided certificates must be valid by August 1, 2026 - the beginning of the respective academic year.
+- The deadline for submission of IELTS/TOEFL certificates is available in the “Important dates” section.
+- Please note that submitting IELTS/TOEFL certificates to NU's electronic database is not the responsibility of the university. You should contact the test center independently and ensure your certificate has been sent. Please allow at least 7-10 working days for this process. If the certificate is received after the deadline specified by the Admissions Department, results will not be considered in the competition.
+- Applicants who have completed secondary/high school;
+- Current students of other universities.
+- September 29 – November 28, 2025 (until 14:00 Astana time).
+- SAT/ACT and IELTS/TOEFL – November 28, 2025 (until 23:59 Astana time).
+- Mathematical literacy: 8 out of 10;
+- Reading literacy: 8 out of 10;
+- Republic Olympiad: Gold and silver medals for the current academic year
+- International Olympiad: Gold, silver, and bronze medals for the last three years
+- Foundation
+- Undergraduate
+- Paid at your own expense
+- IELTS/TOEFL tests are considered without superscoring.
+- IELTS/TOEFL tests must be taken in person at the test center (not remotely).
+- You can provide improved language test scores later. The deadline will be available on the website.
+- Applicants recommended for admission to the undergraduate program shall comply with certain conditions for study according to the internal documents of the university.
+- **Other grading scales shall be converted to a GPA 5.0 scale for equivalency.
+- ***Only the last provided certificate before the deadline will be considered. Superscoring is not applicable.
+- Paid at your own expense.
+- IELTS/TOEFL tests are considered without superscoring.
+- IELTS/TOEFL tests must be taken in person at the test center (not remotely).
+- You can provide improved language test scores later. The deadline will be available on the website.
+- Applicants recommended for admission to the undergraduate program shall comply with certain conditions for study according to the internal documents of the university.
+- **Other grading scales shall be converted to a GPA 5.0 scale for equivalency.
+- ***Only the last provided certificate before the deadline will be considered. Superscoring is not applicable.
+- The deadline for the NUFYP and undergraduate programs: Regular Entry (NUFYP and undergraduate programs): Citizens of Kazakhstan: September 27– July 24, 2026 (2 p.m. Astana time) International applicants from countries requiring a visa prior to arrival: September 27–June 1, 2026 (2 p.m. Astana time) International applications from countries eligible for visa issuance upon arrival: September 27–July 24, 2026 (2 p.m. Astana time) Deadlines for financial aid and/or grants: NUET Applicants (NUFYP and Undergraduate programs, including international): September 27–November 20, 2025 (2 p.m. Astana time) International Applicants (Undergraduate programs only and International SAT/ACT applicants for NUFYP): September 27– January 28, 2026 (2 p.m. Astana time) Other Categories (Undergraduate programs only) (SAT/ACT applicants, IB Diploma holders, A-level/NIS Grade 12 Certificate holders, Winners of international/republican Olympiads): September 27– January 28, 2026 (2 p.m. Astana time)
+- Provision of IELTS/TOEFL results for the NUFYP and undergraduate programs Regular Entry (NUFYP and undergraduate programs): Citizens of Kazakhstan: July 24, 2026 (11:59 p.m. Astana time) International applicants from countries requiring a visa prior to arrival: June 1, 2026 (11:59 p.m. Astana time) International applications from countries eligible for visa issuance upon arrival: July 24, 2026 (11:59 p.m. Astana time) Deadlines for financial aid and/or grants: NUET Applicants (NUFYP and Undergraduate programs, including international): IELTS/TOEFL: December 8, 2025 (11:59 p.m. Astana time) International Applicants (Undergraduate programs only and International SAT/ACT applicants for NUFYP): IELTS/TOEFL: February 12, 2026 (11:59 p.m. Astana time); SAT/ACT: February 12, 2026 (11:59 p.m. Astana time) Other Categories (Undergraduate programs only) (SAT/ACT applicants, IB Diploma holders, A-level/NIS Grade 12 Certificate holders, Winners of international/republican Olympiads): IELTS/TOEFL: February 12, 2026 (11:59 p.m. Astana time); SAT/ACT: February 12, 2026 (11:59 p.m. Astana time); Latest SAT: December 6, 2025; Latest ACT: December 13, 2025
+- Citizens of Kazakhstan: September 27– July 24, 2026 (2 p.m. Astana time)
+- International applicants from countries requiring a visa prior to arrival: September 27–June 1, 2026 (2 p.m. Astana time)
+- International applications from countries eligible for visa issuance upon arrival: September 27–July 24, 2026 (2 p.m. Astana time)
+- NUET Applicants (NUFYP and Undergraduate programs, including international): September 27–November 20, 2025 (2 p.m. Astana time)
+- International Applicants (Undergraduate programs only and International SAT/ACT applicants for NUFYP): September 27– January 28, 2026 (2 p.m. Astana time)
+- Other Categories (Undergraduate programs only) (SAT/ACT applicants, IB Diploma holders, A-level/NIS Grade 12 Certificate holders, Winners of international/republican Olympiads): September 27– January 28, 2026 (2 p.m. Astana time)
+- Citizens of Kazakhstan: July 24, 2026 (11:59 p.m. Astana time)
+- International applicants from countries requiring a visa prior to arrival: June 1, 2026 (11:59 p.m. Astana time)
+- International applications from countries eligible for visa issuance upon arrival: July 24, 2026 (11:59 p.m. Astana time)
+- NUET Applicants (NUFYP and Undergraduate programs, including international): IELTS/TOEFL: December 8, 2025 (11:59 p.m. Astana time)
+- International Applicants (Undergraduate programs only and International SAT/ACT applicants for NUFYP): IELTS/TOEFL: February 12, 2026 (11:59 p.m. Astana time); SAT/ACT: February 12, 2026 (11:59 p.m. Astana time)
+- Other Categories (Undergraduate programs only) (SAT/ACT applicants, IB Diploma holders, A-level/NIS Grade 12 Certificate holders, Winners of international/republican Olympiads): IELTS/TOEFL: February 12, 2026 (11:59 p.m. Astana time); SAT/ACT: February 12, 2026 (11:59 p.m. Astana time); Latest SAT: December 6, 2025; Latest ACT: December 13, 2025
+- Foundation The tuition fee for the Foundation Year Program is $12,000 (6 132 000 KZT) for the 2025/2026 academic year for both local and international students. To learn more about tuition fees, please contact us at bursars_office@nu.edu.kz. There are merit-based Abay Kunanbayev scholarships for top international applicants recommended for admission. To learn more about financial aid and scholarship requirements, please visit nu.edu.kz.
+- Undergraduate The tuition fee for the undergraduate programs is $15,000 (7 665 000 KZT) for the 2025/2026 academic year for both local and international students. For the Bachelor in Nursing program, the tuition is 3 066 000 KZT per one academic year. To learn more about tuition fees, please contact us at bursars_office@nu.edu.kz. There are merit-based Abay Kunanbayev scholarships for top international applicants recommended for admission. To learn more about financial aid and scholarship requirements, please visit nu.edu.kz
+- During the application process the Nazarbayev University Applicants Support Center is always ready to assist. Email: info_admissions@nu.edu.kz Phone Numbers: +7 (7172) 64 25 84; +7 (747) 094 02 30

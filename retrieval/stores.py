@@ -81,6 +81,17 @@ class SqliteHybridStore:
             cur.execute("INSERT INTO chunks_fts (rowid, text) VALUES (?, ?)", (row.lastrowid, r["text"]))
         cur.commit()
 
+    def ensure_schema(self, dim: int):
+        if not self.conn.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='chunks'").fetchone():
+            self.init_schema(dim)
+
+    def delete_tenant(self, tenant_id: str):
+        ids = [r[0] for r in self.conn.execute("SELECT rowid FROM chunks WHERE tenant_id=?", (tenant_id,)).fetchall()]
+        self.conn.execute("DELETE FROM chunks WHERE tenant_id=?", (tenant_id,))
+        self.conn.executemany("DELETE FROM chunks_fts WHERE rowid=?", [(i,) for i in ids])
+        self.conn.commit()
+        self._loaded = False
+
     def _load(self):
         rows = self.conn.execute("SELECT rowid, tenant_id, embedding FROM chunks").fetchall()
         self._ids = [r["rowid"] for r in rows]
@@ -94,7 +105,7 @@ class SqliteHybridStore:
         # dense: чужие тенанты ИСКЛЮЧАЮТСЯ до ранжирования (инвариант §2.4).
         # Ранее чужие лишь занижались скором -1e9 и просачивались в top-k,
         # когда у своего тенанта < k_each строк (аудит 2026-07-03, P0-3).
-        own_pos = [p for p, rid in enumerate(self._ids) if self._tenant[rid] == tenant_id]
+        own_pos = [p for p, rid in enumerate(self._ids) if tenant_id is None or self._tenant[rid] == tenant_id]
         dense_ids: List[int] = []
         if own_pos:
             q = np.asarray(query_vec, dtype=np.float32)
@@ -111,7 +122,8 @@ class SqliteHybridStore:
                     "SELECT rowid, bm25(chunks_fts) AS s FROM chunks_fts WHERE chunks_fts MATCH ? ORDER BY s LIMIT ?",
                     (match, k_each * 3),
                 ).fetchall()
-                lex_ids = [r["rowid"] for r in rows if self._tenant.get(r["rowid"]) == tenant_id][:k_each]
+                lex_ids = [r["rowid"] for r in rows
+                           if tenant_id is None or self._tenant.get(r["rowid"]) == tenant_id][:k_each]
             except sqlite3.OperationalError:
                 lex_ids = []
         # RRF + фильтр по category + добор
@@ -119,7 +131,7 @@ class SqliteHybridStore:
         out = []
         for rid in sorted(scores, key=lambda r: -scores[r]):
             row = dict(self.conn.execute("SELECT * FROM chunks WHERE rowid=?", (rid,)).fetchone())
-            if row["tenant_id"] != tenant_id:  # defense-in-depth: §2.4 перепроверка на выходе
+            if tenant_id is not None and row["tenant_id"] != tenant_id:  # §2.4 (None → все вузы, продукт)
                 continue
             if categories and row["category"] not in categories:
                 continue
@@ -169,6 +181,22 @@ class PgVectorHybridStore:
             """)
             c.commit()
 
+    def ensure_schema(self, dim: int):
+        """Неразрушающая инициализация: если таблица уже есть (мультивуз-индекс) — не трогаем.
+        Иначе создаём с нуля. Для append новых вузов без DROP чужих (TASK-025)."""
+        self._dim = dim
+        with self._conn() as c, c.cursor() as cur:
+            cur.execute("SELECT to_regclass('public.chunks')")
+            if cur.fetchone()[0] is not None:
+                return
+        self.init_schema(dim)
+
+    def delete_tenant(self, tenant_id: str):
+        """Удалить все чанки одного вуза (идемпотентная переиндексация тенанта)."""
+        with self._conn() as c, c.cursor() as cur:
+            cur.execute("DELETE FROM chunks WHERE tenant_id = %s", (tenant_id,))
+            c.commit()
+
     def _get_dim(self) -> int:
         if getattr(self, "_dim", None) is None:
             with self._conn() as c, c.cursor() as cur:
@@ -197,15 +225,17 @@ class PgVectorHybridStore:
         # выражение расстояния должно совпадать с индексируемым (halfvec для >2000), иначе seq-scan
         dist = (f"embedding::halfvec({dim}) <=> %(vec)s::halfvec({dim})" if dim > 2000
                 else "embedding <=> %(vec)s::vector")
+        # tenant_id=None → поиск по ВСЕМ вузам (продукт-платформа, ADR-022); иначе фильтр по вузу
+        tenant_sql = "tenant_id = %(tid)s" if tenant_id else "TRUE"
         cat_sql = "AND category = ANY(%(cats)s)" if categories else ""
         sql = f"""
         WITH params AS (SELECT plainto_tsquery('russian', %(qt)s) AS tq),
         dense AS (
             SELECT rowid, row_number() OVER (ORDER BY {dist}) AS r
-            FROM chunks WHERE tenant_id = %(tid)s {cat_sql} ORDER BY {dist} LIMIT %(k)s),
+            FROM chunks WHERE {tenant_sql} {cat_sql} ORDER BY {dist} LIMIT %(k)s),
         lexical AS (
             SELECT rowid, row_number() OVER (ORDER BY ts_rank(tsv, (SELECT tq FROM params)) DESC) AS r
-            FROM chunks WHERE tenant_id = %(tid)s {cat_sql} AND tsv @@ (SELECT tq FROM params)
+            FROM chunks WHERE {tenant_sql} {cat_sql} AND tsv @@ (SELECT tq FROM params)
             ORDER BY ts_rank(tsv, (SELECT tq FROM params)) DESC LIMIT %(k)s),
         fused AS (
             SELECT rowid, SUM(1.0/({RRF_K}+r)) AS score FROM (

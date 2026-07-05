@@ -126,6 +126,7 @@ class AskRequest(BaseModel):
     question: str = Field(..., min_length=1)
     category: str | None = Field(None, description="student | abiturient | calendar | student_life (для движка A)")
     subjects: list[str] | None = Field(None, description="выбранные в навигаторе профильные предметы (fallback профиля)")
+    university: str | None = Field(None, description="вуз для поиска: None=по всем вузам, иначе kbtu|kaznu|nu")
     city: str | None = None
     budget: int | None = None
 
@@ -159,7 +160,7 @@ def ask(req: AskRequest, pipe: RagPipeline = Depends(get_pipeline)):
     # длинный хвост → движок A (RAG, LLM) в режиме СОВЕТНИКА (продукт, docs/07 §5)
     cats = [req.category] if req.category else None
     t0 = time.perf_counter()
-    res = pipe.answer(req.question, categories=cats, mode="advisor")
+    res = pipe.answer(req.question, categories=cats, mode="advisor", university=req.university)
     latency_ms = round((time.perf_counter() - t0) * 1000)
     log_query({"request_id": rid, "tenant": TENANT, "engine": "A", "intent": "document_qa",
                "question": req.question, "category": req.category, "refused": res["refused"],

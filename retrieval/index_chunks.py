@@ -27,6 +27,8 @@ def main():
     ap.add_argument("--config", required=True)
     ap.add_argument("--profile", default="local", help="local | openai")
     ap.add_argument("--store", default="sqlite", choices=["sqlite", "pgvector"])
+    ap.add_argument("--append", action="store_true",
+                    help="добавить вуз в существующий индекс без DROP чужих (мультивуз, TASK-025)")
     args = ap.parse_args()
 
     cfg = yaml.safe_load(open(os.path.join(ROOT, args.config), encoding="utf-8"))
@@ -60,10 +62,16 @@ def main():
     else:
         target = os.path.join(base, "index.db")
         store = SqliteHybridStore(target)
-    store.init_schema(emb.dim)
-    store.add(records, vecs)
-    print(f"Готово: проиндексировано {len(records)} чанков → {args.store}:{target} "
-          f"(dim={emb.dim}, эмбеддер={emb.name})")
+    if args.append:  # мультивуз: не роняем чужие вузы; идемпотентно переиндексируем свой tenant
+        store.ensure_schema(emb.dim)
+        store.delete_tenant(tenant)
+        store.add(records, vecs)
+        print(f"Готово (append): {len(records)} чанков вуза '{tenant}' → {args.store}:{target}")
+    else:
+        store.init_schema(emb.dim)
+        store.add(records, vecs)
+        print(f"Готово: проиндексировано {len(records)} чанков → {args.store}:{target} "
+              f"(dim={emb.dim}, эмбеддер={emb.name})")
 
 
 if __name__ == "__main__":

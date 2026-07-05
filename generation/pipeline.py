@@ -47,6 +47,7 @@ def build_citations(chunks: list[dict], answer: str) -> list[dict]:
             "n": n, "label": _label(ch), "page": ch.get("page_number"),
             "section": ch.get("section_title"), "source": ch.get("source"),
             "url": ch.get("source_url"), "content_type": ch.get("content_type"),
+            "university": ch.get("tenant_id"),  # из какого вуза факт (мультивуз, TASK-025)
         })
     return cites
 
@@ -81,14 +82,17 @@ class RagPipeline:
         self.min_results = min_results
 
     def answer(self, question: str, categories: list[str] | None = None,
-               mode: str = "strict") -> dict:
+               mode: str = "strict", university: str | None = None) -> dict:
         """mode='strict' — курсовой context-only + дословный отказ (ТЗ, движок A /v1/chat).
-        mode='advisor' — продуктовый советник абитуриента (docs/07 §5): помогает всегда, без «кабинет 101»."""
+        mode='advisor' — продуктовый советник абитуриента (docs/07 §5): помогает всегда, без «кабинет 101».
+        university — вуз для поиска: None = ПО ВСЕМ вузам (продукт-платформа), иначе фильтр по вузу."""
         qv = self.embedder.embed_query(question)
+        if mode == "advisor":
+            chunks = self.store.search(qv, question, tenant_id=university,
+                                       top_k=self.top_k, categories=categories)
+            return self._answer_advisor(question, chunks)
         chunks = self.store.search(qv, question, tenant_id=self.tenant_id,
                                    top_k=self.top_k, categories=categories)
-        if mode == "advisor":
-            return self._answer_advisor(question, chunks)
         return self._answer_strict(question, chunks)
 
     def _answer_strict(self, question: str, chunks: list[dict]) -> dict:

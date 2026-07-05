@@ -112,7 +112,7 @@ def main():
             print(f"[ERR ] {slug}: {e}")
         if len(md) >= args.min_chars:
             open(os.path.join(web_dir, slug + ".md"), "w", encoding="utf-8").write(md + "\n")
-        manifest.append({"slug": slug, "url": url, "category": "student_life", "title": title,
+        manifest.append({"slug": slug, "url": url, "category": s.get("category", "abiturient"), "title": title,
                          "status": status, "chars": len(md), "fetch_timestamp": ts, "file_hash": fh})
         print(f"[{status}] {slug:18} chars={len(md)}")
 

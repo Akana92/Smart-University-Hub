@@ -1,0 +1,62 @@
+[
+ {
+  "slug": "priem-pravila",
+  "url": "https://welcome.kaznu.kz/ru/17999/page",
+  "category": "abiturient",
+  "title": "КазНУ — Правила приёма",
+  "status": 200,
+  "chars": 14742,
+  "fetch_timestamp": "2026-07-05T23:50:00.218608+00:00",
+  "file_hash": "4eeb454786d79de3"
+ },
+ {
+  "slug": "documents",
+  "url": "https://welcome.kaznu.kz/ru/24371/page",
+  "category": "abiturient",
+  "title": "КазНУ — Перечень документов для поступления",
+  "status": 200,
+  "chars": 704,
+  "fetch_timestamp": "2026-07-05T23:50:00.218608+00:00",
+  "file_hash": "84b9bdebde35523f"
+ },
+ {
+  "slug": "programs",
+  "url": "https://welcome.kaznu.kz/ru/education_programs/bachelor/",
+  "category": "abiturient",
+  "title": "КазНУ — Образовательные программы бакалавриата",
+  "status": 200,
+  "chars": 5636,
+  "fetch_timestamp": "2026-07-05T23:50:00.218608+00:00",
+  "file_hash": "21c3b7ea2a92071b"
+ },
+ {
+  "slug": "bachelor",
+  "url": "https://welcome.kaznu.kz/ru/welcome/bachelor",
+  "category": "abiturient",
+  "title": "КазНУ — Бакалавриат (поступающим)",
+  "status": 200,
+  "chars": 2522,
+  "fetch_timestamp": "2026-07-05T23:50:00.218608+00:00",
+  "file_hash": "1241ce3c654aa62d"
+ },
+ {
+  "slug": "foreign",
+  "url": "https://welcome.kaznu.kz/ru/27198/page",
+  "category": "abiturient",
+  "title": "КазНУ — Иностранным студентам",
+  "status": 200,
+  "chars": 11829,
+  "fetch_timestamp": "2026-07-05T23:50:00.218608+00:00",
+  "file_hash": "3ba48c477a55a3a7"
+ },
+ {
+  "slug": "portal",
+  "url": "https://welcome.kaznu.kz/ru",
+  "category": "abiturient",
+  "title": "КазНУ — Поступающим (портал)",
+  "status": 200,
+  "chars": 2514,
+  "fetch_timestamp": "2026-07-05T23:50:00.218608+00:00",
+  "file_hash": "a2138f1939780cd5"
+ }
+]

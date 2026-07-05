@@ -1,0 +1,52 @@
+[
+ {
+  "slug": "admissions",
+  "url": "https://nu.edu.kz/admissions/",
+  "category": "abiturient",
+  "title": "NU — Admissions",
+  "status": 200,
+  "chars": 8676,
+  "fetch_timestamp": "2026-07-05T23:50:04.508604+00:00",
+  "file_hash": "349d6f83bf2e01eb"
+ },
+ {
+  "slug": "regular-admissions",
+  "url": "https://nu.edu.kz/admissions/how-to-apply/foundation-undergraduate/regular-admissions/",
+  "category": "abiturient",
+  "title": "NU — Regular Admissions (Foundation & Undergraduate)",
+  "status": 200,
+  "chars": 26312,
+  "fetch_timestamp": "2026-07-05T23:50:04.508604+00:00",
+  "file_hash": "0cc55bd032f1ed83"
+ },
+ {
+  "slug": "apply",
+  "url": "https://apply.nu.edu.kz/en/admissions",
+  "category": "abiturient",
+  "title": "NU — How to Apply",
+  "status": 200,
+  "chars": 8274,
+  "fetch_timestamp": "2026-07-05T23:50:04.508604+00:00",
+  "file_hash": "fb5a9e78026bcab7"
+ },
+ {
+  "slug": "international",
+  "url": "https://nu.edu.kz/admissions/international-admission/international-admission_general/",
+  "category": "abiturient",
+  "title": "NU — International Admission",
+  "status": 200,
+  "chars": 16672,
+  "fetch_timestamp": "2026-07-05T23:50:04.508604+00:00",
+  "file_hash": "d1bfdb3d64a82fec"
+ },
+ {
+  "slug": "scholarships",
+  "url": "https://seds.nu.edu.kz/funding_scholarships",
+  "category": "abiturient",
+  "title": "NU — Scholarships & Tuition",
+  "status": 200,
+  "chars": 83,
+  "fetch_timestamp": "2026-07-05T23:50:04.508604+00:00",
+  "file_hash": "04c5d19f68b928ae"
+ }
+]

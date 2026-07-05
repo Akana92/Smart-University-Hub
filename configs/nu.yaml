@@ -1,0 +1,39 @@
+# Конфиг тенанта Nazarbayev University (мультивуз, TASK-025). Контент англоязычный —
+# витрина «зарубеж-стиля» (своя модель: NUET + IELTS + Foundation Year, не ЕНТ-грант).
+university_name: "Nazarbayev University (NU)"
+tenant_id: nu
+language: en
+base_url: "https://nu.edu.kz"
+
+chunk:
+  target_tokens: 700
+  max_tokens: 1000
+  overlap_tokens: 90
+  min_tokens: 12
+  tokenizer: cl100k_base
+
+embedding:
+  profile: openai   # text-embedding-3-large мультиязычен → англ-контент ок; советник отвечает по-русски
+
+# Веб-источники приёма (валидированы 200, 2026-07-06).
+web_sources:
+  - slug: admissions
+    url: "https://nu.edu.kz/admissions/"
+    title: "NU — Admissions"
+    category: abiturient
+  - slug: regular-admissions
+    url: "https://nu.edu.kz/admissions/how-to-apply/foundation-undergraduate/regular-admissions/"
+    title: "NU — Regular Admissions (Foundation & Undergraduate)"
+    category: abiturient
+  - slug: apply
+    url: "https://apply.nu.edu.kz/en/admissions"
+    title: "NU — How to Apply"
+    category: abiturient
+  - slug: international
+    url: "https://nu.edu.kz/admissions/international-admission/international-admission_general/"
+    title: "NU — International Admission"
+    category: abiturient
+  - slug: scholarships
+    url: "https://seds.nu.edu.kz/funding_scholarships"
+    title: "NU — Scholarships & Tuition"
+    category: abiturient

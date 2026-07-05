@@ -1,0 +1,42 @@
+# Конфиг тенанта КазНУ им. аль-Фараби (мультивуз, TASK-025). Config-driven: новый вуз = такой YAML.
+university_name: "Казахский национальный университет им. аль-Фараби (КазНУ)"
+tenant_id: kaznu
+language: ru
+base_url: "https://welcome.kaznu.kz"
+
+chunk:
+  target_tokens: 700
+  max_tokens: 1000
+  overlap_tokens: 90
+  min_tokens: 12
+  tokenizer: cl100k_base
+
+embedding:
+  profile: openai   # прод: OpenAI text-embedding-3-large (3072), общий индекс с KBTU (ADR-016)
+
+# Веб-источники приёма (валидированы 200, 2026-07-06). ЕНТ/грант — консистентно с навигатором.
+web_sources:
+  - slug: priem-pravila
+    url: "https://welcome.kaznu.kz/ru/17999/page"
+    title: "КазНУ — Правила приёма"
+    category: abiturient
+  - slug: documents
+    url: "https://welcome.kaznu.kz/ru/24371/page"
+    title: "КазНУ — Перечень документов для поступления"
+    category: abiturient
+  - slug: programs
+    url: "https://welcome.kaznu.kz/ru/education_programs/bachelor/"
+    title: "КазНУ — Образовательные программы бакалавриата"
+    category: abiturient
+  - slug: bachelor
+    url: "https://welcome.kaznu.kz/ru/welcome/bachelor"
+    title: "КазНУ — Бакалавриат (поступающим)"
+    category: abiturient
+  - slug: foreign
+    url: "https://welcome.kaznu.kz/ru/27198/page"
+    title: "КазНУ — Иностранным студентам"
+    category: abiturient
+  - slug: portal
+    url: "https://welcome.kaznu.kz/ru"
+    title: "КазНУ — Поступающим (портал)"
+    category: abiturient

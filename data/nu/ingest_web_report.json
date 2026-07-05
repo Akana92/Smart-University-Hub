@@ -1,0 +1,31 @@
+{
+ "tenant": "nu",
+ "category": "student_life",
+ "total_chunks": 41,
+ "pages": [
+  {
+   "slug": "admissions",
+   "status": "ok",
+   "chunks": 3,
+   "table_chunks": 0
+  },
+  {
+   "slug": "apply",
+   "status": "ok",
+   "chunks": 4,
+   "table_chunks": 0
+  },
+  {
+   "slug": "international",
+   "status": "ok",
+   "chunks": 15,
+   "table_chunks": 4
+  },
+  {
+   "slug": "regular-admissions",
+   "status": "ok",
+   "chunks": 19,
+   "table_chunks": 2
+  }
+ ]
+}

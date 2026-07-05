@@ -58,7 +58,7 @@ def build_web_chunks(md, src, cfg):
         chunks.append({
             "chunk_id": cid, "tenant_id": tenant,
             "source": src["title"], "source_url": src["url"],
-            "category": CATEGORY, "doc_type": "webpage",
+            "category": src.get("category") or "abiturient", "doc_type": "webpage",
             "standard_code": None, "doc_version": None,
             "language": lang, "page_number": None,
             "section_title": section(), "heading_path": hpath(),
@@ -122,7 +122,7 @@ def main():
     # запасной провенанс из конфига (url/title), если manifest неполный
     cfg_src = {s["slug"]: s for s in cfg.get("web_sources", [])}
 
-    out_jsonl = os.path.join(base, "chunks_student_life.jsonl")
+    out_jsonl = os.path.join(base, "chunks_web.jsonl")
     report, total = [], 0
     with open(out_jsonl, "w", encoding="utf-8") as out:
         for path in sorted(glob.glob(os.path.join(web_dir, "*.md"))):
@@ -136,6 +136,7 @@ def main():
             src = {"slug": slug,
                    "url": m.get("url") or cfg_src.get(slug, {}).get("url", ""),
                    "title": m.get("title") or cfg_src.get(slug, {}).get("title", slug),
+                   "category": m.get("category") or cfg_src.get(slug, {}).get("category"),
                    "fetch_timestamp": m.get("fetch_timestamp"), "file_hash": m.get("file_hash")}
             chunks = build_web_chunks(md, src, cfg)
             for c in chunks:
