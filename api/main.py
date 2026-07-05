@@ -19,6 +19,7 @@ sys.path.insert(0, ROOT)
 import yaml  # noqa: E402
 from dotenv import load_dotenv  # noqa: E402
 from fastapi import Depends, FastAPI, HTTPException, Query  # noqa: E402
+from fastapi.responses import FileResponse  # noqa: E402
 from pydantic import BaseModel, Field  # noqa: E402
 
 load_dotenv(os.path.join(ROOT, ".env"))
@@ -51,6 +52,15 @@ class ChatRequest(BaseModel):
     question: str = Field(..., min_length=1)
     category: str | None = Field(None, description="student | abiturient | calendar")
     top_k: int = Field(5, ge=1, le=20)
+
+
+UI_INDEX = os.path.join(ROOT, "ui", "web", "index.html")
+
+
+@app.get("/", include_in_schema=False)
+def index():
+    """Интегрированный веб-UI (TASK-021): навигатор + клик-FAQ (Слой 1) + ассистент (Слой 2)."""
+    return FileResponse(UI_INDEX)
 
 
 @app.get("/healthz")

@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Smart University — поступление и студенческий помощник</title>
+<style>
+  :root{
+    --ink:#16202E; --muted:#5A6675; --paper:#EEF1EF; --card:#FFFFFF;
+    --petrol:#0F6E68; --petrol-deep:#0A4744; --gold:#B98A2E;
+    --pass:#2E7D52; --risk:#BE861F; --fail:#B23B3B; --blocked:#7A8590;
+    --line:rgba(16,32,46,.10); --line-strong:rgba(16,32,46,.18);
+    --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+    --sans:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --mono:ui-monospace,"Cascadia Code","SF Mono",Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);
+    font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
+  h1,h2,h3{font-family:var(--serif);font-weight:600;margin:0;text-wrap:balance}
+  .mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+  a{color:var(--petrol-deep)}
+
+  .brand{background:linear-gradient(160deg,var(--petrol-deep),var(--petrol));color:#EAF3F1;
+    padding:26px clamp(18px,4vw,44px) 28px}
+  .brand .kicker{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+    color:#9FD3CD;margin-bottom:10px}
+  .brand h1{color:#fff;font-size:clamp(24px,4.2vw,38px);line-height:1.07;max-width:22ch}
+  .brand p{margin:12px 0 0;max-width:64ch;color:#CFE6E2;font-size:clamp(14px,1.6vw,16px)}
+  .main{max-width:1120px;margin:0 auto;padding:clamp(16px,3vw,30px)}
+
+  .sec{margin-bottom:26px}
+  .sec-head{display:flex;align-items:baseline;gap:12px;margin:0 2px 12px}
+  .sec-head h2{font-size:21px}
+  .sec-head .tag{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--petrol);border:1px solid var(--line-strong);border-radius:999px;padding:3px 9px}
+  .sec-head .sub{color:var(--muted);font-size:13px}
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:14px;
+    box-shadow:0 1px 0 rgba(16,32,46,.03),0 12px 30px -22px rgba(16,32,46,.4)}
+  .pad{padding:clamp(16px,2.4vw,24px)}
+
+  /* Navigator controls */
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px 22px}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .field label{display:block;font-size:12px;letter-spacing:.04em;text-transform:uppercase;
+    color:var(--muted);margin-bottom:7px;font-weight:600}
+  .scorewrap{display:flex;align-items:center;gap:14px}
+  .scoreval{font-family:var(--mono);font-size:30px;font-weight:600;min-width:2.6ch;color:var(--petrol-deep)}
+  input[type=range]{flex:1;accent-color:var(--petrol);height:4px}
+  select,input[type=number],input[type=text],textarea{width:100%;font-family:var(--sans);font-size:15px;
+    color:var(--ink);padding:10px 12px;border:1px solid var(--line-strong);border-radius:9px;background:#fff}
+  select:focus,input:focus,textarea:focus{outline:2px solid var(--petrol);outline-offset:1px;border-color:var(--petrol)}
+  .presets{display:flex;flex-wrap:wrap;gap:8px;margin:2px 0 0}
+  .chip{font-size:12.5px;padding:6px 11px;border-radius:999px;cursor:pointer;border:1px solid var(--line-strong);
+    background:#fff;color:var(--ink)}
+  .chip:hover{border-color:var(--petrol);color:var(--petrol-deep)}
+  .btn{display:inline-flex;align-items:center;gap:8px;cursor:pointer;border:0;border-radius:10px;
+    background:var(--petrol);color:#fff;font-family:var(--sans);font-size:15px;font-weight:600;padding:11px 20px}
+  .btn:hover{background:var(--petrol-deep)}
+  .btn.ghost{background:#fff;color:var(--petrol-deep);border:1px solid var(--line-strong)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:16px}
+
+  /* Summary + buckets */
+  .summary{display:flex;flex-wrap:wrap;gap:10px;padding:16px clamp(16px,2.4vw,24px);align-items:center;
+    border-top:1px solid var(--line);background:#FAFBFA}
+  .stat{display:inline-flex;align-items:baseline;gap:8px;padding:7px 13px;border-radius:10px;border:1px solid var(--line);background:#fff}
+  .stat .n{font-family:var(--mono);font-weight:600;font-size:18px}
+  .stat .l{font-size:12.5px;color:var(--muted)}
+  .stat.pass .n{color:var(--pass)} .stat.risk .n{color:var(--risk)} .stat.fail .n{color:var(--fail)}
+  .cols{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;padding:clamp(16px,2.4vw,24px)}
+  @media(max-width:860px){.cols{grid-template-columns:1fr}}
+  .col h3{font-family:var(--sans);font-weight:700;font-size:12.5px;letter-spacing:.05em;text-transform:uppercase;
+    margin-bottom:12px;display:flex;align-items:center;gap:8px}
+  .dot{width:9px;height:9px;border-radius:50%;display:inline-block}
+  .col.pass h3{color:var(--pass)} .col.pass .dot{background:var(--pass)}
+  .col.risk h3{color:var(--risk)} .col.risk .dot{background:var(--risk)}
+  .col.fail h3{color:var(--fail)} .col.fail .dot{background:var(--fail)}
+  .rcard{border:1px solid var(--line);border-left:3px solid var(--blocked);border-radius:10px;padding:11px 13px;
+    background:#fff;margin-bottom:9px}
+  .rcard.pass{border-left-color:var(--pass)} .rcard.risk{border-left-color:var(--risk)} .rcard.fail{border-left-color:var(--fail)}
+  .rcard .top{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+  .rcard .code{font-family:var(--mono);font-size:12px;color:var(--muted)}
+  .rcard .score{font-family:var(--mono);font-weight:600;font-size:19px}
+  .rcard.pass .score{color:var(--pass)} .rcard.risk .score{color:var(--risk)} .rcard.fail .score{color:var(--fail)}
+  .rcard .gop{font-weight:600;font-size:14px;margin:3px 0 2px;line-height:1.25}
+  .rcard .uni{font-size:12.5px;color:var(--muted)}
+  .rcard .meta{display:flex;flex-wrap:wrap;gap:6px 12px;margin-top:8px;font-size:11.5px;color:var(--muted)}
+  .empty{color:var(--muted);font-size:13px;padding:6px 2px}
+
+  /* FAQ */
+  .cats{display:flex;flex-wrap:wrap;gap:8px;margin:0 2px 14px}
+  .cattab{font-size:13px;padding:7px 13px;border-radius:999px;cursor:pointer;border:1px solid var(--line-strong);
+    background:#fff;color:var(--ink)}
+  .cattab.on{background:var(--petrol);color:#fff;border-color:var(--petrol)}
+  .faq{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  @media(max-width:760px){.faq{grid-template-columns:1fr}}
+  details.qa{background:var(--card);border:1px solid var(--line);border-radius:11px;padding:2px 4px}
+  details.qa summary{cursor:pointer;list-style:none;padding:13px 14px;font-weight:600;font-size:14.5px;display:flex;
+    justify-content:space-between;gap:10px;align-items:center}
+  details.qa summary::-webkit-details-marker{display:none}
+  details.qa summary::after{content:"+";color:var(--petrol);font-family:var(--mono);font-size:18px}
+  details.qa[open] summary::after{content:"–"}
+  details.qa .ans{padding:0 14px 14px;font-size:14px;color:#243040;line-height:1.55}
+  details.qa .src{margin-top:9px;font-size:12.5px}
+  details.qa .src a{text-decoration:none;border-bottom:1px solid rgba(15,110,104,.35)}
+  .catname{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);
+    margin:16px 2px 8px;grid-column:1/-1}
+
+  /* Assistant */
+  .askbox{display:flex;gap:10px;flex-wrap:wrap}
+  .askbox textarea{flex:1;min-height:52px;resize:vertical;min-width:240px}
+  .ans-panel{margin-top:14px;border-left:3px solid var(--petrol);background:#F5FAF9;border-radius:0 10px 10px 0;
+    padding:14px 16px;font-size:14.5px;line-height:1.6;white-space:pre-wrap}
+  .ans-panel.refuse{border-left-color:var(--fail);background:#FCF6F5}
+  .cites{margin-top:10px;font-size:12.5px}
+  .cites a{display:inline-block;margin:3px 8px 0 0;border-bottom:1px solid rgba(15,110,104,.35);text-decoration:none}
+  .engtag{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--petrol);
+    border:1px solid var(--line);border-radius:999px;padding:2px 8px;margin-left:8px}
+  .loading{color:var(--muted);font-style:italic;font-size:13.5px}
+
+  .disc{margin-top:18px;border-left:3px solid var(--gold);background:#FBF6EC;padding:12px 16px;border-radius:0 10px 10px 0;
+    font-size:12.5px;color:#5b4a24}
+  footer{margin-top:26px;padding:18px clamp(16px,2.4vw,24px);border-top:1px solid var(--line);font-size:12px;
+    color:var(--muted);text-align:center}
+</style>
+</head>
+<body>
+  <header class="brand">
+    <div class="kicker">Smart University · KBTU</div>
+    <h1>Поступление и студенческий помощник</h1>
+    <p>Быстрый ответ — по клику и бесплатно: подбор грантов по баллу и частые вопросы со ссылкой на источник.
+       Не нашли? Спросите AI-ассистента — он ответит по официальным документам вуза.</p>
+  </header>
+
+  <div class="main">
+
+    <!-- СЛОЙ 1a: НАВИГАТОР -->
+    <section class="sec">
+      <div class="sec-head"><h2>Навигатор грантов</h2><span class="tag">0 токенов</span>
+        <span class="sub">балл ЕНТ + профильные предметы → куда проходили на грант в 2025</span></div>
+      <div class="panel">
+        <div class="pad">
+          <div class="grid">
+            <div class="field">
+              <label>Балл ЕНТ</label>
+              <div class="scorewrap"><span class="scoreval mono" id="scoreVal">104</span>
+                <input type="range" id="score" min="30" max="140" value="104"></div>
+            </div>
+            <div class="field">
+              <label>Город (необязательно)</label>
+              <input type="text" id="city" placeholder="напр. Алматы">
+            </div>
+            <div class="field">
+              <label>Профильный предмет 1</label>
+              <select id="subj1"></select>
+            </div>
+            <div class="field">
+              <label>Профильный предмет 2</label>
+              <select id="subj2"></select>
+            </div>
+          </div>
+          <div class="field" style="margin-top:14px">
+            <label>Быстрый выбор профиля</label>
+            <div class="presets" id="presets"></div>
+          </div>
+          <div class="row"><button class="btn" id="recBtn">Подобрать программы</button></div>
+        </div>
+        <div id="recOut"></div>
+      </div>
+    </section>
+
+    <!-- СЛОЙ 1b: КЛИК-FAQ -->
+    <section class="sec">
+      <div class="sec-head"><h2>Частые вопросы</h2><span class="tag">0 токенов</span>
+        <span class="sub">клик → готовый ответ + источник</span></div>
+      <div class="cats" id="faqCats"></div>
+      <div class="faq" id="faqList"><div class="loading">Загрузка…</div></div>
+    </section>
+
+    <!-- СЛОЙ 2: АССИСТЕНТ -->
+    <section class="sec">
+      <div class="sec-head"><h2>AI-ассистент</h2><span class="tag">LLM · если нет ответа выше</span>
+        <span class="sub">ответ по документам вуза с цитатами; если данных нет — честный отказ</span></div>
+      <div class="panel pad">
+        <div class="askbox">
+          <textarea id="q" placeholder="Например: можно ли пересдать экзамен с FX? Или: куда пройду со 104 баллами, физика и математика?"></textarea>
+          <button class="btn" id="askBtn">Спросить</button>
+        </div>
+        <div id="askOut"></div>
+        <div class="disc">Ассистент отвечает только из официальных документов и страниц KBTU. Если точной информации нет —
+          он направит в Студенческий офис, а не выдумает ответ.</div>
+      </div>
+    </section>
+
+  </div>
+  <footer>Smart University · движок A (RAG по документам) + движок B (навигатор грантов) · данные KBTU · отсечки 2025 — не гарантия</footer>
+
+<script>
+const SUBJECTS = ["математика","информатика","физика","химия","биология","история","основы права","география"];
+const PRESETS = [
+  {label:"IT / информатика", p:["математика","информатика"]},
+  {label:"Инженерия / физика", p:["математика","физика"]},
+  {label:"Медицина / биология", p:["химия","биология"]},
+  {label:"Экономика / бизнес", p:["математика","география"]},
+  {label:"Право", p:["история","основы права"]},
+];
+const $ = s => document.querySelector(s);
+const esc = s => (s==null?"":String(s)).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+
+// селекты предметов
+for(const sub of SUBJECTS){
+  for(const id of ["#subj1","#subj2"]){ const o=document.createElement("option"); o.value=sub; o.textContent=sub; $(id).appendChild(o); }
+}
+$("#subj1").value="математика"; $("#subj2").value="физика";
+// пресеты
+const presetBox=$("#presets");
+PRESETS.forEach(pr=>{ const c=document.createElement("span"); c.className="chip"; c.textContent=pr.label;
+  c.onclick=()=>{ $("#subj1").value=pr.p[0]; $("#subj2").value=pr.p[1]; runRecommend(); }; presetBox.appendChild(c); });
+// слайдер
+$("#score").addEventListener("input",e=>$("#scoreVal").textContent=e.target.value);
+
+// ---- Навигатор (движок B) ----
+async function runRecommend(){
+  const score=$("#score").value, profile=$("#subj1").value+","+$("#subj2").value, city=$("#city").value.trim();
+  const out=$("#recOut"); out.innerHTML='<div class="pad loading">Считаю по базе баллов…</div>';
+  const qs=new URLSearchParams({score,profile}); if(city) qs.set("city",city);
+  try{
+    const r=await fetch("/v1/recommend?"+qs.toString());
+    if(r.status===422){ out.innerHTML='<div class="pad empty">Эта пара предметов пока не поддержана в POC. Доступные профили — см. быстрый выбор выше.</div>'; return; }
+    const d=await r.json(); renderRecommend(d,out);
+  }catch(e){ out.innerHTML='<div class="pad empty">Не удалось получить данные ('+esc(e.message)+').</div>'; }
+}
+function renderRecommend(d,out){
+  const s=d.summary||{pass:0,risk:0,fail:0,blocked:0};
+  const res=d.results||[];
+  const by=b=>res.filter(x=>x.bucket===b);
+  const cardHtml=x=>{ const g=x.gap>=0?"+"+x.gap:(""+x.gap); const host=(x.source_url||"").split("//")[1]||"";
+    return `<div class="rcard ${x.bucket}"><div class="top"><span class="code mono">${esc(x.gop_code)}</span>
+      <span class="score mono">${esc(x.passing_2025)}</span></div>
+      <div class="gop">${esc(x.gop_name)}</div><div class="uni">${esc(x.univ)}${x.city?" · "+esc(x.city):""}</div>
+      <div class="meta"><span>ваш балл <b class="mono">${g}</b> к отсечке</span><span>грантов: ${esc(x.grants)}</span>
+      <span>порог ${esc(x.threshold)}</span><span>📎 ${esc(host.slice(0,26))}… · ${esc(x.year)}</span></div></div>`; };
+  const col=(b,title)=>{ const g=by(b).slice(0,6); return `<div class="col ${b}"><h3><span class="dot"></span>${title} · ${by(b).length}</h3>
+    ${g.length?g.map(cardHtml).join(""):'<div class="empty">—</div>'}</div>`; };
+  out.innerHTML=`<div class="summary">
+      <span class="stat pass"><span class="n mono">${s.pass}</span><span class="l">проходите</span></span>
+      <span class="stat risk"><span class="n mono">${s.risk}</span><span class="l">на грани</span></span>
+      <span class="stat fail"><span class="n mono">${s.fail}</span><span class="l">не хватает</span></span>
+      ${s.blocked?`<span class="stat"><span class="n mono">${s.blocked}</span><span class="l">ниже порога</span></span>`:""}</div>
+    <div class="cols">${col("pass","Проходите")}${col("risk","На грани")}${col("fail","Не хватает")}</div>
+    <div class="disc">${esc(d.disclaimer||"")}</div>`;
+}
+$("#recBtn").onclick=runRecommend;
+
+// ---- FAQ (клик-слой) ----
+let FAQ={cards:[],cats:[]}, activeCat=null;
+async function loadFaq(){
+  try{ const d=await (await fetch("/v1/faq")).json(); FAQ.cards=d.cards||[]; FAQ.cats=d.categories||[]; renderCats(); renderFaq(); }
+  catch(e){ $("#faqList").innerHTML='<div class="empty">FAQ недоступен.</div>'; }
+}
+function renderCats(){
+  const box=$("#faqCats"); box.innerHTML="";
+  const all=document.createElement("span"); all.className="cattab"+(activeCat===null?" on":""); all.textContent="Все";
+  all.onclick=()=>{activeCat=null;renderCats();renderFaq();}; box.appendChild(all);
+  FAQ.cats.forEach(c=>{ const t=document.createElement("span"); t.className="cattab"+(activeCat===c.category?" on":"");
+    t.textContent=c.label+" · "+c.count; t.onclick=()=>{activeCat=c.category;renderCats();renderFaq();}; box.appendChild(t); });
+}
+function renderFaq(){
+  const cards=activeCat?FAQ.cards.filter(c=>c.category===activeCat):FAQ.cards;
+  const list=$("#faqList");
+  if(!cards.length){ list.innerHTML='<div class="empty">Нет карточек.</div>'; return; }
+  const srcHtml=s=>{ if(!s||!s.url) return ""; const pg=s.page?(" · стр. "+s.page):""; const sec=s.section?(" · "+s.section):"";
+    return `<div class="src">📎 <a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.label)}${pg}${sec}</a></div>`; };
+  list.innerHTML=cards.map(c=>`<details class="qa"><summary>${esc(c.question)}</summary>
+    <div class="ans">${esc(c.answer)}${srcHtml(c.source)}</div></details>`).join("");
+}
+
+// ---- Ассистент (единый роутер /v1/ask) ----
+async function ask(){
+  const q=$("#q").value.trim(); if(!q) return;
+  const out=$("#askOut"); out.innerHTML='<div class="ans-panel loading">Думаю…</div>';
+  try{
+    const d=await (await fetch("/v1/ask",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({question:q})})).json();
+    if(d.engine==="B" && d.intent==="recommend"){
+      out.innerHTML=`<div class="ans-panel">Похоже на вопрос про баллы — показал в навигаторе выше.<span class="engtag">движок B</span></div>`;
+      renderRecommend(d,$("#recOut")); $("#score").value=d.score; $("#scoreVal").textContent=d.score;
+      window.scrollTo({top:0,behavior:"smooth"}); return;
+    }
+    if(d.engine==="B" && d.intent==="need_profile"){
+      out.innerHTML=`<div class="ans-panel">Вижу балл <b>${esc(d.score)}</b>${d.subjects&&d.subjects.length?(" и предмет «"+esc(d.subjects[0])+"»"):""}.
+        Уточните вторую профильную дисциплину в навигаторе выше, чтобы подобрать программы.<span class="engtag">движок B</span></div>`;
+      $("#score").value=d.score; $("#scoreVal").textContent=d.score;
+      if(d.subjects&&d.subjects[0]) $("#subj1").value=d.subjects[0];
+      window.scrollTo({top:0,behavior:"smooth"}); return;
+    }
+    // движок A (RAG)
+    const refuse=d.refused?" refuse":"";
+    let cites="";
+    if(d.citations&&d.citations.length){ cites='<div class="cites">'+d.citations.map(c=>{ const pg=c.page?(" · стр. "+c.page):"";
+      const sec=c.section?(" · "+c.section):""; return `<a href="${esc(c.url)}" target="_blank" rel="noopener">📎 ${esc(c.label)}${pg}${sec}</a>`; }).join("")+"</div>"; }
+    out.innerHTML=`<div class="ans-panel${refuse}">${esc(d.answer)}<span class="engtag">движок A · RAG</span>${cites}</div>`;
+  }catch(e){ out.innerHTML='<div class="ans-panel refuse">Ошибка запроса: '+esc(e.message)+'</div>'; }
+}
+$("#askBtn").onclick=ask;
+$("#q").addEventListener("keydown",e=>{ if(e.key==="Enter"&&(e.ctrlKey||e.metaKey)) ask(); });
+
+loadFaq();
+</script>
+</body>
+</html>
