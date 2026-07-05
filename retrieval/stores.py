@@ -143,10 +143,17 @@ class PgVectorHybridStore:
         return psycopg.connect(self.dsn)
 
     def init_schema(self, dim: int):
+        self._dim = dim
+        # pgvector HNSW/IVFFlat ограничены 2000 измерениями; для 3072 (OpenAI large)
+        # индексируем halfvec-каст (pgvector так и рекомендует, полная размерность в колонке остаётся).
+        idx = (f"CREATE INDEX ON chunks USING hnsw ((embedding::halfvec({dim})) halfvec_cosine_ops);"
+               if dim > 2000 else
+               "CREATE INDEX ON chunks USING hnsw (embedding vector_cosine_ops);")
         with self._conn() as c, c.cursor() as cur:
             cur.execute("CREATE EXTENSION IF NOT EXISTS vector;")
             cur.execute(f"""
-                DROP TABLE IF EXISTS chunks;
+                DROP TABLE IF EXISTS chunks; DROP TABLE IF EXISTS store_meta;
+                CREATE TABLE store_meta (k text PRIMARY KEY, v text);
                 CREATE TABLE chunks (
                     rowid BIGSERIAL PRIMARY KEY,
                     chunk_id TEXT, tenant_id TEXT NOT NULL, source TEXT, source_url TEXT, category TEXT,
@@ -155,11 +162,19 @@ class PgVectorHybridStore:
                     text TEXT, embedding vector({dim}),
                     tsv tsvector GENERATED ALWAYS AS (to_tsvector('russian', coalesce(text,''))) STORED
                 );
-                CREATE INDEX ON chunks USING hnsw (embedding vector_cosine_ops);
+                {idx}
                 CREATE INDEX ON chunks USING gin (tsv);
                 CREATE INDEX ON chunks (tenant_id);
+                INSERT INTO store_meta VALUES ('dim', '{dim}');
             """)
             c.commit()
+
+    def _get_dim(self) -> int:
+        if getattr(self, "_dim", None) is None:
+            with self._conn() as c, c.cursor() as cur:
+                cur.execute("SELECT v FROM store_meta WHERE k='dim'")
+                self._dim = int(cur.fetchone()[0])
+        return self._dim
 
     def add(self, records, embeddings):
         with self._conn() as c, c.cursor() as cur:
@@ -176,13 +191,18 @@ class PgVectorHybridStore:
             c.commit()
 
     def search(self, query_vec, query_text, tenant_id, top_k=5, categories=None, k_each=20):
+        import psycopg
+        dim = self._get_dim()
         vec = "[" + ",".join(map(str, query_vec)) + "]"
+        # выражение расстояния должно совпадать с индексируемым (halfvec для >2000), иначе seq-scan
+        dist = (f"embedding::halfvec({dim}) <=> %(vec)s::halfvec({dim})" if dim > 2000
+                else "embedding <=> %(vec)s::vector")
         cat_sql = "AND category = ANY(%(cats)s)" if categories else ""
         sql = f"""
-        WITH params AS (SELECT %(vec)s::vector AS q, plainto_tsquery('russian', %(qt)s) AS tq),
+        WITH params AS (SELECT plainto_tsquery('russian', %(qt)s) AS tq),
         dense AS (
-            SELECT rowid, row_number() OVER (ORDER BY embedding <=> (SELECT q FROM params)) AS r
-            FROM chunks WHERE tenant_id = %(tid)s {cat_sql} ORDER BY embedding <=> (SELECT q FROM params) LIMIT %(k)s),
+            SELECT rowid, row_number() OVER (ORDER BY {dist}) AS r
+            FROM chunks WHERE tenant_id = %(tid)s {cat_sql} ORDER BY {dist} LIMIT %(k)s),
         lexical AS (
             SELECT rowid, row_number() OVER (ORDER BY ts_rank(tsv, (SELECT tq FROM params)) DESC) AS r
             FROM chunks WHERE tenant_id = %(tid)s {cat_sql} AND tsv @@ (SELECT tq FROM params)
@@ -193,7 +213,7 @@ class PgVectorHybridStore:
         SELECT c.*, f.score AS _score FROM fused f JOIN chunks c USING (rowid)
         ORDER BY f.score DESC LIMIT %(top)s;
         """
-        with self._conn() as c, c.cursor(row_factory=__import__("psycopg").rows.dict_row) as cur:
+        with self._conn() as c, c.cursor(row_factory=psycopg.rows.dict_row) as cur:
             cur.execute(sql, {"vec": vec, "qt": query_text, "tid": tenant_id,
                               "k": k_each, "top": top_k, "cats": categories or []})
             return cur.fetchall()

@@ -1,0 +1,26 @@
+# Корневая инфраструктура (ADR-016): одна Postgres+pgvector на движок A (RAG-чанки)
+# и, в будущем, движок B. Образ pgvector/pgvector уже содержит расширение vector.
+# Поднять:   docker compose up -d
+# Проверить: docker compose ps
+# DSN:       postgresql://postgres:postgres@localhost:55432/smartuni
+# ПОРТ 55432 (не 5432/5433!): на 5432 И 5433 висит нативный Postgres Windows (2 кластера) — конфликт.
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: smartuni-pg
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: smartuni
+    ports:
+      - "55432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d smartuni"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  pgdata:

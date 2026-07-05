@@ -13,6 +13,7 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 def test_poc_engine_b_api_smoke():
     cwd = os.path.join(ROOT, "poc", "grant-recommender")
     env = dict(os.environ, PYTHONUTF8="1")
+    env.pop("DATABASE_URL", None)  # движок B (POC) работает на СВОЁМ SQLite, не на общем Postgres движка A
     p = subprocess.run(
         [sys.executable, "-m", "api.test_api"],
         cwd=cwd, env=env, capture_output=True, text=True, timeout=300,

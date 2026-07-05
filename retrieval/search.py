@@ -14,8 +14,11 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
 import yaml  # noqa: E402
+from dotenv import load_dotenv  # noqa: E402
 from providers.embedding import get_embedder  # noqa: E402
-from retrieval.stores import SqliteHybridStore  # noqa: E402
+from retrieval.stores import PgVectorHybridStore, SqliteHybridStore  # noqa: E402
+
+load_dotenv(os.path.join(ROOT, ".env"))
 
 DEMO = [
     ("Можно ли пересдать экзамен, если получил FX?", ["student"]),
@@ -39,7 +42,7 @@ def render(query, results):
         return "\n".join(out)
     for i, r in enumerate(results, 1):
         snip = " ".join(r["text"].split())[:180]
-        out.append(f"\n[{i}] score={r.get('_score')}  📎 {citation(r)}  [{r.get('content_type')}]")
+        out.append(f"\n[{i}] score={float(r.get('_score') or 0):.4f}  📎 {citation(r)}  [{r.get('content_type')}]")
         out.append(f"    {snip}…")
         out.append(f"    🔗 {r.get('source_url')}")
     return "\n".join(out)
@@ -52,12 +55,14 @@ def main():
     ap.add_argument("-q", "--query", default=None)
     ap.add_argument("--category", default=None, help="фильтр: student|abiturient|calendar")
     ap.add_argument("--top_k", type=int, default=5)
+    ap.add_argument("--store", default="sqlite", choices=["sqlite", "pgvector"])
     ap.add_argument("--demo", action="store_true")
     args = ap.parse_args()
 
     cfg = yaml.safe_load(open(os.path.join(ROOT, args.config), encoding="utf-8"))
     tenant = cfg["tenant_id"]
-    store = SqliteHybridStore(os.path.join(ROOT, "data", tenant, "index.db"))
+    store = (PgVectorHybridStore() if args.store == "pgvector"
+             else SqliteHybridStore(os.path.join(ROOT, "data", tenant, "index.db")))
     emb = get_embedder(args.profile)
 
     queries = DEMO if (args.demo or not args.query) else [(args.query, [args.category] if args.category else None)]
