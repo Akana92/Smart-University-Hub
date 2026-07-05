@@ -156,10 +156,10 @@ def ask(req: AskRequest, pipe: RagPipeline = Depends(get_pipeline)):
                 "available_profiles": recommender.available_profiles(),
                 "message": "Укажите пару профильных предметов ЕНТ, чтобы подобрать программы на грант."}
 
-    # длинный хвост → движок A (RAG, LLM)
+    # длинный хвост → движок A (RAG, LLM) в режиме СОВЕТНИКА (продукт, docs/07 §5)
     cats = [req.category] if req.category else None
     t0 = time.perf_counter()
-    res = pipe.answer(req.question, categories=cats)
+    res = pipe.answer(req.question, categories=cats, mode="advisor")
     latency_ms = round((time.perf_counter() - t0) * 1000)
     log_query({"request_id": rid, "tenant": TENANT, "engine": "A", "intent": "document_qa",
                "question": req.question, "category": req.category, "refused": res["refused"],

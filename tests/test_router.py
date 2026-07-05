@@ -16,7 +16,7 @@ from core import recommender  # noqa: E402
 
 
 class FakePipeline:
-    def answer(self, question, categories=None):
+    def answer(self, question, categories=None, mode="strict"):
         return {"refused": False, "answer": "GPA — средневзвешенная оценка [1].",
                 "citations": [{"n": 1, "label": "51-2-25", "page": 20, "section": "GPA", "url": "http://x"}],
                 "contexts": ["..."], "chunks_used": 1, "retrieved": [], "tokens": None, "reason": "answered"}

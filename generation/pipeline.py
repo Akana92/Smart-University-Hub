@@ -18,7 +18,8 @@ sys.path.insert(0, ROOT)
 
 from llama_index.core.llms import ChatMessage, MessageRole  # noqa: E402
 
-from generation.prompts import REFUSAL, REFUSAL_MARKER, SYSTEM_PROMPT, USER_TEMPLATE  # noqa: E402
+from generation.prompts import (ADVISOR_SYSTEM_PROMPT, ADVISOR_USER_TEMPLATE, REFUSAL,  # noqa: E402
+                                REFUSAL_MARKER, SYSTEM_PROMPT, USER_TEMPLATE)
 
 
 def _label(ch: dict) -> str:
@@ -79,10 +80,18 @@ class RagPipeline:
         self.top_k = top_k
         self.min_results = min_results
 
-    def answer(self, question: str, categories: list[str] | None = None) -> dict:
+    def answer(self, question: str, categories: list[str] | None = None,
+               mode: str = "strict") -> dict:
+        """mode='strict' — курсовой context-only + дословный отказ (ТЗ, движок A /v1/chat).
+        mode='advisor' — продуктовый советник абитуриента (docs/07 §5): помогает всегда, без «кабинет 101»."""
         qv = self.embedder.embed_query(question)
         chunks = self.store.search(qv, question, tenant_id=self.tenant_id,
                                    top_k=self.top_k, categories=categories)
+        if mode == "advisor":
+            return self._answer_advisor(question, chunks)
+        return self._answer_strict(question, chunks)
+
+    def _answer_strict(self, question: str, chunks: list[dict]) -> dict:
         # Рубеж 1: pre-LLM gate — нет контекста → отказ без обращения к LLM
         if len(chunks) < self.min_results:
             return {"refused": True, "answer": REFUSAL, "citations": [], "contexts": [],
@@ -107,3 +116,22 @@ class RagPipeline:
                 "contexts": [c.get("text", "") for c in chunks],
                 "chunks_used": len(chunks), "retrieved": _retrieved_summary(chunks),
                 "tokens": _usage(resp), "reason": "llm_refusal" if refused else "answered"}
+
+    def _answer_advisor(self, question: str, chunks: list[dict]) -> dict:
+        # Продуктовый режим: помогаем всегда. Факт из контекста → с цитатами; общий совет → без цитат;
+        # нет данных вуза → мягко (не «кабинет 101»). Анти-галлюцинация: числа только из контекста (промпт §3).
+        ctx = format_context(chunks) if chunks else "(релевантных документов не найдено)"
+        messages = [
+            ChatMessage(role=MessageRole.SYSTEM, content=ADVISOR_SYSTEM_PROMPT),
+            ChatMessage(role=MessageRole.USER,
+                        content=ADVISOR_USER_TEMPLATE.format(context=ctx, question=question)),
+        ]
+        resp = self.llm.chat(messages)
+        answer = str(resp.message.content).strip()
+        # цитаты — только если советник реально сослался на [n] (грунтованный факт из документов)
+        has_refs = bool(re.findall(r"\[(\d+)\]", answer))
+        citations = build_citations(chunks, answer) if (chunks and has_refs) else []
+        return {"refused": False, "answer": answer, "citations": citations,
+                "contexts": [c.get("text", "") for c in chunks],
+                "chunks_used": len(chunks), "retrieved": _retrieved_summary(chunks),
+                "tokens": _usage(resp), "reason": "advisor"}

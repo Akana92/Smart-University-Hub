@@ -92,3 +92,31 @@ def test_context_is_numbered_with_sources():
 def test_citations_fallback_all_when_no_refs():
     cites = build_citations(CHUNKS, "Ответ без квадратных ссылок.")
     assert len(cites) == 2  # нет [n] в ответе → показываем все источники
+
+
+# ─────────── режим СОВЕТНИКА (TASK-023, продукт) ───────────
+def test_advisor_answers_general_without_context():
+    # нет контекста, но общий вопрос по поступлению → помогает (НЕ «кабинет 101»); LLM вызывается
+    llm = FakeLLM("Начни за год: собери аттестат, готовься к ЕНТ, выбери профильные предметы.")
+    p = RagPipeline(FakeStore([]), FakeEmbedder(), llm, tenant_id="kbtu")
+    r = p.answer("С чего начать подготовку к поступлению?", mode="advisor")
+    assert r["refused"] is False and r["reason"] == "advisor"
+    assert r["answer"] != REFUSAL and "кабинет 101" not in r["answer"]
+    assert r["citations"] == []
+    assert llm.calls == 1  # советник не гейтит на пустом контексте
+
+
+def test_advisor_cites_only_explicit_refs():
+    llm = FakeLLM("Пересдача при FX разрешена без повторного курса [2].")
+    p = RagPipeline(FakeStore(CHUNKS), FakeEmbedder(), llm, tenant_id="kbtu")
+    r = p.answer("Можно ли пересдать FX?", mode="advisor")
+    assert r["refused"] is False and r["reason"] == "advisor"
+    assert len(r["citations"]) == 1 and r["citations"][0]["n"] == 2  # только [2]
+
+
+def test_advisor_general_advice_no_false_citations():
+    # контекст есть, но совет общий без [n] → НЕ подставляем все чанки (в отличие от strict-fallback)
+    llm = FakeLLM("В целом подай документы вовремя и следи за сроками на сайте вуза.")
+    p = RagPipeline(FakeStore(CHUNKS), FakeEmbedder(), llm, tenant_id="kbtu")
+    r = p.answer("Общий совет по срокам?", mode="advisor")
+    assert r["citations"] == []
