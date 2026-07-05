@@ -85,7 +85,7 @@ class RagPipeline:
                                    top_k=self.top_k, categories=categories)
         # Рубеж 1: pre-LLM gate — нет контекста → отказ без обращения к LLM
         if len(chunks) < self.min_results:
-            return {"refused": True, "answer": REFUSAL, "citations": [],
+            return {"refused": True, "answer": REFUSAL, "citations": [], "contexts": [],
                     "chunks_used": 0, "retrieved": [], "tokens": None, "reason": "no_context"}
 
         # Рубеж 2: context-only генерация через LlamaIndex-LLM
@@ -104,5 +104,6 @@ class RagPipeline:
         # Рубеж 3: цитаты только из метаданных чанков; при отказе — без цитат
         citations = [] if refused else build_citations(chunks, answer)
         return {"refused": refused, "answer": answer, "citations": citations,
+                "contexts": [c.get("text", "") for c in chunks],
                 "chunks_used": len(chunks), "retrieved": _retrieved_summary(chunks),
                 "tokens": _usage(resp), "reason": "llm_refusal" if refused else "answered"}
