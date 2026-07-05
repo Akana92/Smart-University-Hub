@@ -17,6 +17,17 @@ def test_citations_render_clickable_markdown():
     assert "Источники" in md
 
 
+def test_citations_web_no_page():
+    # веб-страница student_life: page_number=None → «стр.» не показываем, ссылка на URL страницы
+    md = citations_md([
+        {"n": 1, "label": "Психологическая служба", "page": None,
+         "section": "Сервис психологического консультирования",
+         "url": "https://kbtu.edu.kz/ru/studentam/psikholog"},
+    ])
+    assert "[Психологическая служба · Сервис психологического консультирования](https://kbtu.edu.kz/ru/studentam/psikholog)" in md
+    assert "стр." not in md
+
+
 def test_no_citations_empty():
     assert citations_md([]) == ""
 

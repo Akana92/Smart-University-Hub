@@ -12,7 +12,8 @@ API_URL = os.environ.get("RAG_API_URL", "http://127.0.0.1:8000")
 
 # подпись в UI -> значение category для API
 CATEGORIES = {"Все документы": None, "Абитуриент": "abiturient",
-              "Студент": "student", "Календарь": "calendar"}
+              "Студент": "student", "Календарь": "calendar",
+              "Студенческая жизнь": "student_life"}
 
 
 def ask_api(question: str, category: str | None, api_url: str = API_URL, timeout: int = 90) -> dict:
@@ -28,6 +29,7 @@ def citations_md(citations: list[dict]) -> str:
         return ""
     lines = ["", "**📚 Источники:**"]
     for c in citations:
+        pg = f" · стр. {c['page']}" if c.get("page") else ""  # веб-страницы (student_life) без номера
         sec = f" · {c['section']}" if c.get("section") else ""
-        lines.append(f"- [{c['label']} · стр. {c['page']}{sec}]({c['url']})")
+        lines.append(f"- [{c['label']}{pg}{sec}]({c['url']})")
     return "\n".join(lines)

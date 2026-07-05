@@ -1,0 +1,94 @@
+{
+  "meta": {
+    "generator_llm": "gpt-4o-mini (temperature=0)",
+    "judge_llm": "gpt-4o",
+    "judge_ne_generator": true,
+    "embeddings_metric": "text-embedding-3-small",
+    "golden_set_total": 73,
+    "in_base_evaluated": 8,
+    "in_base_answered": 8,
+    "out_of_base_evaluated": 14
+  },
+  "metrics": {
+    "faithfulness_answered": 1.0,
+    "answer_relevancy_answered": 0.7357,
+    "context_precision_all": 0.8333,
+    "context_recall_all": 1.0,
+    "out_of_base_refusal_rate": 1.0,
+    "in_base_false_refusal_rate": 0.0
+  },
+  "per_sample": [
+    {
+      "id": "sl01",
+      "category": "student_life",
+      "refused": false,
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.7362,
+      "context_precision": 0.9167,
+      "context_recall": 1.0
+    },
+    {
+      "id": "sl04",
+      "category": "student_life",
+      "refused": false,
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.8286,
+      "context_precision": 1.0,
+      "context_recall": 1.0
+    },
+    {
+      "id": "sl06",
+      "category": "student_life",
+      "refused": false,
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.7865,
+      "context_precision": 1.0,
+      "context_recall": 1.0
+    },
+    {
+      "id": "sl09",
+      "category": "student_life",
+      "refused": false,
+      "faithfulness": null,
+      "answer_relevancy": 0.5194,
+      "context_precision": 0.5,
+      "context_recall": null
+    },
+    {
+      "id": "sl11",
+      "category": "student_life",
+      "refused": false,
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.5913,
+      "context_precision": 0.3333,
+      "context_recall": 1.0
+    },
+    {
+      "id": "sl15",
+      "category": "student_life",
+      "refused": false,
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.8483,
+      "context_precision": 1.0,
+      "context_recall": 1.0
+    },
+    {
+      "id": "o09",
+      "category": "student_life",
+      "refused": false,
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.5751,
+      "context_precision": 1.0,
+      "context_recall": 1.0
+    },
+    {
+      "id": "o10",
+      "category": "student_life",
+      "refused": false,
+      "faithfulness": 1.0,
+      "answer_relevancy": 1.0,
+      "context_precision": 0.9167,
+      "context_recall": 1.0
+    }
+  ]
+}

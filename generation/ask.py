@@ -42,8 +42,9 @@ def render(q, r):
     if r["citations"]:
         out.append("\n📚 Источники:")
         for c in r["citations"]:
+            pg = f" · стр. {c['page']}" if c.get("page") else ""  # веб-страницы без номера
             sec = f" · {c['section']}" if c.get("section") else ""
-            out.append(f"  [{c['n']}] {c['label']} · стр. {c['page']}{sec}\n      🔗 {c['url']}")
+            out.append(f"  [{c['n']}] {c['label']}{pg}{sec}\n      🔗 {c['url']}")
     else:
         out.append(f"\n(без источников · {r['reason']})")
     return "\n".join(out)

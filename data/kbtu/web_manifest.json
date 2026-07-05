@@ -1,0 +1,112 @@
+[
+ {
+  "slug": "student-life-ru",
+  "url": "https://kbtu.edu.kz/ru/studentam/student-life-ru",
+  "category": "student_life",
+  "title": "Студенческая жизнь и организации",
+  "status": 200,
+  "chars": 12756,
+  "file": "data\\kbtu\\web_raw\\student-life-ru.md",
+  "fetch_timestamp": "2026-07-05T18:13:47.735252+00:00",
+  "file_hash": "54fc55d5832e7384"
+ },
+ {
+  "slug": "student-fee",
+  "url": "https://kbtu.edu.kz/ru/studentam/student-fee-rus",
+  "category": "student_life",
+  "title": "Студенческий взнос: что финансируется",
+  "status": 200,
+  "chars": 10298,
+  "file": "data\\kbtu\\web_raw\\student-fee.md",
+  "fetch_timestamp": "2026-07-05T18:13:47.735252+00:00",
+  "file_hash": "22dd4a5ae4a133db"
+ },
+ {
+  "slug": "obshchezhitie",
+  "url": "https://kbtu.edu.kz/ru/studentam/obshchezhitie",
+  "category": "student_life",
+  "title": "Общежитие KBTU Jastar City",
+  "status": 200,
+  "chars": 9425,
+  "file": "data\\kbtu\\web_raw\\obshchezhitie.md",
+  "fetch_timestamp": "2026-07-05T18:13:47.735252+00:00",
+  "file_hash": "30316ba3aa027767"
+ },
+ {
+  "slug": "foreign-students",
+  "url": "https://kbtu.edu.kz/ru/internatsionalizatsiya/foreign-students",
+  "category": "student_life",
+  "title": "Иностранным студентам",
+  "status": 200,
+  "chars": 6725,
+  "file": "data\\kbtu\\web_raw\\foreign-students.md",
+  "fetch_timestamp": "2026-07-05T18:13:47.735252+00:00",
+  "file_hash": "e82a1df17116fee4"
+ },
+ {
+  "slug": "voennaya-kafedra",
+  "url": "https://kbtu.edu.kz/ru/studentam/voennaya-kafedra",
+  "category": "student_life",
+  "title": "Военная кафедра",
+  "status": 200,
+  "chars": 6034,
+  "file": "data\\kbtu\\web_raw\\voennaya-kafedra.md",
+  "fetch_timestamp": "2026-07-05T18:13:47.735252+00:00",
+  "file_hash": "2d59162a60f59716"
+ },
+ {
+  "slug": "resursy",
+  "url": "https://kbtu.edu.kz/ru/studentam/resursy-dlya-obuchayushchikhsya",
+  "category": "student_life",
+  "title": "Ресурсы для обучающихся",
+  "status": 200,
+  "chars": 5266,
+  "file": "data\\kbtu\\web_raw\\resursy.md",
+  "fetch_timestamp": "2026-07-05T18:13:47.735252+00:00",
+  "file_hash": "665a3b118062598a"
+ },
+ {
+  "slug": "karera",
+  "url": "https://kbtu.edu.kz/ru/studentam/karera-i-trudoustrojstvo",
+  "category": "student_life",
+  "title": "Карьера и трудоустройство",
+  "status": 200,
+  "chars": 3617,
+  "file": "data\\kbtu\\web_raw\\karera.md",
+  "fetch_timestamp": "2026-07-05T18:13:47.735252+00:00",
+  "file_hash": "c99723ddd2f844ea"
+ },
+ {
+  "slug": "psikholog",
+  "url": "https://kbtu.edu.kz/ru/studentam/psikholog",
+  "category": "student_life",
+  "title": "Психологическая служба",
+  "status": 200,
+  "chars": 1717,
+  "file": "data\\kbtu\\web_raw\\psikholog.md",
+  "fetch_timestamp": "2026-07-05T18:13:47.735252+00:00",
+  "file_hash": "421e2b461dd5e08c"
+ },
+ {
+  "slug": "library",
+  "url": "https://kbtu.edu.kz/ru/studentam/library",
+  "category": "student_life",
+  "title": "Библиотека",
+  "status": 200,
+  "chars": 1611,
+  "file": "data\\kbtu\\web_raw\\library.md",
+  "fetch_timestamp": "2026-07-05T18:13:47.735252+00:00",
+  "file_hash": "0b15f223e9a81abc"
+ },
+ {
+  "slug": "dokumenty",
+  "url": "https://kbtu.edu.kz/ru/studentam/dokumenty-dlya-obuchayushchikhsya",
+  "category": "student_life",
+  "title": "Документы для обучающихся",
+  "status": 200,
+  "chars": 27,
+  "file": "data\\kbtu\\web_raw\\dokumenty.md",
+  "fetch_timestamp": "2026-07-05T18:13:47.735252+00:00",
+  "file_hash": "e5ee85570bf06790"
+ }
+]

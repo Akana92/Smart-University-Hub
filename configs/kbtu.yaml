@@ -19,7 +19,7 @@ embedding:
   profile: local
 
 # Источники (проверены adversarial-проходом, docs/03 §3.2).
-# category: abiturient | student | calendar ; scanned:true → нужен OCR (пропускается на этапе 1)
+# category: abiturient | student | calendar | student_life ; scanned:true → нужен OCR (пропускается на этапе 1)
 sources:
   - file: "51-2-25_2025.pdf"
     url: "https://kbtu.edu.kz/images/51-2-25_2025.pdf"
@@ -85,3 +85,35 @@ sources:
     doc_version: "2025-2026"
     title: "Академический календарь 2025-2026 (магистратура)"
     scanned: true
+
+# Веб-источники студенческой жизни (TASK-015, категория student_life).
+# Живые RU-страницы kbtu.edu.kz (валидированы 200; часть Joomla-URL из поиска устарела → 404).
+# fetch_web.py тянет их (requests, браузерный UA, SSL-фолбэк) → web_raw/*.md; ingest_web.py чанкует.
+web_sources:
+  - slug: student-life-ru
+    url: "https://kbtu.edu.kz/ru/studentam/student-life-ru"
+    title: "Студенческая жизнь и организации (клубы, студправительство, традиции)"
+  - slug: student-fee
+    url: "https://kbtu.edu.kz/ru/studentam/student-fee-rus"
+    title: "Студенческий взнос: что финансируется (клубы, проекты)"
+  - slug: obshchezhitie
+    url: "https://kbtu.edu.kz/ru/studentam/obshchezhitie"
+    title: "Общежитие KBTU Jastar City (адрес, спорткомплекс, студсовет)"
+  - slug: foreign-students
+    url: "https://kbtu.edu.kz/ru/internatsionalizatsiya/foreign-students"
+    title: "Иностранным студентам"
+  - slug: voennaya-kafedra
+    url: "https://kbtu.edu.kz/ru/studentam/voennaya-kafedra"
+    title: "Военная кафедра"
+  - slug: resursy
+    url: "https://kbtu.edu.kz/ru/studentam/resursy-dlya-obuchayushchikhsya"
+    title: "Ресурсы для обучающихся"
+  - slug: karera
+    url: "https://kbtu.edu.kz/ru/studentam/karera-i-trudoustrojstvo"
+    title: "Карьера и трудоустройство"
+  - slug: psikholog
+    url: "https://kbtu.edu.kz/ru/studentam/psikholog"
+    title: "Психологическая служба (кабинет, запись)"
+  - slug: library
+    url: "https://kbtu.edu.kz/ru/studentam/library"
+    title: "Библиотека"

@@ -1,0 +1,61 @@
+{
+ "tenant": "kbtu",
+ "category": "student_life",
+ "total_chunks": 51,
+ "pages": [
+  {
+   "slug": "foreign-students",
+   "status": "ok",
+   "chunks": 6,
+   "table_chunks": 0
+  },
+  {
+   "slug": "karera",
+   "status": "ok",
+   "chunks": 3,
+   "table_chunks": 0
+  },
+  {
+   "slug": "library",
+   "status": "ok",
+   "chunks": 4,
+   "table_chunks": 2
+  },
+  {
+   "slug": "obshchezhitie",
+   "status": "ok",
+   "chunks": 10,
+   "table_chunks": 3
+  },
+  {
+   "slug": "psikholog",
+   "status": "ok",
+   "chunks": 1,
+   "table_chunks": 0
+  },
+  {
+   "slug": "resursy",
+   "status": "ok",
+   "chunks": 1,
+   "table_chunks": 1
+  },
+  {
+   "slug": "student-fee",
+   "status": "ok",
+   "chunks": 5,
+   "table_chunks": 1
+  },
+  {
+   "slug": "student-life-ru",
+   "status": "ok",
+   "chunks": 13,
+   "table_chunks": 3
+  },
+  {
+   "slug": "voennaya-kafedra",
+   "status": "ok",
+   "chunks": 8,
+   "table_chunks": 2
+  }
+ ]
+}
