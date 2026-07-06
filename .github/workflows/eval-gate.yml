@@ -1,0 +1,30 @@
+name: RAG quality gate
+
+# Гейт качества RAG (TASK-029, ADR-021). Двухслойно по ресёрчу LLM-as-a-Judge:
+# на КАЖДЫЙ PR — быстрый детерминированный гейт по УЖЕ закоммиченному отчёту (0 токенов,
+# 0 тяжёлых зависимостей); полный прогон судьи (gpt-4o + pgvector) — вручную/на тег-релиз,
+# т.к. требует OPENAI_API_KEY и работающего Postgres (в PR не гоняем — дорого и медленно).
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  quality-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      # Регрессионный гейт: метрики из eval/ragas_report.json против запиненного eval/baseline.json.
+      # Падает (exit 1) → PR блокируется, если кто-то закоммитил отчёт с просадкой качества ниже порога.
+      - name: RAG quality gate (0 токенов)
+        run: python eval/gate.py
+
+      # Полный отчётный прогон (ТРАТИТ токены OpenAI + нужен pgvector) — запускать локально/на тег ПЕРЕД коммитом:
+      #   python eval/run_ragas.py --config configs/kbtu.yaml --judge gpt-4o \
+      #       --ids s01,s03,s06,s08,s11,a01,a04,a06,c01,c02
+      #   python eval/gate.py
+      # затем закоммитить обновлённый eval/ragas_report.json — его и проверит гейт выше в PR.

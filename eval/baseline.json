@@ -1,0 +1,11 @@
+{
+  "_comment": "Запиненные пороги качества RAG (TASK-029). Пороги = baseline − разумный допуск (НЕ 0.9): шум LLM-судьи ~±0.03, слишком строгие пороги роняли бы билд на ровном месте (ресёрч LLM-as-a-Judge). Наблюдалось на TASK-014: faithfulness 1.0, precision 0.93, recall 0.78, relevancy 0.79, refusal 1.0, false_refusal 0.2. min = не ниже; max = не выше.",
+  "thresholds": {
+    "faithfulness_answered":       { "min": 0.85, "label": "Faithfulness (нет галлюцинаций)" },
+    "answer_relevancy_answered":   { "min": 0.65, "label": "Answer relevancy" },
+    "context_precision_all":       { "min": 0.80, "label": "Context precision" },
+    "context_recall_all":          { "min": 0.60, "label": "Context recall" },
+    "out_of_base_refusal_rate":    { "min": 0.90, "label": "Refusal rate (вне базы)" },
+    "in_base_false_refusal_rate":  { "max": 0.35, "label": "False refusal (в базе)" }
+  }
+}
