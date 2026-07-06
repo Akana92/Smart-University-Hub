@@ -113,7 +113,8 @@ def universities_endpoint():
                     counts[tid] = n
     except Exception:
         pass
-    return {"universities": uni_registry.universities(counts)}
+    return {"universities": uni_registry.universities(counts),
+            "compare_dims": uni_registry.compare_dims()}
 
 
 @app.get("/v1/faq")

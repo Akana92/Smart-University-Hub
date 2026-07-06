@@ -671,26 +671,22 @@
         </div>
       </section>
 
-      <!-- ================= 4. СРАВНИТЬ ВУЗЫ (тизер) ================= -->
+      <!-- ================= 4. СРАВНИТЬ ВУЗЫ ================= -->
       <section class="sec reveal" id="compare">
         <div class="sec-head">
           <div class="htext">
-            <span class="kicker">Скоро на платформе</span>
+            <span class="kicker">Бок о бок</span>
             <h2>⚖️ Сравнить вузы</h2>
-            <p class="sub">Один экран — и всё понятно: где грантов больше, где дешевле платное, где студжизнь тебе ближе.</p>
+            <p class="sub">Выбери вузы — увидишь модель поступления, пороги, язык, стоимость и гранты в одной таблице.
+              Хочешь словами — спроси ИИ.</p>
           </div>
-          <span class="tag soon">в разработке</span>
+          <span class="tag free">0 токенов</span>
         </div>
-        <div class="panel">
-          <div class="compare-teaser">
-            <div class="vs-row">
-              <span class="compare-mark">🏛️</span>
-              <span class="vs">VS</span>
-              <span class="compare-mark">🏛️</span>
-            </div>
-            <h3>Сравнение вузов бок о бок уже в разработке</h3>
-            <p>Планируем сравнение по грантам, стоимости обучения и студенческой жизни — чтобы выбор между
-              двумя вузами занимал минуту, а не неделю вкладок в браузере. Честно: пока в разработке, без готовых цифр.</p>
+        <div class="panel pad">
+          <div class="cats" id="cmpChips" style="margin-bottom:16px"></div>
+          <div id="cmpTable" style="overflow-x:auto"></div>
+          <div class="row" style="margin-top:18px">
+            <button class="btn-ghost" id="cmpAskBtn" type="button">Спросить ИИ: сравнить выбранные →</button>
           </div>
         </div>
       </section>
@@ -1081,10 +1077,34 @@ const io = new IntersectionObserver(entries=>{
 document.querySelectorAll(".reveal").forEach(el=>io.observe(el));
 
 /* ---------- Universities section ---------- */
+let __UNIS = [], CMP = {}, CMP_DIMS = [];
 async function loadUniversities(){
-  try{ const d=await (await fetch("/v1/universities")).json(); renderUnis(d.universities||[]); }
-  catch(e){ $("#uniGrid").innerHTML='<div class="empty" style="color:var(--muted)">Не удалось загрузить вузы.</div>'; }
+  try{ const d=await (await fetch("/v1/universities")).json();
+    __UNIS = d.universities||[]; CMP_DIMS = d.compare_dims||[]; __UNIS.forEach(u=>CMP[u.id]=true);
+    renderUnis(__UNIS); renderCmpChips(); renderCmpTable();
+  }catch(e){ $("#uniGrid").innerHTML='<div class="empty" style="color:var(--muted)">Не удалось загрузить вузы.</div>'; }
 }
+function renderCmpChips(){
+  $("#cmpChips").innerHTML = __UNIS.map(u=>`<span class="cattab ${CMP[u.id]?'on':''}" data-cmp="${esc(u.id)}">${esc(u.name)}</span>`).join("");
+  $("#cmpChips").querySelectorAll("[data-cmp]").forEach(c=>c.addEventListener("click",()=>{
+    CMP[c.getAttribute("data-cmp")]=!CMP[c.getAttribute("data-cmp")]; renderCmpChips(); renderCmpTable(); }));
+}
+function renderCmpTable(){
+  const list=__UNIS.filter(u=>CMP[u.id]);
+  if(!list.length){ $("#cmpTable").innerHTML='<div class="empty" style="color:var(--muted)">Выбери хотя бы один вуз.</div>'; return; }
+  const brd="border-top:1px solid var(--line)";
+  const th=`<th style="text-align:left;padding:10px 12px;color:var(--muted);font-weight:600;font-size:12px">Критерий</th>`+
+    list.map(u=>`<th style="text-align:left;padding:10px 12px;font-size:14px">${esc(u.name)}</th>`).join("");
+  const rows=CMP_DIMS.map(d=>`<tr><td style="padding:10px 12px;color:var(--muted);font-size:12.5px;${brd}">${esc(d.label)}</td>`+
+    list.map(u=>`<td style="padding:10px 12px;font-size:13.5px;${brd}">${esc((u.compare||{})[d.key]||'—')}</td>`).join("")+`</tr>`).join("");
+  $("#cmpTable").innerHTML=`<table style="width:100%;border-collapse:collapse;min-width:${140+list.length*170}px"><thead><tr>${th}</tr></thead><tbody>${rows}</tbody></table>`;
+}
+const cmpAsk=$("#cmpAskBtn"); if(cmpAsk) cmpAsk.addEventListener("click",()=>{
+  const names=__UNIS.filter(u=>CMP[u.id]).map(u=>u.name);
+  if(names.length<2) return;
+  selectedUni=null; renderAskContext();
+  ask(`Сравни вузы: ${names.join(" и ")} — по поступлению, грантам и стоимости. Что выбрать абитуриенту?`);
+});
 function renderUnis(list){
   list.forEach(u=>UNI_ID_NAME[u.id]=u.name);
   $("#uniGrid").innerHTML = list.map(u=>`
