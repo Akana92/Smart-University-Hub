@@ -834,19 +834,26 @@ function bucketsHtml(d, opts){
 
   const col = (b, title) => {
     const items = by(b);
-    const shown = items.slice(0, opts.limit || 6);
-    return `<div class="col ${b}">
-      <div class="col-head"><span class="dot"></span>${title}<span class="col-count">${items.length}</span></div>
-      ${shown.length ? shown.map(cardHtml).join("") : '<div class="empty">Пока пусто</div>'}
-    </div>`;
+    const limit = opts.limit || 6;
+    const head = `<div class="col-head"><span class="dot"></span>${title}<span class="col-count">${items.length}</span></div>`;
+    if(!items.length) return `<div class="col ${b}">${head}<div class="empty">Пока пусто</div></div>`;
+    const first = items.slice(0, limit).map(cardHtml).join("");
+    const rest = items.slice(limit);
+    const more = rest.length
+      ? `<div class="more-wrap" style="display:none">${rest.map((x,i)=>cardHtml(x,i+limit)).join("")}</div>`
+        + `<button class="more-btn" type="button" data-morecol="${b}" style="margin-top:10px;width:100%;font-size:12.5px;`
+        + `padding:9px 12px;border-radius:10px;border:1px solid var(--line-strong);background:rgba(255,255,255,.03);`
+        + `color:var(--ink-dim);cursor:pointer">Показать все ${items.length} →</button>`
+      : "";
+    return `<div class="col ${b}">${head}${first}${more}</div>`;
   };
 
   const idBase = "cnt"+Math.random().toString(36).slice(2,8);
   const html = `
     <div class="summary">
-      <span class="stat pass"><span class="n mono" id="${idBase}p">0</span><span class="l">проходишь<small>грант почти в кармане</small></span></span>
-      <span class="stat risk"><span class="n mono" id="${idBase}r">0</span><span class="l">на грани<small>конкурентно, но шанс есть</small></span></span>
-      <span class="stat fail"><span class="n mono" id="${idBase}f">0</span><span class="l">не хватает<small>смотри платное или план Б</small></span></span>
+      <span class="stat pass"><span class="n mono" id="${idBase}p">${s.pass||0}</span><span class="l">проходишь<small>грант почти в кармане</small></span></span>
+      <span class="stat risk"><span class="n mono" id="${idBase}r">${s.risk||0}</span><span class="l">на грани<small>конкурентно, но шанс есть</small></span></span>
+      <span class="stat fail"><span class="n mono" id="${idBase}f">${s.fail||0}</span><span class="l">не хватает<small>смотри платное или план Б</small></span></span>
     </div>
     <div class="divider"></div>
     <div class="cols">${col("pass","Проходишь")}${col("risk","На грани")}${col("fail","Не хватает")}</div>
@@ -865,6 +872,18 @@ function mountBucketsAnimated(container, d, opts){
     if(fEl) animateCount(fEl, counts.f);
   });
 }
+
+// разворот полного списка программ в корзине (работает и в навигаторе, и в ответе ассистента)
+document.addEventListener("click", (e)=>{
+  const btn = e.target.closest(".more-btn");
+  if(!btn) return;
+  const colEl = btn.closest(".col"); if(!colEl) return;
+  const wrap = colEl.querySelector(".more-wrap"); if(!wrap) return;
+  const opened = wrap.style.display !== "none";
+  wrap.style.display = opened ? "none" : "";
+  const total = (colEl.querySelector(".col-count")||{}).textContent || "";
+  btn.textContent = opened ? `Показать все ${total} →` : "Свернуть ↑";
+});
 
 /* ---------- Навигатор (движок B) ---------- */
 const recBtn = $("#recBtn");
@@ -988,7 +1007,7 @@ function renderEngineA(d, botEl){
 
 function renderEngineBRecommend(d, botEl){
   botEl.className = "msg-bot";
-  const {html} = bucketsHtml(d, {limit:4});
+  const {html, counts, idBase} = bucketsHtml(d, {limit:4});
   botEl.innerHTML = `
     <div class="head"><span class="avatar">✦</span><span>Балл ${esc(d.score)} · профиль ${esc((d.profile||"").replace("+"," + "))}</span><span class="engtag">навигатор · движок B</span></div>
     <div class="ans-text" style="margin-bottom:12px">Вот куда ты проходишь с этими данными:</div>
@@ -1002,8 +1021,12 @@ function renderEngineBRecommend(d, botEl){
     if(parts[1]) $("#subj2").value=parts[1];
     activePreset=null; renderPresets(); renderAskContext();
   }
-  const nums = botEl.querySelectorAll(".n.mono");
-  nums.forEach(n=>{ const target=+n.textContent||0; n.textContent="0"; animateCount(n,target); });
+  requestAnimationFrame(()=>{
+    const p=document.getElementById(idBase+"p"), r=document.getElementById(idBase+"r"), f=document.getElementById(idBase+"f");
+    if(p) animateCount(p, counts.p);
+    if(r) animateCount(r, counts.r);
+    if(f) animateCount(f, counts.f);
+  });
 }
 
 function renderEngineBNeedProfile(d, botEl){
