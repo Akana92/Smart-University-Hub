@@ -27,9 +27,9 @@ def test_faq_data_integrity():
 def test_faq_endpoint():
     j = client.get("/v1/faq").json()
     assert j["count"] >= 15 and len(j["cards"]) == j["count"]
-    assert any(cat["category"] == "student_life" for cat in j["categories"])
+    assert any(cat["category"] == "process" for cat in j["categories"])
 
 
 def test_faq_filter_by_category():
-    j = client.get("/v1/faq", params={"category": "student_life"}).json()
-    assert j["count"] >= 1 and all(c["category"] == "student_life" for c in j["cards"])
+    j = client.get("/v1/faq", params={"category": "process"}).json()
+    assert j["count"] >= 1 and all(c["category"] == "process" for c in j["cards"])
