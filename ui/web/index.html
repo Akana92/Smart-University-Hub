@@ -596,68 +596,17 @@
         </div>
       </section>
 
-      <!-- ================= 2. УНИВЕРСИТЕТЫ (тизер) ================= -->
+      <!-- ================= 2. УНИВЕРСИТЕТЫ ================= -->
       <section class="sec reveal" id="universities">
         <div class="sec-head">
           <div class="htext">
             <span class="kicker">Профили вузов</span>
             <h2>🏛️ Университеты</h2>
-            <p class="sub">Глубокая карточка по каждому вузу: программы, документы, реальные проходные, студжизнь.
-              Сейчас глубоко раскрыт KBTU — остальные вузы добавляем по одному, честно, без выдумок.</p>
-          </div>
-          <span class="tag soon">в работе</span>
-        </div>
-
-        <div class="uni-grid">
-          <div class="uni-card ready">
-            <div class="uni-top">
-              <div class="uni-mark">KBTU</div>
-              <span class="tag free">⚡ готово</span>
-            </div>
-            <h3>KBTU</h3>
-            <div class="loc">Алматы</div>
-            <div class="desc">Эталонный профиль платформы: проходные баллы 2025 по ГОП, документы приёмной комиссии
-              и AI-ассистент, который отвечает по официальным материалам вуза с цитатами.</div>
-            <ul class="feat">
-              <li><b>Навигатор грантов</b> — по всем ГОП KBTU</li>
-              <li><b>AI-ассистент</b> — с ссылками на источник</li>
-              <li><b>FAQ</b> — частые вопросы абитуриентов</li>
-            </ul>
-            <div class="cta"><a href="#navigator" class="btn-ghost">Смотреть программы KBTU →</a></div>
-          </div>
-
-          <div class="uni-card soon">
-            <div class="uni-top">
-              <div class="uni-mark">КазНУ</div>
-              <span class="tag soon">скоро</span>
-            </div>
-            <h3>КазНУ им. аль-Фараби</h3>
-            <div class="loc">Алматы</div>
-            <div class="desc">Готовим тот же уровень глубины: программы, проходные баллы, документы и студенческая
-              жизнь — без приблизительных цифр, только когда данные подтверждены.</div>
-            <ul class="feat">
-              <li>Программы и ГОП — <b>в работе</b></li>
-              <li>Проходные баллы — <b>в работе</b></li>
-              <li>Студжизнь — <b>в работе</b></li>
-            </ul>
-          </div>
-
-          <div class="uni-card soon">
-            <div class="uni-top">
-              <div class="uni-mark">NU</div>
-              <span class="tag soon">скоро</span>
-            </div>
-            <h3>Nazarbayev University</h3>
-            <div class="loc">Астана</div>
-            <div class="desc">Следующий вуз в очереди на полный профиль. Пока собираем и проверяем данные — публикуем
-              только то, что подтверждено официальными источниками.</div>
-            <ul class="feat">
-              <li>Программы и ГОП — <b>в работе</b></li>
-              <li>Проходные баллы — <b>в работе</b></li>
-              <li>Студжизнь — <b>в работе</b></li>
-            </ul>
+            <p class="sub">Выбери вуз — и спрашивай ассистента именно по нему: документы, баллы, как поступить.
+              По умолчанию ассистент ищет сразу по всем вузам.</p>
           </div>
         </div>
+        <div class="uni-grid" id="uniGrid"><div class="empty" style="color:var(--muted)">Загрузка вузов…</div></div>
       </section>
 
       <!-- ================= 3. НАВИГАТОР ГРАНТОВ ================= -->
@@ -983,9 +932,13 @@ function renderFaq(){
 }
 
 /* ---------- Assistant context pills (always reflects navigator state) ---------- */
+let selectedUni = null; const UNI_ID_NAME = {};
+window.clearUni = () => { selectedUni = null; renderAskContext(); };
 function renderAskContext(){
   const s1=$("#subj1").value, s2=$("#subj2").value, score=$("#score").value, city=$("#city").value.trim();
-  $("#askContext").innerHTML = `
+  const uni = selectedUni
+    ? `<span class="ctx-pill">Вуз: <b>${esc(UNI_ID_NAME[selectedUni]||selectedUni)}</b> <a onclick="clearUni()" style="cursor:pointer;color:var(--cyan)">✕</a></span>` : "";
+  $("#askContext").innerHTML = `${uni}
     <span class="ctx-pill">Профиль: <b>${esc(s1)} + ${esc(s2)}</b></span>
     <span class="ctx-pill">Балл: <b>${esc(score)}</b></span>
     ${city?`<span class="ctx-pill">Город: <b>${esc(city)}</b></span>`:""}
@@ -1104,7 +1057,7 @@ async function ask(question){
     const subjects = [$("#subj1").value, $("#subj2").value].filter(Boolean);
     const city = $("#city").value.trim() || null;
     const r = await fetch("/v1/ask",{method:"POST",headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({question:q, subjects, city})});
+      body:JSON.stringify({question:q, subjects, city, university:selectedUni})});
     const d = await r.json();
     routeAskResponse(d, thinking);
   }catch(e){
@@ -1127,6 +1080,31 @@ const io = new IntersectionObserver(entries=>{
 }, {threshold:0, rootMargin:"0px 0px -40px 0px"});  // threshold:0 — высокие секции (Гид/ассистент) не застревают на opacity:0
 document.querySelectorAll(".reveal").forEach(el=>io.observe(el));
 
+/* ---------- Universities section ---------- */
+async function loadUniversities(){
+  try{ const d=await (await fetch("/v1/universities")).json(); renderUnis(d.universities||[]); }
+  catch(e){ $("#uniGrid").innerHTML='<div class="empty" style="color:var(--muted)">Не удалось загрузить вузы.</div>'; }
+}
+function renderUnis(list){
+  list.forEach(u=>UNI_ID_NAME[u.id]=u.name);
+  $("#uniGrid").innerHTML = list.map(u=>`
+    <div class="uni-card ready">
+      <div class="uni-top"><div class="uni-mark">${esc(u.id.toUpperCase())}</div>
+        <span class="tag free">${esc(u.model)}</span></div>
+      <h3>${esc(u.full)}</h3>
+      <div class="loc">${esc(u.city)}${u.chunks?` · ${u.chunks} фрагментов в базе`:""}</div>
+      <div class="desc">${esc(u.tagline)}</div>
+      <ul class="feat">${(u.highlights||[]).map(h=>`<li><b>•</b> ${esc(h)}</li>`).join("")}</ul>
+      <div class="cta" style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn-ghost" type="button" data-uni="${esc(u.id)}">Спросить про ${esc(u.name)} →</button>
+        <a href="${esc(u.apply_url)}" target="_blank" rel="noopener" class="btn-ghost">Сайт приёма ↗</a>
+      </div>
+    </div>`).join("");
+  $("#uniGrid").querySelectorAll("button[data-uni]").forEach(b=>
+    b.addEventListener("click", ()=>{ selectedUni=b.getAttribute("data-uni"); renderAskContext();
+      document.querySelector("#assistant").scrollIntoView({behavior:"smooth"}); $("#q").focus(); }));
+}
+loadUniversities();
 loadFaq();
 })();
 </script>

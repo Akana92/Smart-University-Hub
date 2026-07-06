@@ -26,6 +26,7 @@ load_dotenv(os.path.join(ROOT, ".env"))
 
 from core import faq as faq_store  # noqa: E402  (клик-слой FAQ, Слой 1)
 from core import recommender  # noqa: E402  (движок B: адаптер + детерминированный парсер интента)
+from core import universities as uni_registry  # noqa: E402  (реестр вузов, раздел «Университеты»)
 from core.query_log import log_query  # noqa: E402
 from generation.pipeline import RagPipeline  # noqa: E402
 from providers.embedding import get_embedder  # noqa: E402
@@ -97,6 +98,22 @@ def _buckets(results: list[dict]) -> dict:
     for r in results:
         b[r["bucket"]] = b.get(r["bucket"], 0) + 1
     return b
+
+
+@app.get("/v1/universities")
+def universities_endpoint():
+    """Реестр вузов платформы + живой счётчик чанков (раздел «Университеты»)."""
+    counts: dict[str, int] = {}
+    try:
+        dsn = os.environ.get("DATABASE_URL", "")
+        if dsn.startswith("postgres"):
+            import psycopg
+            with psycopg.connect(dsn) as c:
+                for tid, n in c.execute("SELECT tenant_id, count(*) FROM chunks GROUP BY tenant_id").fetchall():
+                    counts[tid] = n
+    except Exception:
+        pass
+    return {"universities": uni_registry.universities(counts)}
 
 
 @app.get("/v1/faq")
