@@ -1571,8 +1571,8 @@ function addBotPlaceholder(){
 }
 
 function renderEngineA(d, botEl){
-  const refuse = d.refused ? " refuse" : "";
-  botEl.className = "msg-bot"+refuse;
+  const isErr = !!d.error;  // движок A недоступен (напр. БД документов) — показываем как предупреждение
+  botEl.className = "msg-bot"+((d.refused||isErr) ? " refuse" : "");
   let cites = "";
   if(d.citations && d.citations.length){
     cites = '<div class="cites">' + d.citations.map(c=>{
@@ -1581,8 +1581,10 @@ function renderEngineA(d, botEl){
       return `<a href="${esc(c.url)}" target="_blank" rel="noopener">📎 ${esc(c.label)}${pg}${sec}</a>`;
     }).join("") + '</div>';
   }
+  const head = isErr ? t("as_err_title") : (d.refused ? t("as_ans_no") : t("as_ans_ok"));
+  const tag = isErr ? "" : `<span class="engtag">${t("as_engtag_a")}</span>`;
   botEl.innerHTML = `
-    <div class="head"><span class="avatar">✦</span><span>${d.refused ? t("as_ans_no") : t("as_ans_ok")}</span><span class="engtag">${t("as_engtag_a")}</span></div>
+    <div class="head"><span class="avatar">✦</span><span>${head}</span>${tag}</div>
     <div class="ans-text">${esc(d.answer)}</div>
     ${cites}
   `;
@@ -1636,6 +1638,7 @@ function renderEngineBNeedProfile(d, botEl){
         const r = await fetch("/v1/ask",{method:"POST",headers:{"Content-Type":"application/json"},
           body:JSON.stringify({question:qText, subjects:pair, city:$("#city").value.trim()||null,
             history:CONV.slice(0,-1).slice(-6), profile:($("#subj1").value+"+"+$("#subj2").value)})});
+        if(!r.ok) throw new Error("HTTP "+r.status);
         const dd = await r.json();
         pushAssistantTurn(dd);
         routeAskResponse(dd, thinking);
@@ -1677,6 +1680,7 @@ async function ask(question){
     const r = await fetch("/v1/ask",{method:"POST",headers:{"Content-Type":"application/json"},
       body:JSON.stringify({question:q, subjects, city, university:selectedUni,
         history:CONV.slice(0,-1).slice(-6), profile:($("#subj1").value+"+"+$("#subj2").value)})});
+    if(!r.ok) throw new Error("HTTP "+r.status);
     const d = await r.json();
     pushAssistantTurn(d);
     routeAskResponse(d, thinking);

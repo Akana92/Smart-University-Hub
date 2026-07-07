@@ -69,10 +69,13 @@ def build_citations(chunks: list[dict], answer: str) -> list[dict]:
 
 
 def _retrieved_summary(chunks: list[dict]) -> list[dict]:
-    """Компактная сводка найденных чанков (для лога: запрос→чанки+скоры→ответ, §12)."""
-    return [{"n": i + 1, "source": c.get("source"), "page": c.get("page_number"),
-             "section": c.get("section_title"), "content_type": c.get("content_type"),
-             "score": round(float(c.get("_score") or 0), 5)} for i, c in enumerate(chunks)]
+    """Компактная сводка найденных чанков (для лога и админки: запрос→чанки+скоры+сниппет→ответ, §12).
+    rank — порядок после RRF (1 = самый релевантный); score — фьюженный RRF-скор; text — сниппет для обзора."""
+    return [{"n": i + 1, "rank": i + 1, "source": c.get("source"),
+             "standard_code": c.get("standard_code"), "university": c.get("tenant_id"),
+             "page": c.get("page_number"), "section": c.get("section_title"),
+             "content_type": c.get("content_type"), "score": round(float(c.get("_score") or 0), 5),
+             "text": (c.get("text") or "").strip()[:400]} for i, c in enumerate(chunks)]
 
 
 def _usage(resp) -> dict | None:

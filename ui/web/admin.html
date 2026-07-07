@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Smart University — Наблюдаемость LLM</title>
+<style>
+  :root{
+    --bg:#08090D; --bg-soft:#0D0F16; --surface:#12141C; --surface-2:#171A24;
+    --line:rgba(255,255,255,.08); --line-strong:rgba(255,255,255,.16);
+    --ink:#F3F4F8; --ink-dim:#C7CBDA; --muted:#8A8FA3; --muted-2:#5D6178;
+    --violet:#8B7CFF; --cyan:#3DEBD1; --grad:linear-gradient(120deg,#8B7CFF,#3DEBD1);
+    --pass:#3DEBD1; --risk:#FFC24B; --fail:#FF6B7A;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+    --mono:ui-monospace,"Cascadia Mono","SF Mono",Consolas,monospace;
+  }
+  *,*::before,*::after{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:14px;line-height:1.5}
+  a{color:var(--cyan);text-decoration:none}
+  .mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+  .wrap{max-width:1200px;margin:0 auto;padding:22px clamp(14px,3vw,32px) 80px}
+
+  header.top{display:flex;flex-wrap:wrap;align-items:center;gap:14px;justify-content:space-between;margin-bottom:20px}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:16px}
+  .brand .mark{width:26px;height:26px;border-radius:8px;background:var(--grad)}
+  .brand small{font-weight:600;color:var(--muted);font-size:12px}
+  .health{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .pill{font-family:var(--mono);font-size:11px;padding:5px 11px;border-radius:999px;border:1px solid var(--line-strong);
+    display:inline-flex;align-items:center;gap:6px;color:var(--ink-dim);background:rgba(255,255,255,.03)}
+  .dot{width:8px;height:8px;border-radius:50%;flex:none}
+  .dot.ok{background:var(--pass);box-shadow:0 0 8px var(--pass)} .dot.bad{background:var(--fail);box-shadow:0 0 8px var(--fail)}
+  .btn{font-family:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:9px;cursor:pointer;
+    border:1px solid var(--line-strong);background:rgba(255,255,255,.04);color:var(--ink);transition:.15s}
+  .btn:hover{border-color:var(--violet);background:rgba(139,124,255,.1)}
+  .btn.on{background:var(--grad);color:#fff;border-color:transparent}
+
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:1px;background:var(--line);
+    border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-bottom:18px}
+  .stat{background:var(--bg-soft);padding:14px 16px}
+  .stat .k{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+  .stat .v{font-family:var(--mono);font-size:24px;font-weight:800;margin-top:4px}
+  .stat.a .v{color:var(--violet)} .stat.b .v{color:var(--cyan)}
+  .stat.err .v{color:var(--fail)} .stat.ref .v{color:var(--risk)}
+
+  .controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:14px}
+  .controls input[type=text]{flex:1;min-width:180px;font-family:inherit;font-size:13px;color:var(--ink);
+    padding:8px 12px;border:1px solid var(--line-strong);border-radius:9px;background:rgba(255,255,255,.03)}
+  .controls input:focus{outline:none;border-color:var(--violet)}
+  select.sel{font-family:inherit;font-size:12.5px;color:var(--ink);padding:7px 10px;border:1px solid var(--line-strong);
+    border-radius:9px;background:var(--surface)}
+
+  .rows{border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .row{border-bottom:1px solid var(--line);cursor:pointer;transition:background .12s}
+  .row:last-child{border-bottom:0}
+  .row:hover{background:rgba(255,255,255,.02)}
+  .rhead{display:grid;grid-template-columns:120px 52px 40px 1fr 70px 74px 90px;gap:12px;align-items:center;padding:11px 16px}
+  @media(max-width:760px){.rhead{grid-template-columns:70px 46px 1fr 70px;gap:8px}.rhead .hide{display:none}}
+  .rhead .t{font-family:var(--mono);font-size:11.5px;color:var(--muted-2)}
+  .badge{font-family:var(--mono);font-size:10px;font-weight:700;padding:3px 8px;border-radius:999px;text-align:center;white-space:nowrap}
+  .b-A{color:var(--violet);border:1px solid rgba(139,124,255,.4);background:rgba(139,124,255,.1)}
+  .b-B{color:var(--cyan);border:1px solid rgba(61,235,209,.4);background:rgba(61,235,209,.1)}
+  .b-chat{color:var(--muted);border:1px solid var(--line-strong)}
+  .lang{font-family:var(--mono);font-size:10px;color:var(--muted-2);text-transform:uppercase}
+  .q{color:var(--ink-dim);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .num{font-family:var(--mono);font-size:12px;color:var(--muted);text-align:right}
+  .st{font-family:var(--mono);font-size:10px;font-weight:700;padding:3px 8px;border-radius:999px;text-align:center}
+  .st.ok{color:var(--pass);background:rgba(61,235,209,.1);border:1px solid rgba(61,235,209,.3)}
+  .st.ref{color:var(--risk);background:rgba(255,194,75,.1);border:1px solid rgba(255,194,75,.3)}
+  .st.err{color:var(--fail);background:rgba(255,107,122,.1);border:1px solid rgba(255,107,122,.3)}
+
+  .detail{padding:2px 16px 18px;background:rgba(0,0,0,.18);border-top:1px solid var(--line)}
+  .detail h4{margin:16px 0 8px;font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted-2)}
+  .qbox{color:var(--ink);font-size:14.5px;font-weight:600;margin-top:12px}
+  .abox{white-space:pre-wrap;color:var(--ink-dim);background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px;font-size:13.5px}
+  .abox.err{border-color:rgba(255,107,122,.35);background:rgba(255,107,122,.05)}
+  .chunk{border:1px solid var(--line);border-left:3px solid var(--violet);border-radius:8px;padding:10px 12px;margin-bottom:8px;background:var(--surface)}
+  .chunk .top{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;font-size:11.5px;color:var(--muted)}
+  .chunk .rk{font-family:var(--mono);font-weight:800;color:var(--violet)}
+  .chunk .src{font-family:var(--mono);color:var(--ink-dim)}
+  .chunk .ct{font-family:var(--mono);color:var(--muted-2)}
+  .scorebar{flex:1;min-width:80px;height:6px;border-radius:99px;background:rgba(255,255,255,.07);overflow:hidden;max-width:200px}
+  .scorebar > i{display:block;height:100%;background:var(--grad)}
+  .chunk .txt{margin-top:8px;font-size:12.5px;color:var(--ink-dim);line-height:1.55;white-space:pre-wrap}
+  .cites a{display:block;color:var(--cyan);font-size:12.5px;margin-top:4px}
+  .kv{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:12px;color:var(--muted)}
+  .kv b{color:var(--ink-dim);font-family:var(--mono)}
+  .legend{font-size:11.5px;color:var(--muted-2);margin-top:6px;line-height:1.5}
+  .empty{padding:40px;text-align:center;color:var(--muted)}
+  .err-line{color:var(--fail);font-family:var(--mono);font-size:12px;margin-top:6px}
+  .summ{display:flex;gap:10px;margin-top:8px}
+  .summ span{font-family:var(--mono);font-size:12px;padding:4px 10px;border-radius:8px}
+  .summ .p{color:var(--pass);background:rgba(61,235,209,.1)} .summ .r{color:var(--risk);background:rgba(255,194,75,.1)} .summ .f{color:var(--fail);background:rgba(255,107,122,.1)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="brand"><span class="mark"></span> Наблюдаемость LLM <small>· что обрабатывает ассистент</small></div>
+    <div class="health" id="health"></div>
+  </header>
+
+  <div class="stats" id="stats"></div>
+
+  <div class="controls">
+    <input type="text" id="search" placeholder="Поиск по вопросу…">
+    <select class="sel" id="fEngine">
+      <option value="">Все движки</option>
+      <option value="A">Движок A (RAG)</option>
+      <option value="B">Движок B (навигатор)</option>
+      <option value="chat">Строгий /chat</option>
+    </select>
+    <button class="btn" id="fIssues">⚠️ Только проблемы</button>
+    <select class="sel" id="fLimit">
+      <option value="100">100</option><option value="200" selected>200</option>
+      <option value="500">500</option><option value="1000">1000</option>
+    </select>
+    <button class="btn" id="refresh">↻ Обновить</button>
+    <button class="btn" id="auto">⏱ Авто</button>
+  </div>
+
+  <div class="rows" id="rows"><div class="empty">Загрузка…</div></div>
+  <p class="legend" style="margin-top:14px">
+    score — фьюженный скор <b>RRF</b> (dense-семантика + BM25-лексика, K=60): выше = релевантнее.
+    rank — позиция чанка после слияния (1 = самый релевантный). Так видно, <i>почему</i> модель прочитала именно этот фрагмент.
+  </p>
+</div>
+
+<script>
+"use strict";
+const KEY = new URLSearchParams(location.search).get("key") || "";
+const qs = extra => { const p = new URLSearchParams(extra||{}); if(KEY) p.set("key",KEY); return p.toString(); };
+const $ = s => document.querySelector(s);
+const esc = s => (s==null?"":String(s)).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
+const fmtTs = ts => { if(!ts) return "—"; const d=new Date(ts*1000); return d.toLocaleString("ru-RU",{month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit",second:"2-digit"}); };
+const engOf = r => r.engine || "chat";
+const statusOf = r => r.error ? "err" : (r.refused ? "ref" : "ok");
+
+let RECORDS = [], AUTO = null;
+
+async function loadStats(){
+  try{
+    const s = await (await fetch("/v1/admin/stats?"+qs())).json();
+    $("#health").innerHTML =
+      `<span class="pill"><span class="dot ${s.db_ok?'ok':'bad'}"></span>БД документов</span>`+
+      `<span class="pill"><span class="dot ${s.engine_b_ok?'ok':'bad'}"></span>Движок B</span>`+
+      `<span class="pill">${s.protected?'🔒 защищено':'🔓 открыто'}</span>`;
+    const be = s.by_engine||{};
+    $("#stats").innerHTML = [
+      ["Всего", s.total, ""], ["Движок A", be.A||0, "a"], ["Движок B", be.B||0, "b"],
+      ["Отвечено", s.answered, ""], ["Отказы", s.refused, "ref"], ["Ошибки", s.errors, "err"],
+      ["Ср. задержка", s.avg_latency_ms!=null?(s.avg_latency_ms+" мс"):"—", ""],
+      ["Токены (∑)", (s.tokens_total||0).toLocaleString("ru-RU"), ""],
+    ].map(([k,v,c])=>`<div class="stat ${c}"><div class="k">${k}</div><div class="v">${esc(v)}</div></div>`).join("");
+  }catch(e){ $("#health").innerHTML = `<span class="pill"><span class="dot bad"></span>админ API недоступен</span>`; }
+}
+
+async function loadLogs(){
+  const engine = $("#fEngine").value, only = $("#fIssues").classList.contains("on"), limit = $("#fLimit").value;
+  try{
+    const r = await (await fetch("/v1/admin/logs?"+qs({limit, engine, only_issues:only}))).json();
+    RECORDS = r.records||[];
+    render();
+  }catch(e){ $("#rows").innerHTML = `<div class="empty">Не удалось загрузить лог (${esc(e.message)}). Проверь ?key= в адресе.</div>`; }
+}
+
+function render(){
+  const term = $("#search").value.trim().toLowerCase();
+  const list = term ? RECORDS.filter(r=>String(r.question||"").toLowerCase().includes(term)) : RECORDS;
+  if(!list.length){ $("#rows").innerHTML = `<div class="empty">Пока нет запросов. Задай вопрос ассистенту на главной — он появится здесь.</div>`; return; }
+  $("#rows").innerHTML = list.map((r,i)=>{
+    const eng = engOf(r), st = statusOf(r);
+    const stTxt = st==="err"?"ошибка":(st==="ref"?"отказ":"ок");
+    return `<div class="row" data-i="${i}">
+      <div class="rhead">
+        <span class="t hide">${fmtTs(r.ts)}</span>
+        <span class="badge b-${eng}">${eng}</span>
+        <span class="lang hide">${esc(r.lang||"")}</span>
+        <span class="q">${esc(r.question||"—")}</span>
+        <span class="num hide">${r.chunks_used!=null?r.chunks_used+" чанк":""}</span>
+        <span class="num hide">${r.latency_ms!=null?r.latency_ms+" мс":""}</span>
+        <span class="st ${st}">${stTxt}</span>
+      </div>
+      <div class="detail" style="display:none" data-d="${i}"></div>
+    </div>`;
+  }).join("");
+  bindRows(list);
+}
+
+function bindRows(list){
+  document.querySelectorAll(".row").forEach(row=>{
+    row.querySelector(".rhead").addEventListener("click", ()=>{
+      const i = +row.getAttribute("data-i");
+      const box = row.querySelector(".detail");
+      const open = box.style.display !== "none";
+      if(open){ box.style.display="none"; return; }
+      box.innerHTML = detailHtml(list[i]);
+      box.style.display="block";
+    });
+  });
+}
+
+function detailHtml(r){
+  let h = `<div class="qbox">${esc(r.question||"—")}</div>`;
+  h += `<div class="kv" style="margin-top:8px">
+    <span>время: <b>${fmtTs(r.ts)}</b></span>
+    <span>движок: <b>${esc(engOf(r))}</b></span>
+    ${r.lang?`<span>язык: <b>${esc(r.lang)}</b></span>`:""}
+    ${r.intent?`<span>интент: <b>${esc(r.intent)}</b></span>`:""}
+    ${r.reason?`<span>reason: <b>${esc(r.reason)}</b></span>`:""}
+    ${r.latency_ms!=null?`<span>задержка: <b>${r.latency_ms} мс</b></span>`:""}
+    ${r.tokens&&r.tokens.total?`<span>токены: <b>${r.tokens.prompt||"?"}+${r.tokens.completion||"?"}=${r.tokens.total}</b></span>`:""}
+    ${r.request_id?`<span>id: <b>${esc(r.request_id)}</b></span>`:""}
+  </div>`;
+  if(r.error){ h += `<div class="err-line">⚠ ошибка движка: ${esc(r.error)}</div>`; }
+
+  // Движок B — навигатор (числа, без чанков)
+  if(engOf(r)==="B"){
+    if(r.score!=null||r.profile){ h += `<div class="kv" style="margin-top:10px"><span>балл: <b>${esc(r.score)}</b></span><span>профиль: <b>${esc(r.profile||"—")}</b></span></div>`; }
+    const s=r.summary; if(s){ h += `<div class="summ"><span class="p">✅ ${s.pass||0}</span><span class="r">⚠️ ${s.risk||0}</span><span class="f">❌ ${s.fail||0}</span></div>`; }
+    return h;
+  }
+
+  // Ответ
+  if(r.answer!=null){ h += `<h4>Ответ</h4><div class="abox ${r.error?'err':''}">${esc(r.answer)}</div>`; }
+
+  // Прочитанные чанки (что и почему прочитала модель)
+  const ret = r.retrieved||[];
+  if(ret.length){
+    const maxS = Math.max(...ret.map(c=>c.score||0), 0.0001);
+    h += `<h4>Прочитанные фрагменты · ${ret.length} (ранжировано RRF)</h4>`;
+    h += ret.map(c=>{
+      const w = Math.round(((c.score||0)/maxS)*100);
+      const doc = c.standard_code || c.source || "документ";
+      const uni = c.university ? " · "+esc(c.university) : "";
+      const pg = c.page!=null ? " · стр. "+esc(c.page) : "";
+      const sec = c.section ? " · "+esc(c.section) : "";
+      return `<div class="chunk">
+        <div class="top">
+          <span class="rk">#${c.rank||c.n}</span>
+          <span class="src">${esc(doc)}${uni}${pg}</span>
+          ${c.content_type?`<span class="ct">${esc(c.content_type)}</span>`:""}
+          <span class="scorebar"><i style="width:${w}%"></i></span>
+          <span class="mono">score ${(c.score||0).toFixed(5)}</span>
+        </div>
+        ${sec?`<div class="ct" style="margin-top:4px;font-size:11px">${sec.replace(/^ · /,'')}</div>`:""}
+        ${c.text?`<div class="txt">${esc(c.text)}${c.text.length>=400?"…":""}</div>`:""}
+      </div>`;
+    }).join("");
+  } else if(engOf(r)==="A" && !r.error){
+    h += `<h4>Прочитанные фрагменты</h4><div class="legend">Релевантных фрагментов не найдено — ответ дан из общих знаний советника (без цитат) либо отказ.</div>`;
+  }
+
+  // Цитаты (что реально попало в ответ со ссылкой)
+  const cites = r.citations||[];
+  if(cites.length){
+    h += `<h4>Цитаты в ответе</h4><div class="cites">`+cites.map(c=>{
+      const pg=c.page!=null?" · стр. "+esc(c.page):""; const sec=c.section?" · "+esc(c.section):"";
+      return c.url?`<a href="${esc(c.url)}" target="_blank" rel="noopener">📎 [${c.n}] ${esc(c.label)}${pg}${sec}</a>`
+        :`<span>📎 [${c.n}] ${esc(c.label)}${pg}${sec}</span>`;
+    }).join("")+`</div>`;
+  }
+  return h;
+}
+
+// wiring
+$("#refresh").onclick = ()=>{ loadStats(); loadLogs(); };
+$("#search").addEventListener("input", render);
+$("#fEngine").addEventListener("change", loadLogs);
+$("#fLimit").addEventListener("change", loadLogs);
+$("#fIssues").addEventListener("click", ()=>{ $("#fIssues").classList.toggle("on"); loadLogs(); });
+$("#auto").addEventListener("click", ()=>{
+  const b=$("#auto"); b.classList.toggle("on");
+  if(b.classList.contains("on")){ AUTO=setInterval(()=>{loadStats();loadLogs();},10000); }
+  else{ clearInterval(AUTO); AUTO=null; }
+});
+loadStats(); loadLogs();
+</script>
+</body>
+</html>

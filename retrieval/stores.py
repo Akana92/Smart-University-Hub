@@ -149,10 +149,13 @@ class PgVectorHybridStore:
 
     def __init__(self, dsn: Optional[str] = None):
         self.dsn = dsn or os.environ["DATABASE_URL"]
+        # connect_timeout: не висеть бесконечно, если БД недоступна (ассистент отдаст понятную
+        # ошибку вместо вечного «Смотрю в документы»). Настраивается через PG_CONNECT_TIMEOUT.
+        self.connect_timeout = int(os.environ.get("PG_CONNECT_TIMEOUT", "6"))
 
     def _conn(self):
         import psycopg
-        return psycopg.connect(self.dsn)
+        return psycopg.connect(self.dsn, connect_timeout=self.connect_timeout)
 
     def init_schema(self, dim: int):
         self._dim = dim

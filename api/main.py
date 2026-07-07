@@ -28,6 +28,7 @@ from core import faq as faq_store  # noqa: E402  (клик-слой FAQ, Сло�
 from core import lang as lang_util  # noqa: E402  (детект языка сообщения, 0 токенов, TASK-030)
 from core import recommender  # noqa: E402  (движок B: адаптер + детерминированный парсер интента)
 from core import universities as uni_registry  # noqa: E402  (реестр вузов, раздел «Университеты»)
+from core import query_log  # noqa: E402  (чтение/агрегация лога для админки, TASK-031)
 from core.query_log import log_query  # noqa: E402
 from generation.pipeline import RagPipeline  # noqa: E402
 from providers.embedding import get_embedder  # noqa: E402
@@ -92,6 +93,40 @@ def chat(req: ChatRequest, pipe: RagPipeline = Depends(get_pipeline)):
 
 DISCLAIMER_B = ("Исторические отсечки на грант 2025 (источник — агрегатор univision, сверять с adilet). "
                 "Это НЕ гарантия: проходной 2026 формируется по итогам конкурса (число грантов × сила заявителей).")
+
+# Мягкое сообщение, если движок A недоступен (напр. БД документов не поднята) — вместо зависания/500
+_ADVISOR_DOWN = {
+    "ru": "Ассистент сейчас недоступен — нет связи с базой документов. Навигатор грантов и частые вопросы "
+          "работают как обычно; попробуй чуть позже.",
+    "kk": "Көмекші қазір қолжетімсіз — құжаттар базасымен байланыс жоқ. Грант навигаторы мен жиі қойылатын "
+          "сұрақтар әдеттегідей жұмыс істейді; сәл кейінірек қайталап көр.",
+    "en": "The assistant is temporarily unavailable — no connection to the document database. The grant "
+          "navigator and FAQ work as usual; please try again shortly.",
+}
+
+# ─────────── Админка наблюдаемости (TASK-031): история запросов LLM «только мне» ───────────
+# Защита: если задан ADMIN_TOKEN в окружении — требуем ?key=<token>; иначе (локальная разработка) открыто.
+ADMIN_TOKEN = os.environ.get("ADMIN_TOKEN", "")
+ADMIN_INDEX = os.path.join(ROOT, "ui", "web", "admin.html")
+
+
+def _admin_guard(key: str) -> None:
+    if ADMIN_TOKEN and key != ADMIN_TOKEN:
+        raise HTTPException(status_code=401, detail="Нужен админ-токен: добавь ?key=<ADMIN_TOKEN>")
+
+
+def _db_ok() -> bool:
+    """Быстрая проверка доступности БД документов (для плашки здоровья админки)."""
+    dsn = os.environ.get("DATABASE_URL", "")
+    if not dsn.startswith("postgres"):
+        return True  # sqlite/локальный стор — всегда «доступен»
+    try:
+        import psycopg
+        with psycopg.connect(dsn, connect_timeout=2) as c, c.cursor() as cur:
+            cur.execute("SELECT 1")
+        return True
+    except Exception:
+        return False
 
 
 def _buckets(results: list[dict]) -> dict:
@@ -197,8 +232,17 @@ def ask(req: AskRequest, pipe: RagPipeline = Depends(get_pipeline)):
     lang = lang_util.normalize_lang(req.lang) if req.lang else lang_util.detect_lang(req.question)
     history = [{"role": t.role, "content": t.content} for t in (req.history or [])]
     t0 = time.perf_counter()
-    res = pipe.answer(req.question, categories=cats, mode="advisor", university=req.university,
-                      history=history, lang=lang)
+    try:
+        res = pipe.answer(req.question, categories=cats, mode="advisor", university=req.university,
+                          history=history, lang=lang)
+    except Exception as e:  # напр. БД документов недоступна — не вешаем UI, отдаём понятное сообщение
+        latency_ms = round((time.perf_counter() - t0) * 1000)
+        log_query({"request_id": rid, "tenant": TENANT, "engine": "A", "intent": "document_qa",
+                   "question": req.question, "category": req.category, "lang": lang, "refused": False,
+                   "reason": "engine_a_error", "error": str(e)[:300], "latency_ms": latency_ms})
+        return {"request_id": rid, "engine": "A", "intent": "document_qa", "refused": False, "error": True,
+                "answer": _ADVISOR_DOWN.get(lang, _ADVISOR_DOWN["ru"]), "citations": [], "chunks_used": 0,
+                "lang": lang, "latency_ms": latency_ms, "tokens": None}
     latency_ms = round((time.perf_counter() - t0) * 1000)
     log_query({"request_id": rid, "tenant": TENANT, "engine": "A", "intent": "document_qa",
                "question": req.question, "category": req.category, "lang": lang, "refused": res["refused"],
@@ -208,3 +252,36 @@ def ask(req: AskRequest, pipe: RagPipeline = Depends(get_pipeline)):
     return {"request_id": rid, "engine": "A", "intent": "document_qa", "refused": res["refused"],
             "answer": res["answer"], "citations": res["citations"], "chunks_used": res.get("chunks_used"),
             "lang": lang, "latency_ms": latency_ms, "tokens": res.get("tokens")}
+
+
+@app.get("/admin", include_in_schema=False)
+def admin_page(key: str = Query("")):
+    """Приватная админка наблюдаемости (TASK-031): история запросов LLM, чанки+скоры, здоровье."""
+    _admin_guard(key)
+    return FileResponse(ADMIN_INDEX)
+
+
+@app.get("/v1/admin/logs")
+def admin_logs(key: str = Query(""),
+               limit: int = Query(200, ge=1, le=2000),
+               engine: str | None = Query(None, description="A | B | chat — фильтр по движку"),
+               only_issues: bool = Query(False, description="только отказы и ошибки")):
+    """Последние запросы из лога (новейшие первыми): вопрос → retrieved(чанки+скоры+сниппет) → ответ."""
+    _admin_guard(key)
+    recs = query_log.read_recent(limit)
+    if engine:
+        recs = [r for r in recs if (r.get("engine") or "chat") == engine]
+    if only_issues:
+        recs = [r for r in recs if r.get("error") or r.get("refused")]
+    return {"count": len(recs), "protected": bool(ADMIN_TOKEN), "records": recs}
+
+
+@app.get("/v1/admin/stats")
+def admin_stats(key: str = Query("")):
+    """Сводка + плашка здоровья (БД документов, движок B) для верхней панели админки."""
+    _admin_guard(key)
+    agg = query_log.aggregate(query_log.read_recent(2000))
+    agg["db_ok"] = _db_ok()
+    agg["engine_b_ok"] = recommender.available()
+    agg["protected"] = bool(ADMIN_TOKEN)
+    return agg
