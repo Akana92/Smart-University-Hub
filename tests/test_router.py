@@ -19,9 +19,10 @@ class FakePipeline:
     last = {}
 
     def answer(self, question, categories=None, mode="strict", university=None,
-               history=None, lang="ru"):
+               history=None, lang="ru", balance_tenants=None, brief=None):
         FakePipeline.last = {"question": question, "mode": mode, "university": university,
-                             "history": history, "lang": lang}
+                             "history": history, "lang": lang,
+                             "balance_tenants": balance_tenants, "brief": brief}
         return {"refused": False, "answer": "GPA — средневзвешенная оценка [1].",
                 "citations": [{"n": 1, "label": "51-2-25", "page": 20, "section": "GPA", "url": "http://x"}],
                 "contexts": ["..."], "chunks_used": 1, "retrieved": [], "tokens": None, "reason": "answered"}
@@ -145,6 +146,20 @@ def test_ask_advisor_detects_kazakh():
 def test_ask_advisor_detects_english():
     client.post("/v1/ask", json={"question": "What documents do I need to apply?"})
     assert FakePipeline.last["lang"] == "en"
+
+
+def test_ask_compare_uses_balanced_retrieval_and_brief():
+    # запрос-сравнение → советник получает сбалансированный ретривал по всем вузам + справку (TASK-032)
+    client.post("/v1/ask", json={"question": "Сравни студенческую жизнь в вузах", "university": "kbtu"})
+    assert FakePipeline.last["mode"] == "advisor"
+    assert FakePipeline.last["balance_tenants"] == ["kbtu", "kaznu", "nu"]
+    assert FakePipeline.last["brief"] and "KBTU" in FakePipeline.last["brief"]
+    assert FakePipeline.last["university"] is None  # для сравнения фильтр по одному вузу снимаем
+
+
+def test_ask_non_compare_no_balance():
+    client.post("/v1/ask", json={"question": "Какие документы нужны для поступления?"})
+    assert FakePipeline.last["balance_tenants"] is None and FakePipeline.last["brief"] is None
 
 
 def test_recommend_endpoint(monkeypatch):

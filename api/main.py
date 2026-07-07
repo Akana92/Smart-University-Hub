@@ -231,10 +231,16 @@ def ask(req: AskRequest, pipe: RagPipeline = Depends(get_pipeline)):
     cats = [req.category] if req.category else None
     lang = lang_util.normalize_lang(req.lang) if req.lang else lang_util.detect_lang(req.question)
     history = [{"role": t.role, "content": t.content} for t in (req.history or [])]
+    # сравнение вузов → сбалансированный ретривал по ВСЕМ вузам + справка (TASK-032): иначе ответ
+    # однобокий (в базе KBTU-чанков кратно больше). Плюс промпт даёт плюсы/минусы и не отфутболивает.
+    compare = uni_registry.is_compare_query(req.question)
+    balance = uni_registry.tenant_ids() if compare else None
+    brief = uni_registry.compare_brief() if compare else None
+    uni_filter = None if compare else req.university
     t0 = time.perf_counter()
     try:
-        res = pipe.answer(req.question, categories=cats, mode="advisor", university=req.university,
-                          history=history, lang=lang)
+        res = pipe.answer(req.question, categories=cats, mode="advisor", university=uni_filter,
+                          history=history, lang=lang, balance_tenants=balance, brief=brief)
     except Exception as e:  # напр. БД документов недоступна — не вешаем UI, отдаём понятное сообщение
         latency_ms = round((time.perf_counter() - t0) * 1000)
         log_query({"request_id": rid, "tenant": TENANT, "engine": "A", "intent": "document_qa",
@@ -245,8 +251,8 @@ def ask(req: AskRequest, pipe: RagPipeline = Depends(get_pipeline)):
                 "lang": lang, "latency_ms": latency_ms, "tokens": None}
     latency_ms = round((time.perf_counter() - t0) * 1000)
     log_query({"request_id": rid, "tenant": TENANT, "engine": "A", "intent": "document_qa",
-               "question": req.question, "category": req.category, "lang": lang, "refused": res["refused"],
-               "reason": res.get("reason"), "chunks_used": res.get("chunks_used"),
+               "question": req.question, "category": req.category, "lang": lang, "compare": compare,
+               "refused": res["refused"], "reason": res.get("reason"), "chunks_used": res.get("chunks_used"),
                "retrieved": res.get("retrieved"), "answer": res["answer"], "citations": res["citations"],
                "latency_ms": latency_ms, "tokens": res.get("tokens")})
     return {"request_id": rid, "engine": "A", "intent": "document_qa", "refused": res["refused"],

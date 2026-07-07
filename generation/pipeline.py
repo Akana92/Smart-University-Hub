@@ -102,20 +102,40 @@ class RagPipeline:
 
     def answer(self, question: str, categories: list[str] | None = None,
                mode: str = "strict", university: str | None = None,
-               history: list[dict] | None = None, lang: str = "ru") -> dict:
+               history: list[dict] | None = None, lang: str = "ru",
+               balance_tenants: list[str] | None = None, brief: str | None = None) -> dict:
         """mode='strict' — курсовой context-only + дословный отказ (ТЗ, движок A /v1/chat).
         mode='advisor' — продуктовый советник абитуриента (docs/07 §5): помогает всегда, без «кабинет 101».
         university — вуз для поиска: None = ПО ВСЕМ вузам (продукт-платформа), иначе фильтр по вузу.
         history — прошлые ходы диалога [{role,content}] (память сессии, только советник, TASK-030).
-        lang — язык ответа советника ('ru'|'kk'|'en'), определяется по языку сообщения (TASK-030)."""
+        lang — язык ответа советника ('ru'|'kk'|'en'), определяется по языку сообщения (TASK-030).
+        balance_tenants — список вузов для СБАЛАНСИРОВАННОГО ретривала (сравнение, TASK-032): берём чанки
+        поровну из каждого, чтобы ответ не был однобоким из-за перекоса числа чанков. brief — доп. справка
+        о вузах в контекст советника (не цитируется)."""
         qv = self.embedder.embed_query(question)
         if mode == "advisor":
-            chunks = self.store.search(qv, question, tenant_id=university,
-                                       top_k=self.top_k, categories=categories)
-            return self._answer_advisor(question, chunks, history=history, lang=lang)
+            if balance_tenants:
+                chunks = self._search_balanced(qv, question, balance_tenants, categories)
+            else:
+                chunks = self.store.search(qv, question, tenant_id=university,
+                                           top_k=self.top_k, categories=categories)
+            return self._answer_advisor(question, chunks, history=history, lang=lang, brief=brief)
         chunks = self.store.search(qv, question, tenant_id=self.tenant_id,
                                    top_k=self.top_k, categories=categories)
         return self._answer_strict(question, chunks)
+
+    def _search_balanced(self, qv, question, tenants: list[str], categories, per: int = 3) -> list[dict]:
+        """Ретривал поровну по каждому вузу (для сравнений): по `per` чанков на вуз, с дедупом.
+        Так в контекст попадают материалы про ВСЕ вузы, а не только про тот, где чанков больше."""
+        seen, out = set(), []
+        for tid in tenants:
+            for ch in self.store.search(qv, question, tenant_id=tid, top_k=per, categories=categories):
+                cid = ch.get("chunk_id") or ch.get("rowid") or id(ch)
+                if cid in seen:
+                    continue
+                seen.add(cid)
+                out.append(ch)
+        return out
 
     def _answer_strict(self, question: str, chunks: list[dict]) -> dict:
         # Рубеж 1: pre-LLM gate — нет контекста → отказ без обращения к LLM
@@ -144,16 +164,21 @@ class RagPipeline:
                 "tokens": _usage(resp), "reason": "llm_refusal" if refused else "answered"}
 
     def _answer_advisor(self, question: str, chunks: list[dict],
-                        history: list[dict] | None = None, lang: str = "ru") -> dict:
+                        history: list[dict] | None = None, lang: str = "ru",
+                        brief: str | None = None) -> dict:
         # Продуктовый режим: помогаем всегда. Факт из контекста → с цитатами; общий совет → без цитат;
-        # нет данных вуза → мягко (не «кабинет 101»). Анти-галлюцинация: числа только из контекста (промпт §3).
-        # Память сессии: прошлые ходы диалога вставляем настоящими репликами между system и текущим вопросом.
-        # Язык: директива по языку сообщения (ru/kk/en) — переводит факты русского контекста на язык ответа.
+        # нет данных вуза → мягко и с шагом на платформе (не «на сайт вуза»). Анти-галлюцинация: числа только
+        # из контекста/справки. Память сессии: прошлые ходы — настоящими репликами между system и вопросом.
+        # brief — справка о вузах для сравнения (TASK-032), кладём в контекст до вопроса (без цитат).
         ctx = format_context(chunks) if chunks else "(релевантных документов не найдено)"
+        blocks = []
         directive = advisor_directive(lang)
-        user_content = ADVISOR_USER_TEMPLATE.format(context=ctx, question=question)
         if directive:
-            user_content = directive + "\n\n" + user_content
+            blocks.append(directive)
+        if brief:
+            blocks.append(brief)
+        blocks.append(ADVISOR_USER_TEMPLATE.format(context=ctx, question=question))
+        user_content = "\n\n".join(blocks)
         messages = [ChatMessage(role=MessageRole.SYSTEM, content=ADVISOR_SYSTEM_PROMPT)]
         messages += _history_messages(history)
         messages.append(ChatMessage(role=MessageRole.USER, content=user_content))

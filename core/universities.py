@@ -205,3 +205,44 @@ def universities(chunk_counts: dict | None = None, lang: str = "ru") -> list[dic
 def compare_dims(lang: str = "ru") -> list[dict]:
     tr = COMPARE_DIMS_I18N.get(lang, {}) if lang and lang != "ru" else {}
     return [{"key": k, "label": tr.get(k, lbl)} for k, lbl in COMPARE_DIMS]
+
+
+def tenant_ids() -> list[str]:
+    return [u["id"] for u in UNIVERSITIES]
+
+
+# ─────────── Сравнение вузов советником (TASK-032) ───────────
+# Детектор запроса-сравнения (детерминированно, 0 токенов) + справка о вузах для инъекции в контекст,
+# чтобы советник давал плюсы/минусы ПО ВСЕМ вузам платформы, а не только по тому, где чанков больше.
+_COMPARE_KW = ("сравн", "плюсы и минус", "плюсы-минус", " vs ", " против ", "отлич", "разниц",
+               "какой вуз", "какой универ", "куда лучше", "где лучше", "что выбрать", "лучше поступ")
+_UNI_ALIASES = {
+    "kbtu": ("kbtu", "кбту", "казахстанско-брит", "казахстанско брит"),
+    "kaznu": ("казну", "kaznu", "аль-фараби", "аль фараби"),
+    "nu": ("nazarbayev", "назарбаев", "нуфип", "nufyp", "nuet"),
+}
+
+
+def is_compare_query(q: str) -> bool:
+    """True, если вопрос — про сравнение вузов / «какой лучше» (по ключевым словам или ≥2 названиям вузов)."""
+    ql = (q or "").lower()
+    if any(k in ql for k in _COMPARE_KW):
+        return True
+    hits = sum(1 for al in _UNI_ALIASES.values() if any(a in ql for a in al))
+    return hits >= 2
+
+
+def compare_brief(lang: str = "ru") -> str:
+    """Компактная справка о вузах платформы (модель/язык/стоимость/гранты/особенности) — общий,
+    сбалансированный материал для сравнения. Инъектируется в контекст советника (не цитируется)."""
+    unis = universities(lang=lang)
+    lines = ["СПРАВКА О ВУЗАХ ПЛАТФОРМЫ (общие сведения для сравнения; не выдумывай сверх этого):"]
+    for u in unis:
+        c = u.get("compare", {})
+        lines.append(
+            f"- {u['name']} ({u['city']}): {u.get('tagline', '')} "
+            f"Модель: {c.get('model', '—')}; язык: {c.get('language', '—')}; "
+            f"стоимость: {c.get('cost', '—')}; гранты: {c.get('grants', '—')}; "
+            f"Foundation: {c.get('foundation', '—')}. Особенности: {'; '.join(u.get('highlights', []))}."
+        )
+    return "\n".join(lines)
