@@ -25,6 +25,7 @@ from pydantic import BaseModel, Field  # noqa: E402
 load_dotenv(os.path.join(ROOT, ".env"))
 
 from core import faq as faq_store  # noqa: E402  (клик-слой FAQ, Слой 1)
+from core import lang as lang_util  # noqa: E402  (детект языка сообщения, 0 токенов, TASK-030)
 from core import recommender  # noqa: E402  (движок B: адаптер + детерминированный парсер интента)
 from core import universities as uni_registry  # noqa: E402  (реестр вузов, раздел «Университеты»)
 from core.query_log import log_query  # noqa: E402
@@ -101,27 +102,32 @@ def _buckets(results: list[dict]) -> dict:
 
 
 @app.get("/v1/universities")
-def universities_endpoint():
+def universities_endpoint(lang: str = Query("ru", description="язык интерфейса: ru | kk | en")):
     """Реестр вузов платформы + живой счётчик чанков (раздел «Университеты»)."""
+    lang = lang_util.normalize_lang(lang)
     counts: dict[str, int] = {}
     try:
         dsn = os.environ.get("DATABASE_URL", "")
         if dsn.startswith("postgres"):
             import psycopg
-            with psycopg.connect(dsn) as c:
+            # connect_timeout — чтобы раздел «Университеты» не висел, если БД временно недоступна:
+            # счётчик чанков некритичен, реестр рендерится и без него (chunks=0)
+            with psycopg.connect(dsn, connect_timeout=2) as c:
                 for tid, n in c.execute("SELECT tenant_id, count(*) FROM chunks GROUP BY tenant_id").fetchall():
                     counts[tid] = n
     except Exception:
         pass
-    return {"universities": uni_registry.universities(counts),
-            "compare_dims": uni_registry.compare_dims()}
+    return {"universities": uni_registry.universities(counts, lang),
+            "compare_dims": uni_registry.compare_dims(lang)}
 
 
 @app.get("/v1/faq")
-def faq(category: str | None = Query(None, description="student | abiturient | calendar | student_life")):
+def faq(category: str | None = Query(None, description="student | abiturient | calendar | student_life"),
+        lang: str = Query("ru", description="язык карточек: ru | kk | en")):
     """Клик-слой (Слой 1, 0 LLM): статические карточки частых вопросов Q→ответ+источник."""
-    cards = faq_store.faq_cards(TENANT, category)
-    return {"count": len(cards), "categories": faq_store.faq_categories(TENANT), "cards": cards}
+    lang = lang_util.normalize_lang(lang)
+    cards = faq_store.faq_cards(TENANT, category, lang)
+    return {"count": len(cards), "categories": faq_store.faq_categories(TENANT, lang), "cards": cards}
 
 
 @app.get("/v1/recommend")
@@ -140,13 +146,21 @@ def recommend_endpoint(
     return rec
 
 
+class Turn(BaseModel):
+    role: str = Field(..., description="user | assistant")
+    content: str = Field("", description="текст реплики")
+
+
 class AskRequest(BaseModel):
     question: str = Field(..., min_length=1)
     category: str | None = Field(None, description="student | abiturient | calendar | student_life (для движка A)")
     subjects: list[str] | None = Field(None, description="выбранные в навигаторе профильные предметы (fallback профиля)")
+    profile: str | None = Field(None, description="запомненная клиентом пара-профиль (follow-up движка B, напр. 'математика+физика')")
     university: str | None = Field(None, description="вуз для поиска: None=по всем вузам, иначе kbtu|kaznu|nu")
     city: str | None = None
     budget: int | None = None
+    history: list[Turn] | None = Field(None, description="прошлые ходы диалога (память сессии, только движок A/советник)")
+    lang: str | None = Field(None, description="язык ответа; если пусто — определяется по языку вопроса")
 
 
 @app.post("/v1/ask")
@@ -157,7 +171,9 @@ def ask(req: AskRequest, pipe: RagPipeline = Depends(get_pipeline)):
 
     if p["is_admission_intent"]:
         # профиль: из текста вопроса (предметы/область) ИЛИ из выбранных в навигаторе предметов
-        profile = p["profile"] or recommender.resolve_profile(req.subjects)
+        # ИЛИ из запомненного клиентом профиля (follow-up «а если 100 баллов?» — память сессии, TASK-030)
+        carried = req.profile if req.profile in recommender.available_profiles() else None
+        profile = p["profile"] or recommender.resolve_profile(req.subjects) or carried
         if profile:  # балл + профиль → движок B, без токенов
             rec = recommender.recommend(p["score"], profile, req.city, req.budget)
             results = rec.get("results", [])
@@ -176,15 +192,19 @@ def ask(req: AskRequest, pipe: RagPipeline = Depends(get_pipeline)):
                 "message": "Укажите пару профильных предметов ЕНТ, чтобы подобрать программы на грант."}
 
     # длинный хвост → движок A (RAG, LLM) в режиме СОВЕТНИКА (продукт, docs/07 §5)
+    # язык ответа — по языку сообщения (TASK-030); память сессии — прошлые ходы диалога
     cats = [req.category] if req.category else None
+    lang = lang_util.normalize_lang(req.lang) if req.lang else lang_util.detect_lang(req.question)
+    history = [{"role": t.role, "content": t.content} for t in (req.history or [])]
     t0 = time.perf_counter()
-    res = pipe.answer(req.question, categories=cats, mode="advisor", university=req.university)
+    res = pipe.answer(req.question, categories=cats, mode="advisor", university=req.university,
+                      history=history, lang=lang)
     latency_ms = round((time.perf_counter() - t0) * 1000)
     log_query({"request_id": rid, "tenant": TENANT, "engine": "A", "intent": "document_qa",
-               "question": req.question, "category": req.category, "refused": res["refused"],
+               "question": req.question, "category": req.category, "lang": lang, "refused": res["refused"],
                "reason": res.get("reason"), "chunks_used": res.get("chunks_used"),
                "retrieved": res.get("retrieved"), "answer": res["answer"], "citations": res["citations"],
                "latency_ms": latency_ms, "tokens": res.get("tokens")})
     return {"request_id": rid, "engine": "A", "intent": "document_qa", "refused": res["refused"],
             "answer": res["answer"], "citations": res["citations"], "chunks_used": res.get("chunks_used"),
-            "latency_ms": latency_ms, "tokens": res.get("tokens")}
+            "lang": lang, "latency_ms": latency_ms, "tokens": res.get("tokens")}

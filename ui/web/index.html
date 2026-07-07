@@ -80,6 +80,9 @@
   .nav-cta{font-size:13.5px;font-weight:600;padding:8px 16px;border-radius:999px;border:1px solid var(--line-strong);
     color:var(--ink);background:rgba(255,255,255,.03);transition:all .2s var(--ease);white-space:nowrap;flex:none}
   .nav-cta:hover{border-color:rgba(139,124,255,.5);background:rgba(139,124,255,.08)}
+  .lang-sw{display:flex;gap:2px;border:1px solid var(--line-strong);border-radius:999px;padding:3px;flex:none}
+  .lang-sw button{font-family:inherit;font-size:12px;font-weight:700;padding:5px 10px;border-radius:999px;border:0;background:transparent;color:var(--muted);cursor:pointer;transition:all .2s var(--ease)}
+  .lang-sw button.on{background:var(--grad-brand);color:#fff}
 
   /* ---------- hero ---------- */
   .hero{padding:clamp(52px,9vw,104px) clamp(18px,4vw,48px) clamp(28px,5vw,56px);max-width:1180px;margin:0 auto;text-align:center}
@@ -432,29 +435,30 @@
     <nav class="nav">
       <div class="logo"><span class="mark" aria-hidden="true"></span> Smart University</div>
       <div class="nav-links">
-        <a href="#guide">🎯 Гид абитуриента</a>
-        <a href="#universities">🏛️ Университеты</a>
-        <a href="#navigator">📊 Навигатор грантов</a>
-        <a href="#compare">⚖️ Сравнить вузы</a>
-        <a href="#assistant">🤖 AI-ассистент</a>
+        <a href="#guide" data-i18n="nav_guide">🎯 Гид абитуриента</a>
+        <a href="#universities" data-i18n="nav_unis">🏛️ Университеты</a>
+        <a href="#navigator" data-i18n="nav_navigator">📊 Навигатор грантов</a>
+        <a href="#compare" data-i18n="nav_compare">⚖️ Сравнить вузы</a>
+        <a href="#assistant" data-i18n="nav_assistant">🤖 AI-ассистент</a>
       </div>
-      <a href="#navigator" class="nav-cta">Проверить свой балл →</a>
+      <div class="lang-sw" id="langSw"><button data-lang="ru">РУ</button><button data-lang="kk">KK</button><button data-lang="en">EN</button></div>
+      <a href="#navigator" class="nav-cta" data-i18n="nav_cta">Проверить свой балл →</a>
     </nav>
 
     <header class="hero">
-      <span class="eyebrow"><span class="dot"></span> KBTU · бесплатно · без регистрации</span>
-      <h1>Грант берут те, кто <span class="grad">знает план</span>, а не ждёт удачи</h1>
-      <p class="sub">Smart University проведёт тебя от «а куда вообще подавать» до «я зачислен»: пошаговый план на весь год,
+      <span class="eyebrow"><span class="dot"></span> <span data-i18n="hero_eyebrow">бесплатно · без регистрации</span></span>
+      <h1 data-i18n="hero_h1">Грант берут те, кто <span class="grad">знает план</span>, а не ждёт удачи</h1>
+      <p class="sub" data-i18n="hero_sub">Smart University проведёт тебя от «а куда вообще подавать» до «я зачислен»: пошаговый план на весь год,
         честные проходные баллы 2025-го и AI-ассистент, который отвечает по документам вуза — а не сочиняет на ходу.
         <b>Без воды, без ожидания в очереди, без регистрации.</b></p>
       <div class="hero-badges">
-        <span class="hbadge">🗺️ <b>План на весь год</b> — от выбора направления до приказа о зачислении</span>
-        <span class="hbadge">⚡ <b>0 токенов</b> на подбор программ</span>
-        <span class="hbadge">🤖 <b>AI-ассистент</b> — подключаем, когда готового ответа ещё нет</span>
+        <span class="hbadge" data-i18n="hero_badge1">🗺️ <b>План на весь год</b> — от выбора направления до приказа о зачислении</span>
+        <span class="hbadge" data-i18n="hero_badge2">⚡ <b>0 токенов</b> на подбор программ</span>
+        <span class="hbadge" data-i18n="hero_badge3">🤖 <b>AI-ассистент</b> — подключаем, когда готового ответа ещё нет</span>
       </div>
       <div class="hero-actions">
-        <a href="#guide" class="btn"><span class="btxt">Смотреть план →</span></a>
-        <a href="#navigator" class="btn-ghost">Сразу узнать баллы</a>
+        <a href="#guide" class="btn"><span class="btxt" data-i18n="hero_btn_plan">Смотреть план →</span></a>
+        <a href="#navigator" class="btn-ghost" data-i18n="hero_btn_scores">Сразу узнать баллы</a>
       </div>
     </header>
 
@@ -464,13 +468,13 @@
       <section class="sec reveal" id="guide">
         <div class="sec-head">
           <div class="htext">
-            <span class="kicker">Шаг за шагом · 12 месяцев</span>
-            <h2>🎯 Гид абитуриента</h2>
-            <p class="sub">ЕНТ — это финал, а не всё поступление. Настоящая игра идёт целый год: вот карта маршрута,
+            <span class="kicker" data-i18n="guide_kicker">Шаг за шагом · 12 месяцев</span>
+            <h2 data-i18n="guide_h2">🎯 Гид абитуриента</h2>
+            <p class="sub" data-i18n="guide_sub">ЕНТ — это финал, а не всё поступление. Настоящая игра идёт целый год: вот карта маршрута,
               по которой уже прошли тысячи ребят до тебя — что делать осенью, зимой, весной и летом, чтобы не
               прозевать дедлайн и не упустить грант из-за ерунды вроде забытой справки.</p>
           </div>
-          <span class="tag free">🗺️ бесплатный план</span>
+          <span class="tag free" data-i18n="guide_tag">🗺️ бесплатный план</span>
         </div>
 
         <div class="panel pad">
@@ -479,100 +483,100 @@
 
             <!-- Шаг 1 -->
             <div class="rstep">
-              <div class="rstep-badge"><span class="num mono">01</span><span class="season">Осень</span></div>
+              <div class="rstep-badge"><span class="num mono">01</span><span class="season" data-i18n="rs1_season">Осень</span></div>
               <div class="rstep-card">
-                <div class="rstep-top"><span class="season-pill">За год до ЕНТ</span><h3>Выбери направление и 2–3 вуза</h3></div>
-                <p>Не откладывай вопрос «куда я вообще иду» до весны. Определись с направлением уже сейчас —
+                <div class="rstep-top"><span class="season-pill" data-i18n="rs1_pill">За год до ЕНТ</span><h3 data-i18n="rs1_title">Выбери направление и 2–3 вуза</h3></div>
+                <p data-i18n="rs1_p">Не откладывай вопрос «куда я вообще иду» до весны. Определись с направлением уже сейчас —
                   появится время подтянуть именно те предметы, которые реально считаются при поступлении,
                   а не метаться между репетиторами в последний месяц.</p>
                 <ul class="rstep-list">
-                  <li>Выпиши 2–3 вуза-кандидата и по 1–2 программы в каждом — без этого список дальше не построить.</li>
-                  <li>Уточни, какие профильные предметы ЕНТ нужны именно твоей программе — у разных ГОП они разные.</li>
-                  <li>Прикинь целевой балл: сколько набирали на грант в прошлом году на похожих программах.</li>
+                  <li data-i18n="rs1_li1">Выпиши 2–3 вуза-кандидата и по 1–2 программы в каждом — без этого список дальше не построить.</li>
+                  <li data-i18n="rs1_li2">Уточни, какие профильные предметы ЕНТ нужны именно твоей программе — у разных ГОП они разные.</li>
+                  <li data-i18n="rs1_li3">Прикинь целевой балл: сколько набирали на грант в прошлом году на похожих программах.</li>
                 </ul>
-                <div class="rstep-cta"><a href="#navigator">Прикинуть целевой балл в Навигаторе →</a></div>
+                <div class="rstep-cta"><a href="#navigator" data-i18n="rs1_cta">Прикинуть целевой балл в Навигаторе →</a></div>
               </div>
             </div>
 
             <!-- Шаг 2 -->
             <div class="rstep">
-              <div class="rstep-badge"><span class="num mono">02</span><span class="season">Зима</span></div>
+              <div class="rstep-badge"><span class="num mono">02</span><span class="season" data-i18n="rs2_season">Зима</span></div>
               <div class="rstep-card">
-                <div class="rstep-top"><span class="season-pill">Декабрь – февраль</span><h3>Начни готовиться к ЕНТ</h3></div>
-                <p>Зима решает больше, чем кажется: кто стартует сейчас, а не в апреле, заходит на экзамен спокойным,
+                <div class="rstep-top"><span class="season-pill" data-i18n="rs2_pill">Декабрь – февраль</span><h3 data-i18n="rs2_title">Начни готовиться к ЕНТ</h3></div>
+                <p data-i18n="rs2_p">Зима решает больше, чем кажется: кто стартует сейчас, а не в апреле, заходит на экзамен спокойным,
                   а не на нервах. Заодно самое время закрыть бумажную рутину, чтобы весной не бегать за справками.</p>
                 <ul class="rstep-list">
-                  <li>Составь план подготовки по профильным предметам — регулярность решает больше, чем марафон за неделю до ЕНТ.</li>
-                  <li>Собери список нужных документов заранее: сейчас на это есть время, весной его уже не будет.</li>
+                  <li data-i18n="rs2_li1">Составь план подготовки по профильным предметам — регулярность решает больше, чем марафон за неделю до ЕНТ.</li>
+                  <li data-i18n="rs2_li2">Собери список нужных документов заранее: сейчас на это есть время, весной его уже не будет.</li>
                 </ul>
                 <div class="adslot">
                   <span class="ic">📚</span>
                   <div class="body">
-                    <div class="ttl">Где подтянуть ЕНТ</div>
-                    <div class="desc">Здесь может стоять твой курс подготовки — партнёрский слот для образовательных центров.</div>
+                    <div class="ttl" data-i18n="ad2_ttl">Где подтянуть ЕНТ</div>
+                    <div class="desc" data-i18n="ad2_desc">Здесь может стоять твой курс подготовки — партнёрский слот для образовательных центров.</div>
                   </div>
-                  <span class="mark">партнёрский слот</span>
+                  <span class="mark" data-i18n="ad_mark">партнёрский слот</span>
                 </div>
               </div>
             </div>
 
             <!-- Шаг 3 -->
             <div class="rstep">
-              <div class="rstep-badge"><span class="num mono">03</span><span class="season">Весна</span></div>
+              <div class="rstep-badge"><span class="num mono">03</span><span class="season" data-i18n="rs3_season">Весна</span></div>
               <div class="rstep-card">
-                <div class="rstep-top"><span class="season-pill">Март – май</span><h3>Регистрация на ЕНТ и документы</h3></div>
-                <p>Весна — сезон дедлайнов. Балл здесь почти никто не теряет, а время сливают на бюрократию:
+                <div class="rstep-top"><span class="season-pill" data-i18n="rs3_pill">Март – май</span><h3 data-i18n="rs3_title">Регистрация на ЕНТ и документы</h3></div>
+                <p data-i18n="rs3_p">Весна — сезон дедлайнов. Балл здесь почти никто не теряет, а время сливают на бюрократию:
                   успей зарегистрироваться и собрать пакет документов до того, как сроки начнут поджимать по-настоящему.</p>
                 <ul class="rstep-list">
-                  <li>Зарегистрируйся на ЕНТ в отведённое окно — пропустишь срок, останется только ждать пересдачи.</li>
-                  <li>Следи за датами приёма документов — их публикуют заранее, а не в последний день.</li>
-                  <li>Собери пакет: аттестат, удостоверение личности, фото 3×4, медсправка формы 075-У.</li>
+                  <li data-i18n="rs3_li1">Зарегистрируйся на ЕНТ в отведённое окно — пропустишь срок, останется только ждать пересдачи.</li>
+                  <li data-i18n="rs3_li2">Следи за датами приёма документов — их публикуют заранее, а не в последний день.</li>
+                  <li data-i18n="rs3_li3">Собери пакет: аттестат, удостоверение личности, фото 3×4, медсправка формы 075-У.</li>
                 </ul>
                 <div class="rstep-docs">
-                  <span class="doc-chip">📄 Аттестат</span>
-                  <span class="doc-chip">🪪 Удостоверение личности</span>
-                  <span class="doc-chip">📸 Фото 3×4</span>
-                  <span class="doc-chip">🏥 Справка 075-У</span>
+                  <span class="doc-chip" data-i18n="doc_attestat">📄 Аттестат</span>
+                  <span class="doc-chip" data-i18n="doc_id">🪪 Удостоверение личности</span>
+                  <span class="doc-chip" data-i18n="doc_photo">📸 Фото 3×4</span>
+                  <span class="doc-chip" data-i18n="doc_med">🏥 Справка 075-У</span>
                 </div>
                 <div class="adslot">
                   <span class="ic">🎓</span>
                   <div class="body">
-                    <div class="ttl">Интенсив перед ЕНТ</div>
-                    <div class="desc">Партнёрский слот — курсы финального рывка перед экзаменом появятся здесь.</div>
+                    <div class="ttl" data-i18n="ad3_ttl">Интенсив перед ЕНТ</div>
+                    <div class="desc" data-i18n="ad3_desc">Партнёрский слот — курсы финального рывка перед экзаменом появятся здесь.</div>
                   </div>
-                  <span class="mark">партнёрский слот</span>
+                  <span class="mark" data-i18n="ad_mark">партнёрский слот</span>
                 </div>
               </div>
             </div>
 
             <!-- Шаг 4 -->
             <div class="rstep">
-              <div class="rstep-badge"><span class="num mono">04</span><span class="season">Лето</span></div>
+              <div class="rstep-badge"><span class="num mono">04</span><span class="season" data-i18n="rs4_season">Лето</span></div>
               <div class="rstep-card">
-                <div class="rstep-top"><span class="season-pill">Июнь</span><h3>Сдай ЕНТ и узнай, куда проходишь</h3></div>
-                <p>Экзамен позади, балл на руках — и вот здесь начинается самое интересное. Не жди звонка из приёмной
+                <div class="rstep-top"><span class="season-pill" data-i18n="rs4_pill">Июнь</span><h3 data-i18n="rs4_title">Сдай ЕНТ и узнай, куда проходишь</h3></div>
+                <p data-i18n="rs4_p">Экзамен позади, балл на руках — и вот здесь начинается самое интересное. Не жди звонка из приёмной
                   комиссии, чтобы понять свои шансы: за минуту прогони балл через Навигатор и увидь всю картину по грантам сразу.</p>
                 <ul class="rstep-list">
-                  <li>Сдай ЕНТ, дождись официального балла.</li>
-                  <li>Сразу же проверь через Навигатор, на какие программы и вузы ты проходишь на грант уже сейчас.</li>
+                  <li data-i18n="rs4_li1">Сдай ЕНТ, дождись официального балла.</li>
+                  <li data-i18n="rs4_li2">Сразу же проверь через Навигатор, на какие программы и вузы ты проходишь на грант уже сейчас.</li>
                 </ul>
-                <div class="rstep-cta"><a href="#navigator">Проверить свой балл в Навигаторе →</a></div>
+                <div class="rstep-cta"><a href="#navigator" data-i18n="rs4_cta">Проверить свой балл в Навигаторе →</a></div>
               </div>
             </div>
 
             <!-- Шаг 5 -->
             <div class="rstep">
-              <div class="rstep-badge"><span class="num mono">05</span><span class="season">Лето</span></div>
+              <div class="rstep-badge"><span class="num mono">05</span><span class="season" data-i18n="rs5_season">Лето</span></div>
               <div class="rstep-card">
-                <div class="rstep-top"><span class="season-pill">Июль</span><h3>Подай заявление на грант</h3></div>
-                <p>Здесь ловят на главной ошибке: конкурс на грант идёт не по вузам, а по группам образовательных
+                <div class="rstep-top"><span class="season-pill" data-i18n="rs5_pill">Июль</span><h3 data-i18n="rs5_title">Подай заявление на грант</h3></div>
+                <p data-i18n="rs5_p">Здесь ловят на главной ошибке: конкурс на грант идёт не по вузам, а по группам образовательных
                   программ (ГОП) — и это меняет всю логику расстановки приоритетов. Один неверный расчёт —
                   и грант достаётся тому, кто просто не рискнул поставить мечту на первое место.</p>
                 <ul class="rstep-list">
-                  <li>Помни: конкуренция считается внутри ГОП, а не внутри одного вуза.</li>
-                  <li>Выбирай 4 приоритета с холодной головой — не забивай все строки одними «мечтами».</li>
+                  <li data-i18n="rs5_li1">Помни: конкуренция считается внутри ГОП, а не внутри одного вуза.</li>
+                  <li data-i18n="rs5_li2">Выбирай 4 приоритета с холодной головой — не забивай все строки одними «мечтами».</li>
                 </ul>
-                <div class="strategy-note"><span class="ic">💡</span><span>
+                <div class="strategy-note"><span class="ic">💡</span><span data-i18n="rs5_strategy">
                   Рабочая стратегия: <b style="color:#F3F4F8">1–2 амбициозных</b> направления
                   (куда метишь, но без гарантий) + <b style="color:#F3F4F8">3–4 запасных</b>
                   (где твой балл проходит уверенно). Так грант не проскочит мимо из-за одной ставки ва-банк.
@@ -582,17 +586,17 @@
 
             <!-- Шаг 6 -->
             <div class="rstep">
-              <div class="rstep-badge"><span class="num mono">06</span><span class="season">Август</span></div>
+              <div class="rstep-badge"><span class="num mono">06</span><span class="season" data-i18n="rs6_season">Август</span></div>
               <div class="rstep-card">
-                <div class="rstep-top"><span class="season-pill">Зачисление</span><h3>Следи за результатами и держи план Б</h3></div>
-                <p>Списки зачисленных выходят волнами — пропустишь свою, потеряешь время на выяснения. А если грант
+                <div class="rstep-top"><span class="season-pill" data-i18n="rs6_pill">Зачисление</span><h3 data-i18n="rs6_title">Следи за результатами и держи план Б</h3></div>
+                <p data-i18n="rs6_p">Списки зачисленных выходят волнами — пропустишь свою, потеряешь время на выяснения. А если грант
                   не достался, это ещё не конец света: рабочими запасными путями каждый год пользуются тысячи абитуриентов.</p>
                 <ul class="rstep-list">
-                  <li>Следи за результатами конкурса по своим приоритетам строго в указанные даты.</li>
-                  <li>Не хватило балла на грант? Варианты живые: платное отделение, пересдача ЕНТ в следующем заходе,
+                  <li data-i18n="rs6_li1">Следи за результатами конкурса по своим приоритетам строго в указанные даты.</li>
+                  <li data-i18n="rs6_li2">Не хватило балла на грант? Варианты живые: платное отделение, пересдача ЕНТ в следующем заходе,
                     либо колледж с переводом позже — Навигатор поможет прикинуть, что реалистичнее именно для тебя.</li>
                 </ul>
-                <div class="rstep-cta"><a href="#navigator">Посмотреть варианты плана Б →</a></div>
+                <div class="rstep-cta"><a href="#navigator" data-i18n="rs6_cta">Посмотреть варианты плана Б →</a></div>
               </div>
             </div>
 
@@ -604,73 +608,73 @@
       <section class="sec reveal" id="universities">
         <div class="sec-head">
           <div class="htext">
-            <span class="kicker">Профили вузов</span>
-            <h2>🏛️ Университеты</h2>
-            <p class="sub">Выбери вуз — и спрашивай ассистента конкретно про него: документы, баллы, как подавать заявление.
+            <span class="kicker" data-i18n="uni_kicker">Профили вузов</span>
+            <h2 data-i18n="uni_h2">🏛️ Университеты</h2>
+            <p class="sub" data-i18n="uni_sub">Выбери вуз — и спрашивай ассистента конкретно про него: документы, баллы, как подавать заявление.
               Не выбрал — ассистент по умолчанию ищет сразу по всем вузам в базе.</p>
           </div>
         </div>
-        <div class="uni-grid" id="uniGrid"><div class="empty" style="color:var(--muted)">Собираю список вузов…</div></div>
+        <div class="uni-grid" id="uniGrid"><div class="empty" style="color:var(--muted)" data-i18n="uni_loading">Собираю список вузов…</div></div>
       </section>
 
       <!-- ================= 3. НАВИГАТОР ГРАНТОВ ================= -->
       <section class="sec reveal" id="navigator">
         <div class="sec-head">
           <div class="htext">
-            <span class="kicker">Движок B · без LLM</span>
-            <h2>📊 Навигатор грантов</h2>
-            <p class="sub">Балл ЕНТ + профильные предметы → куда реально проходили на грант в 2025-м. Это факты
+            <span class="kicker" data-i18n="nav2_kicker">Движок B · без LLM</span>
+            <h2 data-i18n="nav2_h2">📊 Навигатор грантов</h2>
+            <p class="sub" data-i18n="nav2_sub">Балл ЕНТ + профильные предметы → куда реально проходили на грант в 2025-м. Это факты
               из прошлого приёма, а не прогноз на глазок — за 5 секунд видно, где шансы твёрдые, где ещё можно
               побороться, а где честнее сразу смотреть план Б.</p>
           </div>
-          <span class="tag free">⚡ 0 токенов</span>
+          <span class="tag free" data-i18n="nav2_tag">⚡ 0 токенов</span>
         </div>
 
         <div class="panel">
           <div class="pad">
             <div class="grid2">
               <div class="field">
-                <label for="score">Балл ЕНТ</label>
+                <label for="score" data-i18n="nv_score_label">Балл ЕНТ</label>
                 <div class="score-card">
                   <div class="scorewrap">
                     <span class="scoreval mono" id="scoreVal">104</span>
-                    <span class="scoremax">из 140</span>
+                    <span class="scoremax" data-i18n="nv_score_max">из 140</span>
                   </div>
-                  <input type="range" id="score" min="30" max="140" value="104" aria-label="Балл ЕНТ">
+                  <input type="range" id="score" min="30" max="140" value="104" data-i18n-aria="nv_score_label" aria-label="Балл ЕНТ">
                   <div class="score-ticks"><span>30</span><span>85</span><span>140</span></div>
                 </div>
               </div>
 
               <div class="field">
-                <label>Быстрый выбор направления</label>
+                <label data-i18n="nv_direction">Быстрый выбор направления</label>
                 <div class="chips" id="presets" role="group" aria-label="Направление"></div>
                 <div class="subj-row" style="margin-top:16px">
                   <div>
-                    <label for="subj1" style="margin-bottom:6px;font-size:11px">Предмет 1</label>
-                    <select id="subj1" aria-label="Профильный предмет 1"></select>
+                    <label for="subj1" style="margin-bottom:6px;font-size:11px" data-i18n="nv_subj1">Предмет 1</label>
+                    <select id="subj1" data-i18n-aria="nv_subj1" aria-label="Профильный предмет 1"></select>
                   </div>
                   <div>
-                    <label for="subj2" style="margin-bottom:6px;font-size:11px">Предмет 2</label>
-                    <select id="subj2" aria-label="Профильный предмет 2"></select>
+                    <label for="subj2" style="margin-bottom:6px;font-size:11px" data-i18n="nv_subj2">Предмет 2</label>
+                    <select id="subj2" data-i18n-aria="nv_subj2" aria-label="Профильный предмет 2"></select>
                   </div>
                 </div>
                 <div style="margin-top:12px">
-                  <label for="city" style="margin-bottom:6px;font-size:11px">Город (необязательно)</label>
-                  <input type="text" id="city" placeholder="напр. Алматы">
+                  <label for="city" style="margin-bottom:6px;font-size:11px" data-i18n="nv_city">Город (необязательно)</label>
+                  <input type="text" id="city" data-i18n-ph="nv_city_ph" placeholder="напр. Алматы">
                 </div>
               </div>
             </div>
 
             <div class="row">
-              <button class="btn" id="recBtn"><span class="spin" aria-hidden="true"></span><span class="btxt">Подобрать программы →</span></button>
-              <span class="hint">Отсечки — исторические, за 2025 год. Обновим, как только появятся новые данные.</span>
+              <button class="btn" id="recBtn"><span class="spin" aria-hidden="true"></span><span class="btxt" data-i18n="nv_btn">Подобрать программы →</span></button>
+              <span class="hint" data-i18n="nv_hint">Отсечки — исторические, за 2025 год. Обновим, как только появятся новые данные.</span>
             </div>
           </div>
 
           <div id="recOut">
             <div class="placeholder-cta">
               <div class="big">🎯</div>
-              <div><b>Выстави балл и предметы</b> — результат появится здесь сразу же.</div>
+              <div data-i18n="nv_placeholder"><b>Выстави балл и предметы</b> — результат появится здесь сразу же.</div>
             </div>
           </div>
         </div>
@@ -680,18 +684,18 @@
       <section class="sec reveal" id="compare">
         <div class="sec-head">
           <div class="htext">
-            <span class="kicker">Бок о бок</span>
-            <h2>⚖️ Сравнить вузы</h2>
-            <p class="sub">Отметь вузы — получишь модель поступления, пороги, язык обучения, стоимость и гранты
+            <span class="kicker" data-i18n="cmp_kicker">Бок о бок</span>
+            <h2 data-i18n="cmp_h2">⚖️ Сравнить вузы</h2>
+            <p class="sub" data-i18n="cmp_sub">Отметь вузы — получишь модель поступления, пороги, язык обучения, стоимость и гранты
               в одной таблице, без беготни по десяти сайтам. Хочешь простыми словами — просто спроси ИИ.</p>
           </div>
-          <span class="tag free">0 токенов</span>
+          <span class="tag free" data-i18n="cmp_tag">0 токенов</span>
         </div>
         <div class="panel pad">
           <div class="cats" id="cmpChips" style="margin-bottom:16px"></div>
           <div id="cmpTable" style="overflow-x:auto"></div>
           <div class="row" style="margin-top:18px">
-            <button class="btn-ghost" id="cmpAskBtn" type="button">Спросить ИИ: сравнить выбранные →</button>
+            <button class="btn-ghost" id="cmpAskBtn" type="button" data-i18n="cmp_ask">Спросить ИИ: сравнить выбранные →</button>
           </div>
         </div>
       </section>
@@ -700,45 +704,45 @@
       <section class="sec reveal" id="assistant">
         <div class="sec-head">
           <div class="htext">
-            <span class="kicker">Движок A · RAG по документам</span>
-            <h2>🤖 AI-ассистент</h2>
-            <p class="sub">Отвечает по официальным документам KBTU и всегда показывает источник. Нет ответа
+            <span class="kicker" data-i18n="as_kicker">Движок A · RAG по документам</span>
+            <h2 data-i18n="as_h2">🤖 AI-ассистент</h2>
+            <p class="sub" data-i18n="as_sub">Отвечает по официальным документам KBTU и всегда показывает источник. Нет ответа
               в документах — так и скажет, вместо того чтобы красиво соврать.</p>
           </div>
-          <span class="tag llm">🤖 LLM · если нет ответа выше</span>
+          <span class="tag llm" data-i18n="as_tag">🤖 LLM · если нет ответа выше</span>
         </div>
 
         <div class="panel pad">
           <div class="ask-context" id="askContext"></div>
           <div class="askbox">
-            <textarea id="q" placeholder="Спроси как есть: можно ли пересдать экзамен с FX? Или: куда пройду со 104 баллами, физика и математика?" aria-label="Вопрос ассистенту"></textarea>
-            <button class="btn" id="askBtn"><span class="spin" aria-hidden="true"></span><span class="btxt">Спросить →</span></button>
+            <textarea id="q" data-i18n-ph="as_ph" placeholder="Спроси как есть: можно ли пересдать экзамен с FX? Или: куда пройду со 104 баллами, физика и математика?" aria-label="Вопрос ассистенту"></textarea>
+            <button class="btn" id="askBtn"><span class="spin" aria-hidden="true"></span><span class="btxt" data-i18n="as_btn">Спросить →</span></button>
           </div>
           <div class="suggest-row" id="suggestRow">
-            <span class="suggest" data-q="Можно ли пересдать экзамен с FX?">Можно ли пересдать экзамен с FX?</span>
-            <span class="suggest" data-q="Куда пройду со 104 баллами?">Куда я пройду со 104 баллами?</span>
-            <span class="suggest" data-q="Как рассчитывается GPA?">А как вообще считается GPA?</span>
+            <span class="suggest" data-i18n="suggest1" data-q="Можно ли пересдать экзамен с FX?">Можно ли пересдать экзамен с FX?</span>
+            <span class="suggest" data-i18n="suggest2" data-q="Куда пройду со 104 баллами?">Куда я пройду со 104 баллами?</span>
+            <span class="suggest" data-i18n="suggest3" data-q="Как рассчитывается GPA?">А как вообще считается GPA?</span>
           </div>
           <div class="thread" id="thread"></div>
         </div>
 
         <div class="sec-head" style="margin-top:44px">
           <div class="htext">
-            <span class="kicker">Быстрые ответы</span>
-            <h2 style="font-size:clamp(19px,2.6vw,24px)">Частые вопросы</h2>
-            <p class="sub">Клик — и сразу готовый ответ со ссылкой на документ, без ожидания ответа от ассистента.</p>
+            <span class="kicker" data-i18n="faq_kicker">Быстрые ответы</span>
+            <h2 style="font-size:clamp(19px,2.6vw,24px)" data-i18n="faq_h2">Частые вопросы</h2>
+            <p class="sub" data-i18n="faq_sub">Клик — и сразу готовый ответ со ссылкой на документ, без ожидания ответа от ассистента.</p>
           </div>
-          <span class="tag free">⚡ 0 токенов</span>
+          <span class="tag free" data-i18n="faq_tag">⚡ 0 токенов</span>
         </div>
         <div class="cats" id="faqCats" role="tablist" aria-label="Категории вопросов"></div>
-        <div class="faq" id="faqList"><div class="loading-block" style="grid-column:1/-1"><div class="pulse-ring"></div><div class="loading-text">Собираю частые вопросы…</div></div></div>
+        <div class="faq" id="faqList"><div class="loading-block" style="grid-column:1/-1"><div class="pulse-ring"></div><div class="loading-text" data-i18n="faq_loading">Собираю частые вопросы…</div></div></div>
       </section>
 
     </div>
 
     <footer>
-      <b>Smart University</b> · движок B (навигатор грантов, 0 токенов) + движок A (RAG-ассистент по документам) · данные KBTU<br>
-      Проходные баллы 2025 года — ориентир, а не гарантия на 2026-й: итог конкурса зависит от числа грантов и уровня других абитуриентов в этом заходе.
+      <span data-i18n="foot_main"><b>Smart University</b> · движок B (навигатор грантов, 0 токенов) + движок A (RAG-ассистент по документам)</span><br>
+      <span data-i18n="foot_disc">Проходные баллы 2025 года — ориентир, а не гарантия на 2026-й: итог конкурса зависит от числа грантов и уровня других абитуриентов в этом заходе.</span>
     </footer>
   </div>
 
@@ -746,33 +750,606 @@
 (function(){
 "use strict";
 
+/* ================= i18n ================= */
+const I18N = {
+  ru: {
+    "nav_guide": "🎯 Гид абитуриента",
+    "nav_unis": "🏛️ Университеты",
+    "nav_navigator": "📊 Навигатор грантов",
+    "nav_compare": "⚖️ Сравнить вузы",
+    "nav_assistant": "🤖 AI-ассистент",
+    "nav_cta": "Проверить свой балл →",
+
+    "hero_eyebrow": "бесплатно · без регистрации",
+    "hero_h1": "Грант берут те, кто <span class=\"grad\">знает план</span>, а не ждёт удачи",
+    "hero_sub": "Smart University проведёт тебя от «а куда вообще подавать» до «я зачислен»: пошаговый план на весь год, честные проходные баллы 2025-го и AI-ассистент, который отвечает по документам вуза — а не сочиняет на ходу. <b>Без воды, без ожидания в очереди, без регистрации.</b>",
+    "hero_badge1": "🗺️ <b>План на весь год</b> — от выбора направления до приказа о зачислении",
+    "hero_badge2": "⚡ <b>0 токенов</b> на подбор программ",
+    "hero_badge3": "🤖 <b>AI-ассистент</b> — подключаем, когда готового ответа ещё нет",
+    "hero_btn_plan": "Смотреть план →",
+    "hero_btn_scores": "Сразу узнать баллы",
+
+    "guide_kicker": "Шаг за шагом · 12 месяцев",
+    "guide_h2": "🎯 Гид абитуриента",
+    "guide_sub": "ЕНТ — это финал, а не всё поступление. Настоящая игра идёт целый год: вот карта маршрута, по которой уже прошли тысячи ребят до тебя — что делать осенью, зимой, весной и летом, чтобы не прозевать дедлайн и не упустить грант из-за ерунды вроде забытой справки.",
+    "guide_tag": "🗺️ бесплатный план",
+
+    "rs1_season": "Осень",
+    "rs1_pill": "За год до ЕНТ",
+    "rs1_title": "Выбери направление и 2–3 вуза",
+    "rs1_p": "Не откладывай вопрос «куда я вообще иду» до весны. Определись с направлением уже сейчас — появится время подтянуть именно те предметы, которые реально считаются при поступлении, а не метаться между репетиторами в последний месяц.",
+    "rs1_li1": "Выпиши 2–3 вуза-кандидата и по 1–2 программы в каждом — без этого список дальше не построить.",
+    "rs1_li2": "Уточни, какие профильные предметы ЕНТ нужны именно твоей программе — у разных ГОП они разные.",
+    "rs1_li3": "Прикинь целевой балл: сколько набирали на грант в прошлом году на похожих программах.",
+    "rs1_cta": "Прикинуть целевой балл в Навигаторе →",
+
+    "rs2_season": "Зима",
+    "rs2_pill": "Декабрь – февраль",
+    "rs2_title": "Начни готовиться к ЕНТ",
+    "rs2_p": "Зима решает больше, чем кажется: кто стартует сейчас, а не в апреле, заходит на экзамен спокойным, а не на нервах. Заодно самое время закрыть бумажную рутину, чтобы весной не бегать за справками.",
+    "rs2_li1": "Составь план подготовки по профильным предметам — регулярность решает больше, чем марафон за неделю до ЕНТ.",
+    "rs2_li2": "Собери список нужных документов заранее: сейчас на это есть время, весной его уже не будет.",
+    "ad2_ttl": "Где подтянуть ЕНТ",
+    "ad2_desc": "Здесь может стоять твой курс подготовки — партнёрский слот для образовательных центров.",
+    "ad_mark": "партнёрский слот",
+
+    "rs3_season": "Весна",
+    "rs3_pill": "Март – май",
+    "rs3_title": "Регистрация на ЕНТ и документы",
+    "rs3_p": "Весна — сезон дедлайнов. Балл здесь почти никто не теряет, а время сливают на бюрократию: успей зарегистрироваться и собрать пакет документов до того, как сроки начнут поджимать по-настоящему.",
+    "rs3_li1": "Зарегистрируйся на ЕНТ в отведённое окно — пропустишь срок, останется только ждать пересдачи.",
+    "rs3_li2": "Следи за датами приёма документов — их публикуют заранее, а не в последний день.",
+    "rs3_li3": "Собери пакет: аттестат, удостоверение личности, фото 3×4, медсправка формы 075-У.",
+    "doc_attestat": "📄 Аттестат",
+    "doc_id": "🪪 Удостоверение личности",
+    "doc_photo": "📸 Фото 3×4",
+    "doc_med": "🏥 Справка 075-У",
+    "ad3_ttl": "Интенсив перед ЕНТ",
+    "ad3_desc": "Партнёрский слот — курсы финального рывка перед экзаменом появятся здесь.",
+
+    "rs4_season": "Лето",
+    "rs4_pill": "Июнь",
+    "rs4_title": "Сдай ЕНТ и узнай, куда проходишь",
+    "rs4_p": "Экзамен позади, балл на руках — и вот здесь начинается самое интересное. Не жди звонка из приёмной комиссии, чтобы понять свои шансы: за минуту прогони балл через Навигатор и увидь всю картину по грантам сразу.",
+    "rs4_li1": "Сдай ЕНТ, дождись официального балла.",
+    "rs4_li2": "Сразу же проверь через Навигатор, на какие программы и вузы ты проходишь на грант уже сейчас.",
+    "rs4_cta": "Проверить свой балл в Навигаторе →",
+
+    "rs5_season": "Лето",
+    "rs5_pill": "Июль",
+    "rs5_title": "Подай заявление на грант",
+    "rs5_p": "Здесь ловят на главной ошибке: конкурс на грант идёт не по вузам, а по группам образовательных программ (ГОП) — и это меняет всю логику расстановки приоритетов. Один неверный расчёт — и грант достаётся тому, кто просто не рискнул поставить мечту на первое место.",
+    "rs5_li1": "Помни: конкуренция считается внутри ГОП, а не внутри одного вуза.",
+    "rs5_li2": "Выбирай 4 приоритета с холодной головой — не забивай все строки одними «мечтами».",
+    "rs5_strategy": "Рабочая стратегия: <b style=\"color:#F3F4F8\">1–2 амбициозных</b> направления (куда метишь, но без гарантий) + <b style=\"color:#F3F4F8\">3–4 запасных</b> (где твой балл проходит уверенно). Так грант не проскочит мимо из-за одной ставки ва-банк.",
+
+    "rs6_season": "Август",
+    "rs6_pill": "Зачисление",
+    "rs6_title": "Следи за результатами и держи план Б",
+    "rs6_p": "Списки зачисленных выходят волнами — пропустишь свою, потеряешь время на выяснения. А если грант не достался, это ещё не конец света: рабочими запасными путями каждый год пользуются тысячи абитуриентов.",
+    "rs6_li1": "Следи за результатами конкурса по своим приоритетам строго в указанные даты.",
+    "rs6_li2": "Не хватило балла на грант? Варианты живые: платное отделение, пересдача ЕНТ в следующем заходе, либо колледж с переводом позже — Навигатор поможет прикинуть, что реалистичнее именно для тебя.",
+    "rs6_cta": "Посмотреть варианты плана Б →",
+
+    "uni_kicker": "Профили вузов",
+    "uni_h2": "🏛️ Университеты",
+    "uni_sub": "Выбери вуз — и спрашивай ассистента конкретно про него: документы, баллы, как подавать заявление. Не выбрал — ассистент по умолчанию ищет сразу по всем вузам в базе.",
+    "uni_loading": "Собираю список вузов…",
+    "uni_load_err": "Не получилось загрузить список вузов.",
+    "uni_chunks": "фрагментов в базе",
+    "uni_ask": "Спросить про {name} →",
+    "uni_apply": "Сайт приёма ↗",
+
+    "nav2_kicker": "Движок B · без LLM",
+    "nav2_h2": "📊 Навигатор грантов",
+    "nav2_sub": "Балл ЕНТ + профильные предметы → куда реально проходили на грант в 2025-м. Это факты из прошлого приёма, а не прогноз на глазок — за 5 секунд видно, где шансы твёрдые, где ещё можно побороться, а где честнее сразу смотреть план Б.",
+    "nav2_tag": "⚡ 0 токенов",
+    "nv_score_label": "Балл ЕНТ",
+    "nv_score_max": "из 140",
+    "nv_direction": "Быстрый выбор направления",
+    "nv_subj1": "Предмет 1",
+    "nv_subj2": "Предмет 2",
+    "nv_city": "Город (необязательно)",
+    "nv_city_ph": "напр. Алматы",
+    "nv_btn": "Подобрать программы →",
+    "nv_hint": "Отсечки — исторические, за 2025 год. Обновим, как только появятся новые данные.",
+    "nv_placeholder": "<b>Выстави балл и предметы</b> — результат появится здесь сразу же.",
+    "nv_loading": "Сверяю с базой проходных баллов…",
+    "nv_err": "Не получилось загрузить данные ({msg}).",
+    "nv_422": "Эту пару предметов пока не разобрали в тестовой версии.<br>Попробуй один из вариантов быстрого выбора выше.",
+
+    "preset_it": "IT",
+    "preset_eng": "Инженерия",
+    "preset_med": "Медицина",
+    "preset_eco": "Экономика / бизнес",
+    "preset_law": "Право",
+
+    "subj_math": "математика",
+    "subj_it": "информатика",
+    "subj_phys": "физика",
+    "subj_chem": "химия",
+    "subj_bio": "биология",
+    "subj_hist": "история",
+    "subj_law": "основы права",
+    "subj_geo": "география",
+
+    "bk_pass": "проходишь",
+    "bk_pass_hint": "грант почти в кармане",
+    "bk_risk": "на грани",
+    "bk_risk_hint": "конкурентно, но шанс есть",
+    "bk_fail": "не хватает",
+    "bk_fail_hint": "смотри платное или план Б",
+    "col_pass": "Проходишь",
+    "col_risk": "На грани",
+    "col_fail": "Не хватает",
+    "bk_empty": "Пока пусто",
+    "bk_more": "Показать все {n} →",
+    "bk_collapse": "Свернуть ↑",
+    "rc_gap_pre": "твой балл",
+    "rc_gap_post": "к отсечке",
+    "rc_grants": "грантов:",
+    "rc_threshold": "порог",
+    "rc_source": "📎 источник",
+
+    "cmp_kicker": "Бок о бок",
+    "cmp_h2": "⚖️ Сравнить вузы",
+    "cmp_sub": "Отметь вузы — получишь модель поступления, пороги, язык обучения, стоимость и гранты в одной таблице, без беготни по десяти сайтам. Хочешь простыми словами — просто спроси ИИ.",
+    "cmp_tag": "0 токенов",
+    "cmp_th": "Критерий",
+    "cmp_empty": "Отметь хотя бы один вуз, чтобы увидеть таблицу.",
+    "cmp_ask": "Спросить ИИ: сравнить выбранные →",
+    "cmp_ask_prompt": "Сравни вузы: {names} — по поступлению, грантам и стоимости. Что выбрать абитуриенту?",
+
+    "as_kicker": "Движок A · RAG по документам",
+    "as_h2": "🤖 AI-ассистент",
+    "as_sub": "Отвечает по официальным документам вузов и всегда показывает источник. Нет ответа в документах — так и скажет, вместо того чтобы красиво соврать.",
+    "as_tag": "🤖 LLM · если нет ответа выше",
+    "as_ph": "Спроси как есть: можно ли пересдать экзамен с FX? Или: куда пройду со 104 баллами, физика и математика?",
+    "as_btn": "Спросить →",
+    "suggest1": "Можно ли пересдать экзамен с FX?",
+    "suggest2": "Куда я пройду со 104 баллами?",
+    "suggest3": "А как вообще считается GPA?",
+    "as_thinking": "Смотрю в документы",
+    "as_ans_ok": "Ответ по документам",
+    "as_ans_no": "Честно: этого нет в документах",
+    "as_engtag_a": "RAG · движок A",
+    "as_engtag_b": "навигатор · движок B",
+    "as_err_title": "Что-то пошло не так",
+    "as_err_pre": "Не получилось получить ответ:",
+    "eb_recommend_lead": "Вот куда ты проходишь с этими данными:",
+    "eb_score_pre": "Балл",
+    "eb_profile_pre": "профиль",
+    "eb_need_title": "Уточню один момент",
+    "eb_need_lead": "Выбери направление — и я сразу покажу программы, куда ты проходишь:",
+    "eb_need_see_score": "Вижу балл",
+    "eb_need_and_subj": "и предмет",
+    "eb_req_err": "Ошибка запроса:",
+    "ctx_uni": "Вуз:",
+    "ctx_profile": "Профиль:",
+    "ctx_score": "Балл:",
+    "ctx_city": "Город:",
+
+    "faq_kicker": "Быстрые ответы",
+    "faq_h2": "Частые вопросы",
+    "faq_sub": "Клик — и сразу готовый ответ со ссылкой на документ, без ожидания ответа от ассистента.",
+    "faq_tag": "⚡ 0 токенов",
+    "faq_all": "Все",
+    "faq_loading": "Собираю частые вопросы…",
+    "faq_err": "FAQ сейчас не открывается — попробуй обновить страницу.",
+    "faq_empty": "В этой категории пока пусто.",
+
+    "foot_main": "<b>Smart University</b> · движок B (навигатор грантов, 0 токенов) + движок A (RAG-ассистент по документам)",
+    "foot_disc": "Проходные баллы 2025 года — ориентир, а не гарантия на 2026-й: итог конкурса зависит от числа грантов и уровня других абитуриентов в этом заходе.",
+    "rc_page": "стр.",
+    "list_join": " и ",
+    "eb_chip_ask": "куда пройду со {score} баллами"
+  },
+  kk: {
+  "nav_guide": "🎯 Талапкер гиды",
+  "nav_unis": "🏛️ Университеттер",
+  "nav_navigator": "📊 Грант навигаторы",
+  "nav_compare": "⚖️ ЖОО салыстыру",
+  "nav_assistant": "🤖 AI-көмекші",
+  "nav_cta": "Балыңды тексер →",
+  "hero_eyebrow": "тегін · тіркелусіз",
+  "hero_h1": "Грантты сәттілікті күткендер емес, <span class=\"grad\">жоспарын білетіндер</span> алады",
+  "hero_sub": "Smart University сені «қайда тапсырсам екен» дегеннен «мен қабылдандым» дегенге дейін жетелейді: бүкіл жылға арналған қадамдық жоспар, 2025 жылдың шынайы өту балдары және ЖОО құжаттары бойынша жауап беретін AI-көмекші — ойдан шығармайды. <b>Артық сөзсіз, кезексіз, тіркелусіз.</b>",
+  "hero_badge1": "🗺️ <b>Бүкіл жылға жоспар</b> — бағыт таңдаудан қабылдау бұйрығына дейін",
+  "hero_badge2": "⚡ Бағдарлама таңдауға <b>0 токен</b>",
+  "hero_badge3": "🤖 <b>AI-көмекші</b> — дайын жауап әлі жоқ болғанда қосамыз",
+  "hero_btn_plan": "Жоспарды көру →",
+  "hero_btn_scores": "Балдарды бірден білу",
+  "guide_kicker": "Қадам-қадаммен · 12 ай",
+  "guide_h2": "🎯 Талапкер гиды",
+  "guide_sub": "ЕНТ — бұл финал, бірақ бүкіл қабылдау емес. Нағыз ойын жыл бойы жүреді: міне, сенен бұрын мыңдаған бала өткен маршрут картасы — күзде, қыста, көктемде және жазда не істеу керек, мерзімді жіберіп алмас үшін және ұмытылған анықтама сияқты болмашы себеппен гранттан айырылмас үшін.",
+  "guide_tag": "🗺️ тегін жоспар",
+  "rs1_season": "Күз",
+  "rs1_pill": "ЕНТ-ға бір жыл қалғанда",
+  "rs1_title": "Бағытты және 2–3 ЖОО таңда",
+  "rs1_p": "«Қайда барам» деген сұрақты көктемге қалдырма. Бағытты дәл қазір анықтап ал — сонда қабылдауда шынымен есептелетін пәндерді дөңгелетуге уақыт болады, соңғы айда репетиторлардың арасында сандалмайсың.",
+  "rs1_li1": "2–3 ЖОО-кандидатты және әрқайсысынан 1–2 бағдарламаны жазып ал — онсыз тізімді әрі қарай құра алмайсың.",
+  "rs1_li2": "Дәл сенің бағдарламаңа ЕНТ-ның қандай бейінді пәндері қажет екенін нақтыла — әр ГОП-та олар әртүрлі.",
+  "rs1_li3": "Мақсатты балды болжап көр: былтыр ұқсас бағдарламаларда грантқа қанша жинағанын қара.",
+  "rs1_cta": "Навигаторда мақсатты балды болжау →",
+  "rs2_season": "Қыс",
+  "rs2_pill": "Желтоқсан – ақпан",
+  "rs2_title": "ЕНТ-ға дайындала баста",
+  "rs2_p": "Қыс көрінгеннен көбірек шешеді: сәуірде емес, дәл қазір бастаған адам емтиханға жүйкесі емес, көңілі жайлы кіреді. Сонымен бірге қағаз шаруасын бітіріп қоятын кез — көктемде анықтама қуалап жүрмейсің.",
+  "rs2_li1": "Бейінді пәндер бойынша дайындық жоспарын құр — ЕНТ алдындағы бір апталық марафоннан гөрі тұрақтылық көбірек шешеді.",
+  "rs2_li2": "Қажетті құжаттар тізімін алдын ала жина: қазір оған уақыт бар, көктемде болмайды.",
+  "ad2_ttl": "ЕНТ-ны қайдан дөңгелетуге болады",
+  "ad2_desc": "Мұнда сенің дайындық курсың тұруы мүмкін — білім беру орталықтарына арналған серіктестік орын.",
+  "ad_mark": "серіктестік орын",
+  "rs3_season": "Көктем",
+  "rs3_pill": "Наурыз – мамыр",
+  "rs3_title": "ЕНТ-ға тіркелу және құжаттар",
+  "rs3_p": "Көктем — мерзімдер маусымы. Мұнда балды ешкім жоғалтпайды, ал уақытты бюрократияға құртады: мерзім шынымен қыса бастамай тұрып тіркеліп, құжат пакетін жинап үлгер.",
+  "rs3_li1": "ЕНТ-ға белгіленген терезеде тіркел — мерзімді жіберсең, қайта тапсыруды ғана күтесің.",
+  "rs3_li2": "Құжат қабылдау күндерін қадағала — оларды соңғы күні емес, алдын ала жариялайды.",
+  "rs3_li3": "Пакетті жина: аттестат, жеке куәлік, 3×4 фото, 075-У үлгісіндегі медициналық анықтама.",
+  "doc_attestat": "📄 Аттестат",
+  "doc_id": "🪪 Жеке куәлік",
+  "doc_photo": "📸 3×4 фото",
+  "doc_med": "🏥 075-У анықтамасы",
+  "ad3_ttl": "ЕНТ алдындағы интенсив",
+  "ad3_desc": "Серіктестік орын — емтихан алдындағы соңғы серпіліс курстары осында пайда болады.",
+  "rs4_season": "Жаз",
+  "rs4_pill": "Маусым",
+  "rs4_title": "ЕНТ тапсыр да, қайда өтетініңді біл",
+  "rs4_p": "Емтихан артта, бал қолыңда — ең қызығы енді басталады. Мүмкіндіктеріңді білу үшін қабылдау комиссиясының қоңырауын күтпе: бір минутта балды Навигатор арқылы өткізіп, гранттар бойынша бүкіл суретті бірден көр.",
+  "rs4_li1": "ЕНТ тапсыр, ресми балды күт.",
+  "rs4_li2": "Бірден Навигатор арқылы тексер: қазірдің өзінде қандай бағдарламалар мен ЖОО-ға грантқа өтіп тұрғаныңды көр.",
+  "rs4_cta": "Навигаторда балыңды тексер →",
+  "rs5_season": "Жаз",
+  "rs5_pill": "Шілде",
+  "rs5_title": "Грантқа өтініш бер",
+  "rs5_p": "Мұнда басты қатеден ұстайды: грантқа конкурс ЖОО бойынша емес, білім беру бағдарламаларының топтары (ГОП) бойынша жүреді — бұл басымдықтарды орналастырудың бүкіл логикасын өзгертеді. Бір қате есеп — сонда грант арманын бірінші орынға қоюға тәуекел етпегенге кетеді.",
+  "rs5_li1": "Есіңде болсын: бәсеке бір ЖОО ішінде емес, ГОП ішінде саналады.",
+  "rs5_li2": "4 басымдықты салқынқандылықпен таңда — барлық жолды бір ғана «армандармен» толтырма.",
+  "rs5_strategy": "Жұмыс істейтін стратегия: <b style=\"color:#F3F4F8\">1–2 амбициялы</b> бағыт (кепілдіксіз, бірақ көздеп тұрған) + <b style=\"color:#F3F4F8\">3–4 қосалқы</b> (балың сенімді өтетін жер). Сонда грант бір ғана ва-банк ставкасынан айырылып қалмайды.",
+  "rs6_season": "Тамыз",
+  "rs6_pill": "Қабылдау",
+  "rs6_title": "Нәтижелерді қадағала және Б жоспарын ұста",
+  "rs6_p": "Қабылданғандар тізімі толқынмен шығады — өзіңдікін жіберсең, анықтауға уақыт кетеді. Ал грант тимесе, бұл әлі әлемнің соңы емес: жыл сайын мыңдаған талапкер жұмыс істейтін қосалқы жолдарды пайдаланады.",
+  "rs6_li1": "Өз басымдықтарың бойынша конкурс нәтижесін дәл көрсетілген күндерде қадағала.",
+  "rs6_li2": "Грантқа балың жетпей ме? Жолдар тірі: ақылы бөлім, келесі кезекте ЕНТ-ны қайта тапсыру немесе кейін ауысатын колледж — Навигатор дәл саған қайсысы шынайы екенін болжауға көмектеседі.",
+  "rs6_cta": "Б жоспарының нұсқаларын көру →",
+  "uni_kicker": "ЖОО бейіндері",
+  "uni_h2": "🏛️ Университеттер",
+  "uni_sub": "ЖОО таңда — сонда көмекшіден нақ сол туралы сұра: құжаттар, балдар, өтінішті қалай беру керек. Таңдамасаң — көмекші әдепкі бойынша бірден базадағы барлық ЖОО-дан іздейді.",
+  "uni_loading": "ЖОО тізімін жинап жатырмын…",
+  "uni_load_err": "ЖОО тізімін жүктеу мүмкін болмады.",
+  "uni_chunks": "базадағы фрагмент",
+  "uni_ask": "{name} туралы сұрау →",
+  "uni_apply": "Қабылдау сайты ↗",
+  "nav2_kicker": "B қозғалтқышы · LLM-сіз",
+  "nav2_h2": "📊 Грант навигаторы",
+  "nav2_sub": "ЕНТ балы + бейінді пәндер → 2025 жылы грантқа шынымен қайда өткен. Бұл шамалап болжау емес, өткен қабылдаудың нақты деректері — 5 секундта мүмкіндігің қай жерде мықты, қай жерде әлі күресуге болады, ал қай жерде бірден Б жоспарын қараған дұрыс екенін көресің.",
+  "nav2_tag": "⚡ 0 токен",
+  "nv_score_label": "ЕНТ балы",
+  "nv_score_max": "140-тан",
+  "nv_direction": "Бағытты жылдам таңдау",
+  "nv_subj1": "1-пән",
+  "nv_subj2": "2-пән",
+  "nv_city": "Қала (міндетті емес)",
+  "nv_city_ph": "мыс. Алматы",
+  "nv_btn": "Бағдарламаларды таңдау →",
+  "nv_hint": "Өту балдары — 2025 жылғы тарихи деректер. Жаңа деректер шыға салысымен жаңартамыз.",
+  "nv_placeholder": "<b>Балды және пәндерді қой</b> — нәтиже осында бірден шығады.",
+  "nv_loading": "Өту балдары базасымен салыстырып жатырмын…",
+  "nv_err": "Деректерді жүктеу мүмкін болмады ({msg}).",
+  "nv_422": "Бұл пәндер жұбын тесттік нұсқада әзірге талдамадық.<br>Жоғарыдағы жылдам таңдау нұсқаларының бірін қолданып көр.",
+  "preset_it": "IT",
+  "preset_eng": "Инженерия",
+  "preset_med": "Медицина",
+  "preset_eco": "Экономика / бизнес",
+  "preset_law": "Құқық",
+  "subj_math": "математика",
+  "subj_it": "информатика",
+  "subj_phys": "физика",
+  "subj_chem": "химия",
+  "subj_bio": "биология",
+  "subj_hist": "тарих",
+  "subj_law": "құқық негіздері",
+  "subj_geo": "география",
+  "bk_pass": "өтесің",
+  "bk_pass_hint": "грант дерлік қалтада",
+  "bk_risk": "шекте",
+  "bk_risk_hint": "бәсекелі, бірақ мүмкіндік бар",
+  "bk_fail": "жетпейді",
+  "bk_fail_hint": "ақылыны немесе Б жоспарын қара",
+  "col_pass": "Өтесің",
+  "col_risk": "Шекте",
+  "col_fail": "Жетпейді",
+  "bk_empty": "Әзірге бос",
+  "bk_more": "Барлығын көрсету {n} →",
+  "bk_collapse": "Жию ↑",
+  "rc_gap_pre": "сенің балың",
+  "rc_gap_post": "өту балына дейін",
+  "rc_grants": "гранттар:",
+  "rc_threshold": "шек",
+  "rc_source": "📎 дереккөз",
+  "cmp_kicker": "Қатар",
+  "cmp_h2": "⚖️ ЖОО салыстыру",
+  "cmp_sub": "ЖОО-ларды белгіле — қабылдау моделін, өту балдарын, оқыту тілін, құнын және гранттарды бір кестеден аласың, он сайтты аралап жүрмейсің. Оңай тілмен қаласаң — ЖИ-ден сұра.",
+  "cmp_tag": "0 токен",
+  "cmp_th": "Критерий",
+  "cmp_empty": "Кестені көру үшін кемінде бір ЖОО белгіле.",
+  "cmp_ask": "ЖИ-ден сұрау: таңдағандарды салыстыру →",
+  "cmp_ask_prompt": "ЖОО-ларды салыстыр: {names} — қабылдау, гранттар және құн бойынша. Талапкер нені таңдағаны жөн?",
+  "as_kicker": "A қозғалтқышы · құжаттар бойынша RAG",
+  "as_h2": "🤖 AI-көмекші",
+  "as_sub": "ЖОО-лардың ресми құжаттары бойынша жауап береді және әрдайым дереккөзді көрсетеді. Құжаттарда жауап жоқ болса — әдемілеп өтірік айтпай, солай деп ашық айтады.",
+  "as_tag": "🤖 LLM · егер жоғарыда жауап жоқ болса",
+  "as_ph": "Ойыңдағыны бірден сұра: FX-пен емтиханды қайта тапсыруға бола ма? Немесе: 104 балмен, физика мен математикамен қайда өтем?",
+  "as_btn": "Сұрау →",
+  "suggest1": "FX-пен емтиханды қайта тапсыруға бола ма?",
+  "suggest2": "104 балмен қайда өтем?",
+  "suggest3": "Ал GPA жалпы қалай есептеледі?",
+  "as_thinking": "Құжаттарды қарап жатырмын",
+  "as_ans_ok": "Құжаттар бойынша жауап",
+  "as_ans_no": "Шыны керек: бұл құжаттарда жоқ",
+  "as_engtag_a": "RAG · A қозғалтқышы",
+  "as_engtag_b": "навигатор · B қозғалтқышы",
+  "as_err_title": "Бірдеңе дұрыс болмады",
+  "as_err_pre": "Жауап алу мүмкін болмады:",
+  "eb_recommend_lead": "Осы деректермен мынаған өтесің:",
+  "eb_score_pre": "Бал",
+  "eb_profile_pre": "бейін",
+  "eb_need_title": "Бір нәрсені нақтылап алайын",
+  "eb_need_lead": "Бағытты таңда — қайда өтетін бағдарламаларды бірден көрсетем:",
+  "eb_need_see_score": "Балды көріп тұрмын",
+  "eb_need_and_subj": "және пән",
+  "eb_req_err": "Сұрау қатесі:",
+  "ctx_uni": "ЖОО:",
+  "ctx_profile": "Бейін:",
+  "ctx_score": "Бал:",
+  "ctx_city": "Қала:",
+  "faq_kicker": "Жылдам жауаптар",
+  "faq_h2": "Жиі қойылатын сұрақтар",
+  "faq_sub": "Бір басасың — көмекшінің жауабын күтпей, құжатқа сілтемесі бар дайын жауап бірден шығады.",
+  "faq_tag": "⚡ 0 токен",
+  "faq_all": "Барлығы",
+  "faq_loading": "Жиі қойылатын сұрақтарды жинап жатырмын…",
+  "faq_err": "FAQ қазір ашылмай тұр — бетті жаңартып көр.",
+  "faq_empty": "Бұл санатта әзірге бос.",
+  "foot_main": "<b>Smart University</b> · B қозғалтқышы (грант навигаторы, 0 токен) + A қозғалтқышы (құжаттар бойынша RAG-көмекші)",
+  "foot_disc": "2025 жылғы өту балдары — 2026 жылға бағдар, кепілдік емес: конкурстың қорытындысы гранттар санына және осы кезектегі басқа талапкерлердің деңгейіне байланысты.",
+  "rc_page": "б.",
+  "list_join": " және ",
+  "eb_chip_ask": "{score} баллмен қайда өтемін"
+},
+  en: {
+  "nav_guide": "🎯 Applicant's Guide",
+  "nav_unis": "🏛️ Universities",
+  "nav_navigator": "📊 Grant Navigator",
+  "nav_compare": "⚖️ Compare Universities",
+  "nav_assistant": "🤖 AI Assistant",
+  "nav_cta": "Check your score →",
+  "hero_eyebrow": "free · no sign-up",
+  "hero_h1": "Grants go to those who <span class=\"grad\">have a plan</span>, not those who wait for luck",
+  "hero_sub": "Smart University walks you all the way from \"where do I even apply?\" to \"I'm in\": a step-by-step plan for the whole year, honest 2025 cutoff scores, and an AI assistant that answers straight from each university's documents — not by making things up. <b>No fluff, no waiting in line, no sign-up.</b>",
+  "hero_badge1": "🗺️ <b>A full-year plan</b> — from picking your field to the enrollment order",
+  "hero_badge2": "⚡ <b>0 tokens</b> to match programs",
+  "hero_badge3": "🤖 <b>AI assistant</b> — steps in when there's no ready-made answer yet",
+  "hero_btn_plan": "See the plan →",
+  "hero_btn_scores": "Jump straight to scores",
+  "guide_kicker": "Step by step · 12 months",
+  "guide_h2": "🎯 Applicant's Guide",
+  "guide_sub": "The ЕНТ is the finale, not the whole game. The real work runs all year long — here's the roadmap thousands of students have already followed: what to do in autumn, winter, spring and summer so you never miss a deadline or lose a grant over something as silly as a forgotten certificate.",
+  "guide_tag": "🗺️ free plan",
+  "rs1_season": "Autumn",
+  "rs1_pill": "A year before the ЕНТ",
+  "rs1_title": "Pick your field and 2–3 universities",
+  "rs1_p": "Don't put off the \"where am I even headed?\" question until spring. Settle on your field now — you'll have time to bring up exactly the subjects that actually count for admission, instead of scrambling between tutors in the final month.",
+  "rs1_li1": "Write down 2–3 candidate universities and 1–2 programs at each — you can't build the rest of your list without this.",
+  "rs1_li2": "Check which ЕНТ profile subjects your specific program needs — they vary from one ГОП to another.",
+  "rs1_li3": "Ballpark your target score: how much it took to win a grant last year on similar programs.",
+  "rs1_cta": "Estimate your target score in the Navigator →",
+  "rs2_season": "Winter",
+  "rs2_pill": "December – February",
+  "rs2_title": "Start prepping for the ЕНТ",
+  "rs2_p": "Winter decides more than it seems: those who start now, not in April, walk into the exam calm instead of frazzled. It's also the perfect time to knock out the paperwork so you're not chasing certificates come spring.",
+  "rs2_li1": "Build a study plan around your profile subjects — consistency beats a one-week cram before the ЕНТ every time.",
+  "rs2_li2": "Gather your list of required documents early: you have time for it now — you won't in spring.",
+  "ad2_ttl": "Where to prep for the ЕНТ",
+  "ad2_desc": "Your prep course could go here — a partner slot for education centers.",
+  "ad_mark": "partner slot",
+  "rs3_season": "Spring",
+  "rs3_pill": "March – May",
+  "rs3_title": "ЕНТ registration and documents",
+  "rs3_p": "Spring is deadline season. Almost nobody loses points here — they lose time to bureaucracy. Register and pull your document package together before the dates really start closing in.",
+  "rs3_li1": "Register for the ЕНТ within the set window — miss it, and all you can do is wait for a retake.",
+  "rs3_li2": "Keep an eye on document intake dates — they're published in advance, not on the last day.",
+  "rs3_li3": "Put together your package: school certificate, ID, 3×4 photo, medical form 075-U.",
+  "doc_attestat": "📄 School certificate",
+  "doc_id": "🪪 ID card",
+  "doc_photo": "📸 3×4 photo",
+  "doc_med": "🏥 Form 075-U",
+  "ad3_ttl": "Final ЕНТ intensive",
+  "ad3_desc": "Partner slot — final-sprint courses before the exam will show up here.",
+  "rs4_season": "Summer",
+  "rs4_pill": "June",
+  "rs4_title": "Take the ЕНТ and see where you qualify",
+  "rs4_p": "The exam's behind you, the score's in hand — and this is where it gets interesting. Don't wait for a call from the admissions office to gauge your odds: run your score through the Navigator in a minute and see the whole grant picture at once.",
+  "rs4_li1": "Take the ЕНТ and wait for your official score.",
+  "rs4_li2": "Right away, check in the Navigator which programs and universities you already qualify for on a grant.",
+  "rs4_cta": "Check your score in the Navigator →",
+  "rs5_season": "Summer",
+  "rs5_pill": "July",
+  "rs5_title": "Apply for a grant",
+  "rs5_p": "This is where the classic mistake trips people up: the grant competition isn't by university, it's by groups of educational programs (ГОП) — and that changes the whole logic of setting priorities. One wrong call, and the grant goes to someone who simply dared to put their dream first.",
+  "rs5_li1": "Remember: the competition is scored within a ГОП, not within a single university.",
+  "rs5_li2": "Pick your 4 priorities with a cool head — don't fill every slot with \"dream\" picks alone.",
+  "rs5_strategy": "A strategy that works: <b style=\"color:#F3F4F8\">1–2 ambitious</b> choices (your reach picks, no guarantees) + <b style=\"color:#F3F4F8\">3–4 safety</b> ones (where your score clears the cutoff comfortably). That way the grant won't slip past you because of one all-in bet.",
+  "rs6_season": "August",
+  "rs6_pill": "Enrollment",
+  "rs6_title": "Track the results and keep a plan B",
+  "rs6_p": "Enrollment lists come out in waves — miss yours, and you'll waste time sorting it out. And if the grant doesn't come through, it's not the end of the world: thousands of applicants fall back on solid alternatives every single year.",
+  "rs6_li1": "Track your competition results for each of your priorities on the exact dates given.",
+  "rs6_li2": "Score fell short of a grant? The options are real: a paid track, a ЕНТ retake in the next round, or college with a transfer later on — the Navigator helps you weigh what's most realistic for you.",
+  "rs6_cta": "See your plan B options →",
+  "uni_kicker": "University profiles",
+  "uni_h2": "🏛️ Universities",
+  "uni_sub": "Pick a university, then ask the assistant about it specifically: documents, scores, how to apply. Haven't picked one? By default the assistant searches across every university in the database.",
+  "uni_loading": "Loading the list of universities…",
+  "uni_load_err": "Couldn't load the list of universities.",
+  "uni_chunks": "fragments in the database",
+  "uni_ask": "Ask about {name} →",
+  "uni_apply": "Admissions site ↗",
+  "nav2_kicker": "Engine B · no LLM",
+  "nav2_h2": "📊 Grant Navigator",
+  "nav2_sub": "ЕНТ score + profile subjects → where students actually qualified for a grant in 2025. These are facts from the last admissions round, not a rough guess — in 5 seconds you'll see where your chances are solid, where there's still a fight to be had, and where it's honestly time to look at plan B.",
+  "nav2_tag": "⚡ 0 tokens",
+  "nv_score_label": "ЕНТ score",
+  "nv_score_max": "out of 140",
+  "nv_direction": "Quick field pick",
+  "nv_subj1": "Subject 1",
+  "nv_subj2": "Subject 2",
+  "nv_city": "City (optional)",
+  "nv_city_ph": "e.g. Almaty",
+  "nv_btn": "Match programs →",
+  "nv_hint": "Cutoffs are historical, from 2025. We'll update them as soon as new data arrives.",
+  "nv_placeholder": "<b>Set your score and subjects</b> — results will show up here right away.",
+  "nv_loading": "Checking against the cutoff-score database…",
+  "nv_err": "Couldn't load the data ({msg}).",
+  "nv_422": "We haven't mapped this subject pair yet in the test version.<br>Try one of the quick-pick options above.",
+  "preset_it": "IT",
+  "preset_eng": "Engineering",
+  "preset_med": "Medicine",
+  "preset_eco": "Economics / business",
+  "preset_law": "Law",
+  "subj_math": "mathematics",
+  "subj_it": "computer science",
+  "subj_phys": "physics",
+  "subj_chem": "chemistry",
+  "subj_bio": "biology",
+  "subj_hist": "history",
+  "subj_law": "fundamentals of law",
+  "subj_geo": "geography",
+  "bk_pass": "you qualify",
+  "bk_pass_hint": "grant almost in the bag",
+  "bk_risk": "on the edge",
+  "bk_risk_hint": "competitive, but there's a shot",
+  "bk_fail": "falls short",
+  "bk_fail_hint": "look at paid or plan B",
+  "col_pass": "You qualify",
+  "col_risk": "On the edge",
+  "col_fail": "Falls short",
+  "bk_empty": "Nothing here yet",
+  "bk_more": "Show all {n} →",
+  "bk_collapse": "Collapse ↑",
+  "rc_gap_pre": "your score",
+  "rc_gap_post": "to the cutoff",
+  "rc_grants": "grants:",
+  "rc_threshold": "cutoff",
+  "rc_source": "📎 source",
+  "cmp_kicker": "Side by side",
+  "cmp_h2": "⚖️ Compare Universities",
+  "cmp_sub": "Check off the universities and get the admissions model, cutoffs, language of instruction, cost and grants in one table — no running around ten different sites. Want it in plain words? Just ask the AI.",
+  "cmp_tag": "0 tokens",
+  "cmp_th": "Criterion",
+  "cmp_empty": "Check off at least one university to see the table.",
+  "cmp_ask": "Ask the AI to compare your picks →",
+  "cmp_ask_prompt": "Compare these universities: {names} — on admissions, grants and cost. Which should an applicant choose?",
+  "as_kicker": "Engine A · RAG over documents",
+  "as_h2": "🤖 AI Assistant",
+  "as_sub": "It answers from universities' official documents and always shows the source. If the answer isn't in the documents, it'll say so — rather than tell a pretty lie.",
+  "as_tag": "🤖 LLM · when there's no answer above",
+  "as_ph": "Ask it however it comes to mind: can I retake an exam after an FX? Or: where do I qualify with 104 points, physics and mathematics?",
+  "as_btn": "Ask →",
+  "suggest1": "Can I retake an exam after an FX?",
+  "suggest2": "Where do I qualify with 104 points?",
+  "suggest3": "So how is GPA actually calculated?",
+  "as_thinking": "Looking through the documents",
+  "as_ans_ok": "Answer from the documents",
+  "as_ans_no": "Honestly: this isn't in the documents",
+  "as_engtag_a": "RAG · engine A",
+  "as_engtag_b": "navigator · engine B",
+  "as_err_title": "Something went wrong",
+  "as_err_pre": "Couldn't get an answer:",
+  "eb_recommend_lead": "Here's where you qualify with this info:",
+  "eb_score_pre": "Score",
+  "eb_profile_pre": "profile",
+  "eb_need_title": "Just one thing to clarify",
+  "eb_need_lead": "Pick a field — and I'll show you right away the programs you qualify for:",
+  "eb_need_see_score": "I see the score",
+  "eb_need_and_subj": "and the subject",
+  "eb_req_err": "Request error:",
+  "ctx_uni": "University:",
+  "ctx_profile": "Profile:",
+  "ctx_score": "Score:",
+  "ctx_city": "City:",
+  "faq_kicker": "Quick answers",
+  "faq_h2": "Frequently asked questions",
+  "faq_sub": "One click and you've got a ready answer with a link to the document — no waiting on the assistant.",
+  "faq_tag": "⚡ 0 tokens",
+  "faq_all": "All",
+  "faq_loading": "Gathering the frequent questions…",
+  "faq_err": "The FAQ won't open right now — try refreshing the page.",
+  "faq_empty": "Nothing in this category yet.",
+  "foot_main": "<b>Smart University</b> · engine B (grant navigator, 0 tokens) + engine A (RAG document assistant)",
+  "foot_disc": "The 2025 cutoff scores are a reference point, not a guarantee for 2026: the final outcome depends on the number of grants and the level of other applicants in that round.",
+  "rc_page": "p.",
+  "list_join": " and ",
+  "eb_chip_ask": "where can I get in with {score} points"
+}
+};
+
+let LANG = (localStorage.getItem("su_lang") || (navigator.language||"ru").slice(0,2));
+if(LANG!=="ru" && LANG!=="kk" && LANG!=="en") LANG = "ru";
+
+function t(key){ return (I18N[LANG] && I18N[LANG][key]) || I18N.ru[key] || key; }
+function tf(key, vars){ vars=vars||{}; return t(key).replace(/\{(\w+)\}/g,(m,k)=> vars[k]!=null?String(vars[k]):m); }
+function applyStaticI18n(){
+  document.querySelectorAll("[data-i18n]").forEach(el=>{ el.innerHTML = t(el.getAttribute("data-i18n")); });
+  document.querySelectorAll("[data-i18n-ph]").forEach(el=>{ el.setAttribute("placeholder", t(el.getAttribute("data-i18n-ph"))); });
+  document.querySelectorAll("[data-i18n-aria]").forEach(el=>{ el.setAttribute("aria-label", t(el.getAttribute("data-i18n-aria"))); });
+  document.querySelectorAll("#suggestRow .suggest[data-i18n]").forEach(el=>{ el.setAttribute("data-q", t(el.getAttribute("data-i18n"))); });
+  document.documentElement.lang = LANG;
+}
+
 const SUBJECTS = ["математика","информатика","физика","химия","биология","история","основы права","география"];
+const SUBJ_KEY = {"математика":"subj_math","информатика":"subj_it","физика":"subj_phys","химия":"subj_chem","биология":"subj_bio","история":"subj_hist","основы права":"subj_law","география":"subj_geo"};
 const PRESETS = [
-  {label:"IT", ic:"💻", p:["математика","информатика"]},
-  {label:"Инженерия", ic:"⚙️", p:["математика","физика"]},
-  {label:"Медицина", ic:"🧬", p:["химия","биология"]},
-  {label:"Экономика / бизнес", ic:"📊", p:["математика","география"]},
-  {label:"Право", ic:"⚖️", p:["история","основы права"]},
+  {key:"preset_it", ic:"💻", p:["математика","информатика"]},
+  {key:"preset_eng", ic:"⚙️", p:["математика","физика"]},
+  {key:"preset_med", ic:"🧬", p:["химия","биология"]},
+  {key:"preset_eco", ic:"📊", p:["математика","география"]},
+  {key:"preset_law", ic:"⚖️", p:["история","основы права"]},
 ];
+
+/* in-session chat memory (in-memory only → clears on reload) */
+const CONV = [];
+let __lastRec = null;
 
 const $ = s => document.querySelector(s);
 const esc = s => (s==null?"":String(s)).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
 
 /* ---------- populate controls ---------- */
 for(const sub of SUBJECTS){
-  for(const id of ["#subj1","#subj2"]){ const o=document.createElement("option"); o.value=sub; o.textContent=sub; $(id).appendChild(o); }
+  for(const id of ["#subj1","#subj2"]){ const o=document.createElement("option"); o.value=sub; o.textContent=t(SUBJ_KEY[sub]); $(id).appendChild(o); }
 }
 $("#subj1").value="математика"; $("#subj2").value="физика";
 
+// repopulate option labels in current language, preserving the selected value
+function rebuildSubjects(){
+  for(const id of ["#subj1","#subj2"]){
+    const sel=$(id); const cur=sel.value;
+    Array.prototype.forEach.call(sel.options, o=>{ if(SUBJ_KEY[o.value]) o.textContent=t(SUBJ_KEY[o.value]); });
+    sel.value=cur;
+  }
+}
+
 const presetBox=$("#presets");
-let activePreset=null;
+let activePreset=null;   // stable preset key (e.g. "preset_it") or null
 function renderPresets(){
   presetBox.innerHTML="";
   PRESETS.forEach(pr=>{
     const c=document.createElement("span");
-    c.className="chip"+(activePreset===pr.label?" on":"");
-    c.innerHTML=`<span class="ic">${pr.ic}</span>${esc(pr.label)}`;
-    c.onclick=()=>{ activePreset=pr.label; $("#subj1").value=pr.p[0]; $("#subj2").value=pr.p[1]; renderPresets(); runRecommend(); };
+    c.className="chip"+(activePreset===pr.key?" on":"");
+    c.innerHTML=`<span class="ic">${pr.ic}</span>${esc(t(pr.key))}`;
+    c.onclick=()=>{ activePreset=pr.key; $("#subj1").value=pr.p[0]; $("#subj2").value=pr.p[1]; renderPresets(); runRecommend(); };
     presetBox.appendChild(c);
   });
 }
@@ -817,15 +1394,15 @@ function bucketsHtml(d, opts){
     const g = isFinite(gapNum) ? (gapNum>=0?("+"+gapNum):(""+gapNum)) : esc(x.gap);
     let host = "";
     try{ host = (x.source_url||"").split("//")[1] || ""; }catch(e){ host = ""; }
-    const srcLink = x.source_url ? `<a href="${esc(x.source_url)}" target="_blank" rel="noopener">📎 источник</a>` : "";
+    const srcLink = x.source_url ? `<a href="${esc(x.source_url)}" target="_blank" rel="noopener">${t("rc_source")}</a>` : "";
     return `<div class="rcard ${esc(x.bucket)}" style="animation-delay:${(i*45)}ms">
       <div class="top"><span class="code mono">${esc(x.gop_code)}</span><span class="score mono">${esc(x.passing_2025)}</span></div>
       <div class="gop">${esc(x.gop_name)}</div>
       <div class="uni">${esc(x.univ)}${x.city?" · "+esc(x.city):""}</div>
       <div class="meta">
-        <span>твой балл <b class="mono">${g}</b> к отсечке</span>
-        <span>грантов: <b class="mono">${esc(x.grants)}</b></span>
-        <span>порог ${esc(x.threshold)}</span>
+        <span>${t("rc_gap_pre")} <b class="mono">${g}</b> ${t("rc_gap_post")}</span>
+        <span>${t("rc_grants")} <b class="mono">${esc(x.grants)}</b></span>
+        <span>${t("rc_threshold")} ${esc(x.threshold)}</span>
         ${srcLink}
         <span>${esc(x.year)}</span>
       </div>
@@ -836,14 +1413,14 @@ function bucketsHtml(d, opts){
     const items = by(b);
     const limit = opts.limit || 6;
     const head = `<div class="col-head"><span class="dot"></span>${title}<span class="col-count">${items.length}</span></div>`;
-    if(!items.length) return `<div class="col ${b}">${head}<div class="empty">Пока пусто</div></div>`;
+    if(!items.length) return `<div class="col ${b}">${head}<div class="empty">${t("bk_empty")}</div></div>`;
     const first = items.slice(0, limit).map(cardHtml).join("");
     const rest = items.slice(limit);
     const more = rest.length
       ? `<div class="more-wrap" style="display:none">${rest.map((x,i)=>cardHtml(x,i+limit)).join("")}</div>`
         + `<button class="more-btn" type="button" data-morecol="${b}" style="margin-top:10px;width:100%;font-size:12.5px;`
         + `padding:9px 12px;border-radius:10px;border:1px solid var(--line-strong);background:rgba(255,255,255,.03);`
-        + `color:var(--ink-dim);cursor:pointer">Показать все ${items.length} →</button>`
+        + `color:var(--ink-dim);cursor:pointer">${tf("bk_more",{n:items.length})}</button>`
       : "";
     return `<div class="col ${b}">${head}${first}${more}</div>`;
   };
@@ -851,12 +1428,12 @@ function bucketsHtml(d, opts){
   const idBase = "cnt"+Math.random().toString(36).slice(2,8);
   const html = `
     <div class="summary">
-      <span class="stat pass"><span class="n mono" id="${idBase}p">${s.pass||0}</span><span class="l">проходишь<small>грант почти в кармане</small></span></span>
-      <span class="stat risk"><span class="n mono" id="${idBase}r">${s.risk||0}</span><span class="l">на грани<small>конкурентно, но шанс есть</small></span></span>
-      <span class="stat fail"><span class="n mono" id="${idBase}f">${s.fail||0}</span><span class="l">не хватает<small>смотри платное или план Б</small></span></span>
+      <span class="stat pass"><span class="n mono" id="${idBase}p">${s.pass||0}</span><span class="l">${t("bk_pass")}<small>${t("bk_pass_hint")}</small></span></span>
+      <span class="stat risk"><span class="n mono" id="${idBase}r">${s.risk||0}</span><span class="l">${t("bk_risk")}<small>${t("bk_risk_hint")}</small></span></span>
+      <span class="stat fail"><span class="n mono" id="${idBase}f">${s.fail||0}</span><span class="l">${t("bk_fail")}<small>${t("bk_fail_hint")}</small></span></span>
     </div>
     <div class="divider"></div>
-    <div class="cols">${col("pass","Проходишь")}${col("risk","На грани")}${col("fail","Не хватает")}</div>
+    <div class="cols">${col("pass",t("col_pass"))}${col("risk",t("col_risk"))}${col("fail",t("col_fail"))}</div>
     <div class="disc"><span class="ic">⚠️</span><span>${esc(d.disclaimer||"")}</span></div>
   `;
   return {html, counts:{p:s.pass||0, r:s.risk||0, f:s.fail||0}, idBase};
@@ -882,7 +1459,7 @@ document.addEventListener("click", (e)=>{
   const opened = wrap.style.display !== "none";
   wrap.style.display = opened ? "none" : "";
   const total = (colEl.querySelector(".col-count")||{}).textContent || "";
-  btn.textContent = opened ? `Показать все ${total} →` : "Свернуть ↑";
+  btn.textContent = opened ? tf("bk_more",{n:total}) : t("bk_collapse");
 });
 
 /* ---------- Навигатор (движок B) ---------- */
@@ -891,19 +1468,22 @@ async function runRecommend(){
   const score=$("#score").value, profile=$("#subj1").value+","+$("#subj2").value, city=$("#city").value.trim();
   const out=$("#recOut");
   recBtn.classList.add("loading"); recBtn.disabled=true;
-  out.innerHTML='<div class="loading-block"><div class="pulse-ring"></div><div class="loading-text">Сверяю с базой проходных баллов…</div></div>';
+  out.innerHTML='<div class="loading-block"><div class="pulse-ring"></div><div class="loading-text">'+t("nv_loading")+'</div></div>';
   const qs=new URLSearchParams({score,profile}); if(city) qs.set("city",city);
   try{
     const r=await fetch("/v1/recommend?"+qs.toString());
     if(r.status===422){
-      out.innerHTML='<div class="placeholder-cta"><div class="big">🤔</div><div>Эту пару предметов пока не разобрали в тестовой версии.<br>Попробуй один из вариантов быстрого выбора выше.</div></div>';
+      __lastRec=null;
+      out.innerHTML='<div class="placeholder-cta"><div class="big">🤔</div><div>'+t("nv_422")+'</div></div>';
       return;
     }
     if(!r.ok) throw new Error("HTTP "+r.status);
     const d=await r.json();
+    __lastRec=d;
     mountBucketsAnimated(out, d, {limit:6});
   }catch(e){
-    out.innerHTML='<div class="placeholder-cta"><div class="big">⚠️</div><div>Не получилось загрузить данные ('+esc(e.message)+').</div></div>';
+    __lastRec=null;
+    out.innerHTML='<div class="placeholder-cta"><div class="big">⚠️</div><div>'+tf("nv_err",{msg:esc(e.message)})+'</div></div>';
   }finally{
     recBtn.classList.remove("loading"); recBtn.disabled=false;
   }
@@ -913,18 +1493,21 @@ recBtn.onclick=runRecommend;
 /* ---------- FAQ ---------- */
 let FAQ={cards:[],cats:[]}, activeCat=null;
 async function loadFaq(){
+  const reqLang = LANG;  // защита от гонки: язык могли переключить, пока грузили
   try{
-    const d=await (await fetch("/v1/faq")).json();
+    const d=await (await fetch("/v1/faq?lang="+LANG)).json();
+    if(reqLang!==LANG) return;  // пришёл устаревший ответ — не перетираем свежий язык
     FAQ.cards=d.cards||[]; FAQ.cats=d.categories||[];
     renderCats(); renderFaq();
   }catch(e){
-    $("#faqList").innerHTML='<div class="empty" style="grid-column:1/-1">FAQ сейчас не открывается — попробуй обновить страницу.</div>';
+    if(reqLang!==LANG) return;
+    $("#faqList").innerHTML='<div class="empty" style="grid-column:1/-1">'+t("faq_err")+'</div>';
   }
 }
 function renderCats(){
   const box=$("#faqCats"); box.innerHTML="";
   const all=document.createElement("span");
-  all.className="cattab"+(activeCat===null?" on":""); all.textContent="Все · "+FAQ.cards.length;
+  all.className="cattab"+(activeCat===null?" on":""); all.textContent=t("faq_all")+" · "+FAQ.cards.length;
   all.onclick=()=>{activeCat=null;renderCats();renderFaq();};
   box.appendChild(all);
   FAQ.cats.forEach(c=>{
@@ -937,14 +1520,14 @@ function renderCats(){
 }
 function srcHtml(s){
   if(!s||!s.url) return "";
-  const pg = s.page ? (" · стр. "+esc(s.page)) : "";
+  const pg = s.page ? (" · "+t("rc_page")+" "+esc(s.page)) : "";
   const sec = s.section ? (" · "+esc(s.section)) : "";
   return `<div class="src">📎 <a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.label)}${pg}${sec}</a></div>`;
 }
 function renderFaq(){
   const cards = activeCat ? FAQ.cards.filter(c=>c.category===activeCat) : FAQ.cards;
   const list=$("#faqList");
-  if(!cards.length){ list.innerHTML='<div class="empty" style="grid-column:1/-1">В этой категории пока пусто.</div>'; return; }
+  if(!cards.length){ list.innerHTML='<div class="empty" style="grid-column:1/-1">'+t("faq_empty")+'</div>'; return; }
   list.innerHTML = cards.map(c=>`<details class="qa">
     <summary>${esc(c.question)}<span class="plus" aria-hidden="true">+</span></summary>
     <div class="ans">${esc(c.answer)}${srcHtml(c.source)}</div>
@@ -957,11 +1540,11 @@ window.clearUni = () => { selectedUni = null; renderAskContext(); };
 function renderAskContext(){
   const s1=$("#subj1").value, s2=$("#subj2").value, score=$("#score").value, city=$("#city").value.trim();
   const uni = selectedUni
-    ? `<span class="ctx-pill">Вуз: <b>${esc(UNI_ID_NAME[selectedUni]||selectedUni)}</b> <a onclick="clearUni()" style="cursor:pointer;color:var(--cyan)">✕</a></span>` : "";
+    ? `<span class="ctx-pill">${t("ctx_uni")} <b>${esc(UNI_ID_NAME[selectedUni]||selectedUni)}</b> <a onclick="clearUni()" style="cursor:pointer;color:var(--cyan)">✕</a></span>` : "";
   $("#askContext").innerHTML = `${uni}
-    <span class="ctx-pill">Профиль: <b>${esc(s1)} + ${esc(s2)}</b></span>
-    <span class="ctx-pill">Балл: <b>${esc(score)}</b></span>
-    ${city?`<span class="ctx-pill">Город: <b>${esc(city)}</b></span>`:""}
+    <span class="ctx-pill">${t("ctx_profile")} <b>${esc(s1)} + ${esc(s2)}</b></span>
+    <span class="ctx-pill">${t("ctx_score")} <b>${esc(score)}</b></span>
+    ${city?`<span class="ctx-pill">${t("ctx_city")} <b>${esc(city)}</b></span>`:""}
   `;
 }
 renderAskContext();
@@ -981,7 +1564,7 @@ function addUserBubble(text){
 function addBotPlaceholder(){
   const div=document.createElement("div");
   div.className="msg-bot";
-  div.innerHTML=`<div class="head"><span class="avatar">✦</span><span>Смотрю в документы</span><span class="typing"><span></span><span></span><span></span></span></div>`;
+  div.innerHTML=`<div class="head"><span class="avatar">✦</span><span>${t("as_thinking")}</span><span class="typing"><span></span><span></span><span></span></span></div>`;
   thread.appendChild(div);
   div.scrollIntoView({behavior:"smooth", block:"end"});
   return div;
@@ -993,13 +1576,13 @@ function renderEngineA(d, botEl){
   let cites = "";
   if(d.citations && d.citations.length){
     cites = '<div class="cites">' + d.citations.map(c=>{
-      const pg = c.page ? (" · стр. "+esc(c.page)) : "";
+      const pg = c.page ? (" · "+t("rc_page")+" "+esc(c.page)) : "";
       const sec = c.section ? (" · "+esc(c.section)) : "";
       return `<a href="${esc(c.url)}" target="_blank" rel="noopener">📎 ${esc(c.label)}${pg}${sec}</a>`;
     }).join("") + '</div>';
   }
   botEl.innerHTML = `
-    <div class="head"><span class="avatar">✦</span><span>${d.refused ? "Честно: этого нет в документах" : "Ответ по документам"}</span><span class="engtag">RAG · движок A</span></div>
+    <div class="head"><span class="avatar">✦</span><span>${d.refused ? t("as_ans_no") : t("as_ans_ok")}</span><span class="engtag">${t("as_engtag_a")}</span></div>
     <div class="ans-text">${esc(d.answer)}</div>
     ${cites}
   `;
@@ -1009,8 +1592,8 @@ function renderEngineBRecommend(d, botEl){
   botEl.className = "msg-bot";
   const {html, counts, idBase} = bucketsHtml(d, {limit:4});
   botEl.innerHTML = `
-    <div class="head"><span class="avatar">✦</span><span>Балл ${esc(d.score)} · профиль ${esc((d.profile||"").replace("+"," + "))}</span><span class="engtag">навигатор · движок B</span></div>
-    <div class="ans-text" style="margin-bottom:12px">Вот куда ты проходишь с этими данными:</div>
+    <div class="head"><span class="avatar">✦</span><span>${t("eb_score_pre")} ${esc(d.score)} · ${t("eb_profile_pre")} ${esc((d.profile||"").replace("+"," + "))}</span><span class="engtag">${t("as_engtag_b")}</span></div>
+    <div class="ans-text" style="margin-bottom:12px">${t("eb_recommend_lead")}</div>
     ${html}
   `;
   // sync navigator UI + animate its counters too, without re-fetching
@@ -1032,31 +1615,33 @@ function renderEngineBRecommend(d, botEl){
 function renderEngineBNeedProfile(d, botEl){
   botEl.className = "msg-bot";
   const subj = (d.subjects && d.subjects.length) ? d.subjects.join(", ") : null;
-  const known = {
-    "IT": ["математика","информатика"], "Инженерия": ["математика","физика"],
-    "Медицина": ["химия","биология"], "Экономика / бизнес": ["математика","география"], "Право": ["история","основы права"]
-  };
-  const chips = Object.keys(known).map(label=>`<span class="quick-chip" data-label="${esc(label)}">${esc(label)}</span>`).join("");
+  // chips built from PRESETS: stable key drives the pair, display is localized
+  const chips = PRESETS.map(pr=>`<span class="quick-chip" data-key="${esc(pr.key)}">${esc(t(pr.key))}</span>`).join("");
   botEl.innerHTML = `
-    <div class="head"><span class="avatar">✦</span><span>Уточню один момент</span><span class="engtag">навигатор · движок B</span></div>
-    <div class="ans-text">Вижу балл <b class="mono">${esc(d.score)}</b>${subj?(" и предмет «"+esc(subj)+"»"):""}.
-      Выбери направление — и я сразу покажу программы, куда ты проходишь:</div>
+    <div class="head"><span class="avatar">✦</span><span>${t("eb_need_title")}</span><span class="engtag">${t("as_engtag_b")}</span></div>
+    <div class="ans-text">${t("eb_need_see_score")} <b class="mono">${esc(d.score)}</b>${subj?(" "+t("eb_need_and_subj")+" «"+esc(subj)+"»"):""}.
+      ${t("eb_need_lead")}</div>
     <div class="quick-chips">${chips}</div>
   `;
   botEl.querySelectorAll(".quick-chip").forEach(ch=>{
     ch.addEventListener("click", async ()=>{
-      const label = ch.getAttribute("data-label");
-      const pair = known[label];
-      $("#subj1").value=pair[0]; $("#subj2").value=pair[1]; activePreset=label; renderPresets(); renderAskContext();
+      const key = ch.getAttribute("data-key");
+      const pr = PRESETS.find(p=>p.key===key);
+      const pair = pr.p;
+      $("#subj1").value=pair[0]; $("#subj2").value=pair[1]; activePreset=key; renderPresets(); renderAskContext();
+      const qText = tf("eb_chip_ask",{score:d.score});
+      CONV.push({role:"user", content:qText});
       const thinking = addBotPlaceholder();
       try{
         const r = await fetch("/v1/ask",{method:"POST",headers:{"Content-Type":"application/json"},
-          body:JSON.stringify({question:"куда пройду со "+d.score+" баллами", subjects:pair, city:$("#city").value.trim()||null})});
+          body:JSON.stringify({question:qText, subjects:pair, city:$("#city").value.trim()||null,
+            history:CONV.slice(0,-1).slice(-6), profile:($("#subj1").value+"+"+$("#subj2").value)})});
         const dd = await r.json();
+        pushAssistantTurn(dd);
         routeAskResponse(dd, thinking);
       }catch(e){
         thinking.className="msg-bot refuse";
-        thinking.innerHTML=`<div class="ans-text">Ошибка запроса: ${esc(e.message)}</div>`;
+        thinking.innerHTML=`<div class="ans-text">${t("eb_req_err")} ${esc(e.message)}</div>`;
       }
     });
   });
@@ -1068,12 +1653,21 @@ function routeAskResponse(d, botEl){
   renderEngineA(d, botEl);
 }
 
+// push an assistant turn to in-session memory (skip need_profile)
+function pushAssistantTurn(d){
+  if(d.engine==="A"){ CONV.push({role:"assistant", content:String(d.answer||"")}); return; }
+  if(d.engine==="B" && d.intent==="recommend"){
+    CONV.push({role:"assistant", content:"(показал программы: балл "+d.score+", профиль "+(d.profile||"")+")"});
+  }
+}
+
 /* ---------- Ask flow ---------- */
 const askBtn = $("#askBtn");
 async function ask(question){
   const q = (question!=null ? question : $("#q").value).trim();
   if(!q) return;
   $("#q").value="";
+  CONV.push({role:"user", content:q});
   addUserBubble(q);
   const thinking = addBotPlaceholder();
   askBtn.classList.add("loading"); askBtn.disabled=true;
@@ -1081,12 +1675,14 @@ async function ask(question){
     const subjects = [$("#subj1").value, $("#subj2").value].filter(Boolean);
     const city = $("#city").value.trim() || null;
     const r = await fetch("/v1/ask",{method:"POST",headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({question:q, subjects, city, university:selectedUni})});
+      body:JSON.stringify({question:q, subjects, city, university:selectedUni,
+        history:CONV.slice(0,-1).slice(-6), profile:($("#subj1").value+"+"+$("#subj2").value)})});
     const d = await r.json();
+    pushAssistantTurn(d);
     routeAskResponse(d, thinking);
   }catch(e){
     thinking.className="msg-bot refuse";
-    thinking.innerHTML=`<div class="head"><span class="avatar">✦</span><span>Что-то пошло не так</span></div><div class="ans-text">Не получилось получить ответ: ${esc(e.message)}</div>`;
+    thinking.innerHTML=`<div class="head"><span class="avatar">✦</span><span>${t("as_err_title")}</span></div><div class="ans-text">${t("as_err_pre")} ${esc(e.message)}</div>`;
   }finally{
     askBtn.classList.remove("loading"); askBtn.disabled=false;
     thinking.scrollIntoView({behavior:"smooth", block:"end"});
@@ -1107,10 +1703,12 @@ document.querySelectorAll(".reveal").forEach(el=>io.observe(el));
 /* ---------- Universities section ---------- */
 let __UNIS = [], CMP = {}, CMP_DIMS = [];
 async function loadUniversities(){
-  try{ const d=await (await fetch("/v1/universities")).json();
-    __UNIS = d.universities||[]; CMP_DIMS = d.compare_dims||[]; __UNIS.forEach(u=>CMP[u.id]=true);
+  const reqLang = LANG;  // защита от гонки при быстром переключении языка
+  try{ const d=await (await fetch("/v1/universities?lang="+LANG)).json();
+    if(reqLang!==LANG) return;  // устаревший ответ — игнорируем
+    __UNIS = d.universities||[]; CMP_DIMS = d.compare_dims||[]; __UNIS.forEach(u=>{ if(!(u.id in CMP)) CMP[u.id]=true; });
     renderUnis(__UNIS); renderCmpChips(); renderCmpTable();
-  }catch(e){ $("#uniGrid").innerHTML='<div class="empty" style="color:var(--muted)">Не получилось загрузить список вузов.</div>'; }
+  }catch(e){ if(reqLang!==LANG) return; $("#uniGrid").innerHTML='<div class="empty" style="color:var(--muted)">'+t("uni_load_err")+'</div>'; }
 }
 function renderCmpChips(){
   $("#cmpChips").innerHTML = __UNIS.map(u=>`<span class="cattab ${CMP[u.id]?'on':''}" data-cmp="${esc(u.id)}">${esc(u.name)}</span>`).join("");
@@ -1119,9 +1717,9 @@ function renderCmpChips(){
 }
 function renderCmpTable(){
   const list=__UNIS.filter(u=>CMP[u.id]);
-  if(!list.length){ $("#cmpTable").innerHTML='<div class="empty" style="color:var(--muted)">Отметь хотя бы один вуз, чтобы увидеть таблицу.</div>'; return; }
+  if(!list.length){ $("#cmpTable").innerHTML='<div class="empty" style="color:var(--muted)">'+t("cmp_empty")+'</div>'; return; }
   const brd="border-top:1px solid var(--line)";
-  const th=`<th style="text-align:left;padding:10px 12px;color:var(--muted);font-weight:600;font-size:12px">Критерий</th>`+
+  const th=`<th style="text-align:left;padding:10px 12px;color:var(--muted);font-weight:600;font-size:12px">${t("cmp_th")}</th>`+
     list.map(u=>`<th style="text-align:left;padding:10px 12px;font-size:14px">${esc(u.name)}</th>`).join("");
   const rows=CMP_DIMS.map(d=>`<tr><td style="padding:10px 12px;color:var(--muted);font-size:12.5px;${brd}">${esc(d.label)}</td>`+
     list.map(u=>`<td style="padding:10px 12px;font-size:13.5px;${brd}">${esc((u.compare||{})[d.key]||'—')}</td>`).join("")+`</tr>`).join("");
@@ -1131,7 +1729,7 @@ const cmpAsk=$("#cmpAskBtn"); if(cmpAsk) cmpAsk.addEventListener("click",()=>{
   const names=__UNIS.filter(u=>CMP[u.id]).map(u=>u.name);
   if(names.length<2) return;
   selectedUni=null; renderAskContext();
-  ask(`Сравни вузы: ${names.join(" и ")} — по поступлению, грантам и стоимости. Что выбрать абитуриенту?`);
+  ask(tf("cmp_ask_prompt",{names:names.join(t("list_join"))}));
 });
 function renderUnis(list){
   list.forEach(u=>UNI_ID_NAME[u.id]=u.name);
@@ -1140,20 +1738,43 @@ function renderUnis(list){
       <div class="uni-top"><div class="uni-mark">${esc(u.id.toUpperCase())}</div>
         <span class="tag free">${esc(u.model)}</span></div>
       <h3>${esc(u.full)}</h3>
-      <div class="loc">${esc(u.city)}${u.chunks?` · ${u.chunks} фрагментов в базе`:""}</div>
+      <div class="loc">${esc(u.city)}${u.chunks?` · ${u.chunks} `+t("uni_chunks"):""}</div>
       <div class="desc">${esc(u.tagline)}</div>
       <ul class="feat">${(u.highlights||[]).map(h=>`<li><b>•</b> ${esc(h)}</li>`).join("")}</ul>
       <div class="cta" style="display:flex;gap:8px;flex-wrap:wrap">
-        <button class="btn-ghost" type="button" data-uni="${esc(u.id)}">Спросить про ${esc(u.name)} →</button>
-        <a href="${esc(u.apply_url)}" target="_blank" rel="noopener" class="btn-ghost">Сайт приёма ↗</a>
+        <button class="btn-ghost" type="button" data-uni="${esc(u.id)}">${tf("uni_ask",{name:esc(u.name)})}</button>
+        <a href="${esc(u.apply_url)}" target="_blank" rel="noopener" class="btn-ghost">${t("uni_apply")}</a>
       </div>
     </div>`).join("");
   $("#uniGrid").querySelectorAll("button[data-uni]").forEach(b=>
     b.addEventListener("click", ()=>{ selectedUni=b.getAttribute("data-uni"); renderAskContext();
       document.querySelector("#assistant").scrollIntoView({behavior:"smooth"}); $("#q").focus(); }));
 }
-loadUniversities();
-loadFaq();
+
+/* ---------- language switch ---------- */
+function setLang(l){
+  if(l!=="ru" && l!=="kk" && l!=="en") l="ru";
+  LANG = l;
+  localStorage.setItem("su_lang", LANG);
+  // highlight active switcher button
+  document.querySelectorAll("#langSw button").forEach(b=>b.classList.toggle("on", b.getAttribute("data-lang")===LANG));
+  // static text
+  applyStaticI18n();
+  // dynamic pieces that don't re-fetch
+  rebuildSubjects();
+  renderPresets();
+  renderAskContext();
+  // re-fetch language-dependent content
+  loadFaq();
+  loadUniversities();
+  // re-render a shown navigator result from cached payload
+  if(__lastRec){ mountBucketsAnimated($("#recOut"), __lastRec, {limit:6}); }
+}
+document.querySelectorAll("#langSw button").forEach(b=>
+  b.addEventListener("click", ()=>setLang(b.getAttribute("data-lang"))));
+
+// apply persisted language once on startup (also runs initial loadFaq/loadUniversities)
+setLang(LANG);
 })();
 </script>
 </body>

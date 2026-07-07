@@ -16,7 +16,12 @@ from core import recommender  # noqa: E402
 
 
 class FakePipeline:
-    def answer(self, question, categories=None, mode="strict", university=None):
+    last = {}
+
+    def answer(self, question, categories=None, mode="strict", university=None,
+               history=None, lang="ru"):
+        FakePipeline.last = {"question": question, "mode": mode, "university": university,
+                             "history": history, "lang": lang}
         return {"refused": False, "answer": "GPA — средневзвешенная оценка [1].",
                 "citations": [{"n": 1, "label": "51-2-25", "page": 20, "section": "GPA", "url": "http://x"}],
                 "contexts": ["..."], "chunks_used": 1, "retrieved": [], "tokens": None, "reason": "answered"}
@@ -110,6 +115,36 @@ def test_ask_routes_to_engine_a():
     j = client.post("/v1/ask", json={"question": "Как рассчитывается GPA?"}).json()
     assert j["engine"] == "A" and j["intent"] == "document_qa"
     assert j["refused"] is False and "[1]" in j["answer"]
+
+
+def test_ask_carries_profile_on_followup(monkeypatch):
+    # follow-up «а если 100 баллов?» без предметов в тексте, но с запомненным профилем клиента → движок B
+    monkeypatch.setattr(recommender, "recommend", lambda s, pr, c=None, b=None: {"results": [{"bucket": "pass"}]})
+    j = client.post("/v1/ask", json={"question": "а если 100 баллов?",
+                                      "profile": "математика+физика"}).json()
+    assert j["engine"] == "B" and j["intent"] == "recommend"
+    assert j["score"] == 100 and j["profile"] == "математика+физика"
+
+
+def test_ask_advisor_receives_history_and_lang():
+    # память сессии + язык: советник получает историю и определённый по сообщению язык
+    hist = [{"role": "user", "content": "Как считается GPA?"},
+            {"role": "assistant", "content": "GPA — это средневзвешенная оценка."}]
+    client.post("/v1/ask", json={"question": "подскажи далее", "history": hist})
+    assert FakePipeline.last["mode"] == "advisor"
+    assert FakePipeline.last["history"] == hist
+    assert FakePipeline.last["lang"] == "ru"
+
+
+def test_ask_advisor_detects_kazakh():
+    # казахские спец-буквы в вопросе → язык ответа kk (детектор, 0 токенов)
+    client.post("/v1/ask", json={"question": "Университетке қалай түсуге болады?"})
+    assert FakePipeline.last["lang"] == "kk"
+
+
+def test_ask_advisor_detects_english():
+    client.post("/v1/ask", json={"question": "What documents do I need to apply?"})
+    assert FakePipeline.last["lang"] == "en"
 
 
 def test_recommend_endpoint(monkeypatch):

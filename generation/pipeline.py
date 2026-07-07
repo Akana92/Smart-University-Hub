@@ -19,7 +19,23 @@ sys.path.insert(0, ROOT)
 from llama_index.core.llms import ChatMessage, MessageRole  # noqa: E402
 
 from generation.prompts import (ADVISOR_SYSTEM_PROMPT, ADVISOR_USER_TEMPLATE, REFUSAL,  # noqa: E402
-                                REFUSAL_MARKER, SYSTEM_PROMPT, USER_TEMPLATE)
+                                REFUSAL_MARKER, SYSTEM_PROMPT, USER_TEMPLATE, advisor_directive)
+
+# сколько прошлых реплик диалога подмешивать в советник (2 обмена = 4 сообщения) —
+# память сессии без роста токенов; движок B (0 токенов) историю не использует
+_HISTORY_TURNS = 4
+
+
+def _history_messages(history: list[dict] | None) -> list:
+    """Прошлые ходы диалога → ChatMessage[] (последние _HISTORY_TURNS, роли user/assistant)."""
+    msgs = []
+    for turn in (history or [])[-_HISTORY_TURNS:]:
+        content = str((turn or {}).get("content") or "").strip()
+        if not content:
+            continue
+        role = MessageRole.USER if (turn or {}).get("role") == "user" else MessageRole.ASSISTANT
+        msgs.append(ChatMessage(role=role, content=content[:2000]))  # жёсткий кап на реплику
+    return msgs
 
 
 def _label(ch: dict) -> str:
@@ -82,15 +98,18 @@ class RagPipeline:
         self.min_results = min_results
 
     def answer(self, question: str, categories: list[str] | None = None,
-               mode: str = "strict", university: str | None = None) -> dict:
+               mode: str = "strict", university: str | None = None,
+               history: list[dict] | None = None, lang: str = "ru") -> dict:
         """mode='strict' — курсовой context-only + дословный отказ (ТЗ, движок A /v1/chat).
         mode='advisor' — продуктовый советник абитуриента (docs/07 §5): помогает всегда, без «кабинет 101».
-        university — вуз для поиска: None = ПО ВСЕМ вузам (продукт-платформа), иначе фильтр по вузу."""
+        university — вуз для поиска: None = ПО ВСЕМ вузам (продукт-платформа), иначе фильтр по вузу.
+        history — прошлые ходы диалога [{role,content}] (память сессии, только советник, TASK-030).
+        lang — язык ответа советника ('ru'|'kk'|'en'), определяется по языку сообщения (TASK-030)."""
         qv = self.embedder.embed_query(question)
         if mode == "advisor":
             chunks = self.store.search(qv, question, tenant_id=university,
                                        top_k=self.top_k, categories=categories)
-            return self._answer_advisor(question, chunks)
+            return self._answer_advisor(question, chunks, history=history, lang=lang)
         chunks = self.store.search(qv, question, tenant_id=self.tenant_id,
                                    top_k=self.top_k, categories=categories)
         return self._answer_strict(question, chunks)
@@ -121,15 +140,20 @@ class RagPipeline:
                 "chunks_used": len(chunks), "retrieved": _retrieved_summary(chunks),
                 "tokens": _usage(resp), "reason": "llm_refusal" if refused else "answered"}
 
-    def _answer_advisor(self, question: str, chunks: list[dict]) -> dict:
+    def _answer_advisor(self, question: str, chunks: list[dict],
+                        history: list[dict] | None = None, lang: str = "ru") -> dict:
         # Продуктовый режим: помогаем всегда. Факт из контекста → с цитатами; общий совет → без цитат;
         # нет данных вуза → мягко (не «кабинет 101»). Анти-галлюцинация: числа только из контекста (промпт §3).
+        # Память сессии: прошлые ходы диалога вставляем настоящими репликами между system и текущим вопросом.
+        # Язык: директива по языку сообщения (ru/kk/en) — переводит факты русского контекста на язык ответа.
         ctx = format_context(chunks) if chunks else "(релевантных документов не найдено)"
-        messages = [
-            ChatMessage(role=MessageRole.SYSTEM, content=ADVISOR_SYSTEM_PROMPT),
-            ChatMessage(role=MessageRole.USER,
-                        content=ADVISOR_USER_TEMPLATE.format(context=ctx, question=question)),
-        ]
+        directive = advisor_directive(lang)
+        user_content = ADVISOR_USER_TEMPLATE.format(context=ctx, question=question)
+        if directive:
+            user_content = directive + "\n\n" + user_content
+        messages = [ChatMessage(role=MessageRole.SYSTEM, content=ADVISOR_SYSTEM_PROMPT)]
+        messages += _history_messages(history)
+        messages.append(ChatMessage(role=MessageRole.USER, content=user_content))
         resp = self.llm.chat(messages)
         answer = str(resp.message.content).strip()
         # цитаты — только если советник реально сослался на [n] (грунтованный факт из документов)

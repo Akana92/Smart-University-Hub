@@ -14,7 +14,13 @@
     "page": 9,
     "section": "ПОДАЧА ЗАЯВЛЕНИЯ НА ГОГ",
     "university": "kbtu"
-   }
+   },
+   "question_kk": "ЕНТ дегеніміз не және ол не үшін қажет?",
+   "answer_kk": "ЕНТ (Ұлттық бірыңғай тестілеу) — Қазақстан университеттеріне түсудегі басты кіру емтиханы. Оның балдары бойынша білім беру гранттарына конкурс өтіп, қабылдау жүргізіледі.",
+   "category_label_kk": "Түсу",
+   "question_en": "What is the ENT and why is it needed?",
+   "answer_en": "The ENT (Unified National Testing) is the main entrance exam for universities in Kazakhstan. Its scores determine the competition for educational grants and admission.",
+   "category_label_en": "Admission"
   },
   {
    "id": "p2",
@@ -28,7 +34,13 @@
     "page": 36,
     "section": "15.4 Порядок перевода на обучение по государственному образовательному гранту",
     "university": "kbtu"
-   }
+   },
+   "question_kk": "Қазақстан университетіне грантқа қалай түсуге болады?",
+   "answer_kk": "Қажетті бейінді пәндер бойынша ЕНТ тапсырып, өту балынан жоғары балл жинап, басым білім беру бағдарламаларын (ГОП) көрсете отырып грантқа өтініш беру керек. Конкурс ГОП бойынша жүреді: сенің балың басқа талапкерлерге қарағанда неғұрлым жоғары болса, мүмкіндігің соғұрлым көп.",
+   "category_label_kk": "Түсу",
+   "question_en": "How do you get a grant to a university in Kazakhstan?",
+   "answer_en": "Take the ENT in the required profile subjects, score above the cutoff (passing) score, and submit a grant application listing your priority educational programs (GOP). The competition runs by GOP: the higher your score relative to other applicants, the better your chances.",
+   "category_label_en": "Admission"
   },
   {
    "id": "p3",
@@ -42,7 +54,13 @@
     "page": 21,
     "section": "8.15 Методика расчёта среднего балла (GPA)",
     "university": "kbtu"
-   }
+   },
+   "question_kk": "Өту балы дегеніміз не?",
+   "answer_kk": "Өту балы — өткен жылы нақты бір ГОП бойынша грантқа түскендердің ішіндегі ең төменгі ЕНТ балы. Ол конкурс қорытындысы бойынша кейін қалыптасады, сондықтан бұл — бағдар ғана, келесі жылға КЕПІЛДІК ЕМЕС.",
+   "category_label_kk": "Түсу",
+   "question_en": "What is the cutoff (passing) score?",
+   "answer_en": "The cutoff (passing) score is the lowest ENT score with which applicants were admitted on a grant last year for a specific GOP. It is set after the fact based on the results of the competition, so it is a reference point, NOT a guarantee for the next year.",
+   "category_label_en": "Admission"
   },
   {
    "id": "p4",
@@ -56,7 +74,13 @@
     "page": 55,
     "section": "СПИСОК ОБРАЗОВАТЕЛЬНЫХ ПРОГРАММ ДОКТОРАНТУРЫ",
     "university": "kbtu"
-   }
+   },
+   "question_kk": "ГОП (білім беру бағдарламалары тобы) дегеніміз не?",
+   "answer_kk": "ГОП — грантқа конкурс жүргізілетін ұқсас мамандықтар тобы. Гранттар университеттің жеке мамандығы бойынша емес, ГОП бойынша бөлінеді, сондықтан бірдей балл әртүрлі ГОП-та әртүрлі мүмкіндік береді.",
+   "category_label_kk": "Түсу",
+   "question_en": "What is a GOP (group of educational programs)?",
+   "answer_en": "A GOP is a group of similar specialties within which the grant competition is held. Grants are distributed by GOP, not by an individual specialty at a university, so the same score gives different chances in different GOPs.",
+   "category_label_en": "Admission"
   },
   {
    "id": "p5",
@@ -70,7 +94,13 @@
     "page": 9,
     "section": "ПОДАЧА ЗАЯВЛЕНИЯ НА ГОГ",
     "university": "kbtu"
-   }
+   },
+   "question_kk": "Грантқа өтініш бергенде қанша басымдық көрсетуге болады?",
+   "answer_kk": "Әдетте бірнеше білім беру бағдарламасын басымдықтарымен көрсетуге болады. Ұтымды стратегия: 1–2 талпынысты (баллың шекте тұрған) + 2 қосалқы (сенімді өтетін) бағдарлама.",
+   "category_label_kk": "Түсу",
+   "question_en": "How many priorities can you list when applying for a grant?",
+   "answer_en": "Usually you can list several educational programs with priorities. A sensible strategy: 1-2 ambitious ones (where your score is on the edge) + 2 backup ones (where you pass comfortably).",
+   "category_label_en": "Admission"
   },
   {
    "id": "p6",
@@ -84,7 +114,13 @@
     "page": 35,
     "section": "15.4 Перевод на обучение по государственному образовательному гранту (только для программ магистратуры)",
     "university": "kbtu"
-   }
+   },
+   "question_kk": "Грантқа балл жетпей қалса не істеу керек?",
+   "answer_kk": "Нұсқалар: ақылы оқу (кейде үлгеріміне қарай грантқа ауыстырумен), келесі жылы ЕНТ-ды қайта тапсыру, конкурсы төмендеу ГОП/өңірлік университеттер, әкімдік гранттары, кейін қысқартылған бағдарламамен колледж.",
+   "category_label_kk": "Түсу",
+   "question_en": "What should you do if you didn't score enough for a grant?",
+   "answer_en": "Options: paid study (sometimes with a transfer to a grant based on academic performance), retaking the ENT the next year, less competitive GOPs/regional universities, akimat grants, or college followed by a shortened program.",
+   "category_label_en": "Admission"
   },
   {
    "id": "p7",
@@ -98,7 +134,13 @@
     "page": 15,
     "section": "КС ИСМ КБТУ 59-1-24",
     "university": "kbtu"
-   }
+   },
+   "question_kk": "Грантқа құжат қабылдау әдетте қашан өтеді?",
+   "answer_kk": "Бакалавриатқа құжат қабылдау мен қабылдау әдетте тамыз айында өтеді. Нақты күндер — нақты университеттің қабылдау ережелері мен академиялық күнтізбесінде.",
+   "category_label_kk": "Түсу",
+   "question_en": "When is the grant application period usually held?",
+   "answer_en": "Document submission and enrollment for the bachelor's program usually take place in August. Exact dates are in the admission rules and the academic calendar of the specific university.",
+   "category_label_en": "Admission"
   },
   {
    "id": "d1",
@@ -112,7 +154,13 @@
     "page": null,
     "section": "КазНУ — Перечень документов для поступления",
     "university": "kaznu"
-   }
+   },
+   "question_kk": "Бакалавриатқа түсу үшін әдетте қандай құжаттар қажет?",
+   "answer_kk": "Әдетте: қосымшасымен бірге аттестат/диплом, жеке куәлік, ЕНТ сертификаты, 3×4 фотосуреттер, медициналық анықтама (075-У нысаны), жеңілдіктерге/квоталарға арналған құжаттар — бар болса. Нақты тізім — нақты университеттің қабылдау ережелерінде.",
+   "category_label_kk": "Құжаттар",
+   "question_en": "What documents are usually needed for admission to a bachelor's program?",
+   "answer_en": "As a rule: a school certificate/diploma with its supplement, an ID document, an ENT certificate, 3x4 photos, a medical certificate (form 075-U), and documents for benefits/quotas — if applicable. The exact list is in the admission rules of the specific university.",
+   "category_label_en": "Documents"
   },
   {
    "id": "d2",
@@ -126,7 +174,13 @@
     "page": 36,
     "section": "СПИСОК ДОПОЛНИТЕЛЬНЫХ ДОКУМЕНТОВ АБИТУРИЕНТОВ, ИМЕЮЩИХ КВОТЫ НА ПОЛУЧЕНИЕ ГОСУДАРСТВЕННОГО ОБРАЗОВАТЕЛЬНОГО ГРАНТА",
     "university": "kbtu"
-   }
+   },
+   "question_kk": "075-У медициналық анықтамасы дегеніміз не?",
+   "answer_kk": "Түсу кезінде әдетте талап етілетін белгіленген нысандағы медициналық анықтама (075-У, бұрынғы 086-У). Ол тіркелген орны бойынша емханада ресімделеді.",
+   "category_label_kk": "Құжаттар",
+   "question_en": "What is the 075-U medical certificate?",
+   "answer_en": "A medical certificate of the established form (075-U, formerly 086-U), which is usually required for admission. It is issued at the clinic where you are registered.",
+   "category_label_en": "Documents"
   },
   {
    "id": "d3",
@@ -140,7 +194,13 @@
     "page": 32,
     "section": "ПЕРЕЧЕНЬ ДОКУМЕНТОВ НЕОБХОДИМЫХ ДЛЯ ПОСТУПЛЕНИЯ НА ОБРАЗОВАТЕЛЬНЫЕ ПРОГРАММЫ БАКАЛАВРИАТА",
     "university": "kbtu"
-   }
+   },
+   "question_kk": "Мерзімді әскери қызмет өткендерге ЕНТ сертификаты қажет пе?",
+   "answer_kk": "Орта білімі бар, мерзімді әскери қызмет өткен азаматтар көбіне ЕНТ сертификатысыз түсе алады (растайтын құжаттар болса). Университеттің қабылдау ережелерінен нақтылаңыз.",
+   "category_label_kk": "Құжаттар",
+   "question_en": "Do those who have completed compulsory military service need an ENT certificate?",
+   "answer_en": "Citizens with secondary education who have completed compulsory military service can often be admitted without an ENT certificate (with supporting documents). Check the university's admission rules.",
+   "category_label_en": "Documents"
   },
   {
    "id": "d4",
@@ -154,7 +214,13 @@
     "page": 27,
     "section": "КС ИСМ КБТУ 59-1-24",
     "university": "kbtu"
-   }
+   },
+   "question_kk": "Шетелдік білім туралы құжаттар танылады ма?",
+   "answer_kk": "Иә, шетелде берілген білім туралы құжаттар ҚР заңнамасында белгіленген тәртіппен танылады және нострификацияланады.",
+   "category_label_kk": "Құжаттар",
+   "question_en": "Are foreign education documents recognized?",
+   "answer_en": "Yes, education documents issued abroad are recognized and go through nostrification in the manner established by the legislation of the Republic of Kazakhstan.",
+   "category_label_en": "Documents"
   },
   {
    "id": "g1",
@@ -168,7 +234,13 @@
     "page": 36,
     "section": "15.4 Перевод на обучение по государственному образовательному гранту (только для программ магистратуры)",
     "university": "kbtu"
-   }
+   },
+   "question_kk": "Қандай гранттар бар?",
+   "answer_kk": "Мемлекеттік білім беру гранттары (мемтапсырыс), университеттердің ішкі гранттары және әлеуметтік/қорлық гранттар. Әрқайсысының өз шарттары мен конкурсы бар.",
+   "category_label_kk": "Гранттар мен балдар",
+   "question_en": "What types of grants are there?",
+   "answer_en": "State educational grants (state order), universities' internal grants, and social/foundation grants. Each has its own conditions and competition.",
+   "category_label_en": "Grants and Scores"
   },
   {
    "id": "g2",
@@ -182,7 +254,13 @@
     "page": 20,
     "section": "_Пример расчета GPA:_",
     "university": "kbtu"
-   }
+   },
+   "question_kk": "GPA қалай есептеледі?",
+   "answer_kk": "GPA — кредит-сағат жүйесі бойынша орташа өлшенген баға: (бағаның сандық баламасы × пән кредиттерінің саны) көбейтінділерінің қосындысы кредиттердің жалпы санына бөлінеді.",
+   "category_label_kk": "Гранттар мен балдар",
+   "question_en": "How is GPA calculated?",
+   "answer_en": "GPA is a weighted average grade based on the credit-hour system: the sum of the products (numeric equivalent of the grade x number of credits for the course) is divided by the total number of credits.",
+   "category_label_en": "Grants and Scores"
   },
   {
    "id": "g3",
@@ -196,7 +274,13 @@
     "page": 18,
     "section": "9.18 Оценка «FХ» - неудовлетворительно",
     "university": "kbtu"
-   }
+   },
+   "question_kk": "FX бағасы нені білдіреді және оны қайта тапсыруға бола ма?",
+   "answer_kk": "FX — қайта тапсыру құқығымен қанағаттанарлықсыз баға. Әдетте келесі семестр басталғанға дейін қорытынды бақылауды ақылы негізде, пәнді қайта өтпей-ақ бір рет қайта тапсыруға рұқсат етіледі.",
+   "category_label_kk": "Гранттар мен балдар",
+   "question_en": "What does the FX grade mean and can it be retaken?",
+   "answer_en": "FX means unsatisfactory with the right to retake. Usually one retake of the final assessment is allowed before the start of the next semester on a paid basis, without retaking the course.",
+   "category_label_en": "Grants and Scores"
   },
   {
    "id": "g4",
@@ -210,7 +294,13 @@
     "page": 17,
     "section": "9.17 Оценка «F» (Fail) – неудовлетворительно",
     "university": "kbtu"
-   }
+   },
+   "question_kk": "Пәнді ретейк ету дегеніміз не?",
+   "answer_kk": "Ретейк — F (қанағаттанарлықсыз) баға алған кезде пәнді қайта өту, әдетте қосымша ақыға.",
+   "category_label_kk": "Оқу",
+   "question_en": "What is a course retake?",
+   "answer_en": "A retake is repeating a course when you receive an F grade (unsatisfactory), usually for an additional fee.",
+   "category_label_en": "Study"
   },
   {
    "id": "s1",
@@ -224,7 +314,13 @@
     "page": 9,
     "section": "4. ОБЩИЕ ПОЛОЖЕНИЯ",
     "university": "kbtu"
-   }
+   },
+   "question_kk": "Академиялық демалыс дегеніміз не?",
+   "answer_kk": "Академиялық демалыс медициналық көрсеткіштер бойынша, жүктілік пен босануға, бала күтіміне, әскери қызметке шақыруға және басқа да көзделген жағдайларға байланысты беріледі.",
+   "category_label_kk": "Оқу",
+   "question_en": "What is an academic leave?",
+   "answer_en": "Academic leave is granted for medical reasons, in connection with pregnancy and childbirth, child care, call-up for military service, and in other cases provided for.",
+   "category_label_en": "Study"
   },
   {
    "id": "a1",
@@ -238,7 +334,13 @@
     "page": null,
     "section": "Supporting documents",
     "university": "nu"
-   }
+   },
+   "question_kk": "Ағылшын тілді университетке (Nazarbayev University моделі) түсу үшін не қажет?",
+   "answer_kk": "Мұндай университеттер өз емтиханы (NUET: математика + critical thinking) және ағылшын тілі деңгейі (IELTS/TOEFL) бойынша, көбіне дайындық Foundation Year арқылы іріктейді. ЕНТ ол жерде негізгі критерий емес.",
+   "category_label_kk": "Шетелде оқу",
+   "question_en": "What is required for admission to an English-language university (the Nazarbayev University model)?",
+   "answer_en": "Such universities select based on their own exam (NUET: mathematics + critical thinking) and English proficiency (IELTS/TOEFL), often through a preparatory Foundation Year. The ENT is not the main criterion there.",
+   "category_label_en": "Studying Abroad"
   },
   {
    "id": "a2",
@@ -252,7 +354,13 @@
     "page": null,
     "section": "The following requirements are required to enroll in NU’s undergraduate programs",
     "university": "nu"
-   }
+   },
+   "question_kk": "Түсу үшін IELTS қажет пе?",
+   "answer_kk": "Ағылшын тіліндегі бағдарламаларға (NU моделі, шетел) — иә, әдетте IELTS 5.5+ (немесе TOEFL баламасы). ЕНТ бойынша ҚР-дың кәдімгі университеттеріне ол талап етілмейді.",
+   "category_label_kk": "Шетелде оқу",
+   "question_en": "Is IELTS required for admission?",
+   "answer_en": "For programs in English (the NU model, abroad) — yes, usually IELTS 5.5+ (or a TOEFL equivalent). For regular universities in Kazakhstan that admit by ENT, it is not required.",
+   "category_label_en": "Studying Abroad"
   }
  ]
 }
