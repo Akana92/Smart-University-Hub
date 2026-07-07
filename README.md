@@ -65,6 +65,17 @@ python -m pytest -q                          # 45 passed
 python eval/gate.py                          # PASS/FAIL метрик против baseline
 ```
 
+**Ежедневный запуск (после установки) — одной командой (Windows/PowerShell):**
+
+```powershell
+./start.ps1        # поднимет БД (если легла) + API → http://localhost:8000  (админка: /admin)
+./stop.ps1         # остановить базу (данные в volume pgdata не теряются)
+```
+
+`start.ps1` проверяет Docker, поднимает pgvector, ждёт healthcheck, показывает число проиндексированных
+чанков и запускает сервер. Если БД недоступна — ассистент не виснет, а честно скажет «недоступен»
+(навигатор и FAQ работают всегда). Аналоги для `make`: `make start` / `make down`.
+
 Курсовой Streamlit-UI (демо этапа 4): `streamlit run ui/streamlit_app.py`.
 
 ## Качество (Ragas, судья ≠ генератор)
