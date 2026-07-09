@@ -2,7 +2,7 @@
  {
   "file": "51-2-25_2025.pdf",
   "url": "https://kbtu.edu.kz/images/51-2-25_2025.pdf",
-  "path": "D:\\Claude\\ML Проекты\\Smart University\\data\\kbtu\\raw\\51-2-25_2025.pdf",
+  "path": "data\\kbtu\\raw\\51-2-25_2025.pdf",
   "size_kb": 642,
   "file_hash": "sha256:bd7ea1cc0279edd94018e261194b3183aec4e2bf0d756a538642ef4e824f5a26",
   "fetch_timestamp": "2026-07-03T07:48:22+00:00",
@@ -13,7 +13,7 @@
  {
   "file": "514-1-22_2023.pdf",
   "url": "https://kbtu.edu.kz/images/514-1-22_2023.pdf",
-  "path": "D:\\Claude\\ML Проекты\\Smart University\\data\\kbtu\\raw\\514-1-22_2023.pdf",
+  "path": "data\\kbtu\\raw\\514-1-22_2023.pdf",
   "size_kb": 590,
   "file_hash": "sha256:4c1e94b35645fd17237fc2c1b5753c9cf5adc3dcd26ba9f0340656e078f38fef",
   "fetch_timestamp": "2026-07-03T07:48:22+00:00",
@@ -24,7 +24,7 @@
  {
   "file": "59-4-21_2023.pdf",
   "url": "https://kbtu.edu.kz/images/59-4-21_2023.pdf",
-  "path": "D:\\Claude\\ML Проекты\\Smart University\\data\\kbtu\\raw\\59-4-21_2023.pdf",
+  "path": "data\\kbtu\\raw\\59-4-21_2023.pdf",
   "size_kb": 701,
   "file_hash": "sha256:fbfd41ca37290064281b027a2d826105edbe26f7a24b4bd9d7316962e34bdd7e",
   "fetch_timestamp": "2026-07-03T07:48:22+00:00",
@@ -35,7 +35,7 @@
  {
   "file": "59-1-24_2026.pdf",
   "url": "https://kbtu.edu.kz/images/59-1-24_2026.pdf",
-  "path": "D:\\Claude\\ML Проекты\\Smart University\\data\\kbtu\\raw\\59-1-24_2026.pdf",
+  "path": "data\\kbtu\\raw\\59-1-24_2026.pdf",
   "size_kb": 736,
   "file_hash": "sha256:9ab53f298e4b1ae261af1ed490e94aaebfebbf3c1e375e3222fe25c6c2b2de59",
   "fetch_timestamp": "2026-07-03T07:48:22+00:00",
@@ -46,7 +46,7 @@
  {
   "file": "74-1-24_2026.pdf",
   "url": "https://kbtu.edu.kz/images/74-1-24_2026.pdf",
-  "path": "D:\\Claude\\ML Проекты\\Smart University\\data\\kbtu\\raw\\74-1-24_2026.pdf",
+  "path": "data\\kbtu\\raw\\74-1-24_2026.pdf",
   "size_kb": 286,
   "file_hash": "sha256:bec0db660910619a8e79468c000958f8bf5094d3970d0a7ba344fec078c2260b",
   "fetch_timestamp": "2026-07-03T07:48:23+00:00",
@@ -57,7 +57,7 @@
  {
   "file": "51-9-26_2026.pdf",
   "url": "https://kbtu.edu.kz/images/51-9-26_2026.pdf",
-  "path": "D:\\Claude\\ML Проекты\\Smart University\\data\\kbtu\\raw\\51-9-26_2026.pdf",
+  "path": "data\\kbtu\\raw\\51-9-26_2026.pdf",
   "size_kb": 352,
   "file_hash": "sha256:22231e313005a2454238ca1994b2a2daaf07b2b62202ad8ce8e51126f1cb5968",
   "fetch_timestamp": "2026-07-03T07:48:23+00:00",
@@ -68,7 +68,7 @@
  {
   "file": "ac_2025-2026_bak_rus.pdf",
   "url": "https://kbtu.edu.kz/images/ac_2025-2026_bak_rus.pdf",
-  "path": "D:\\Claude\\ML Проекты\\Smart University\\data\\kbtu\\raw\\ac_2025-2026_bak_rus.pdf",
+  "path": "data\\kbtu\\raw\\ac_2025-2026_bak_rus.pdf",
   "size_kb": 677,
   "file_hash": "sha256:7c647a58d3096e15b5bdb8d93c42a0a7029cb68ecad673dc4ee8bdb789e7ecab",
   "fetch_timestamp": "2026-07-03T07:48:23+00:00",
@@ -79,7 +79,7 @@
  {
   "file": "ac_2025-2026_mag_rus.pdf",
   "url": "https://kbtu.edu.kz/images/ac_2025-2026_mag_rus.pdf",
-  "path": "D:\\Claude\\ML Проекты\\Smart University\\data\\kbtu\\raw\\ac_2025-2026_mag_rus.pdf",
+  "path": "data\\kbtu\\raw\\ac_2025-2026_mag_rus.pdf",
   "size_kb": 602,
   "file_hash": "sha256:ea84c5254f8aa25acba6abc51b49e4bbc4aa47babbe737aacf7708589c0f52b8",
   "fetch_timestamp": "2026-07-03T07:48:23+00:00",
