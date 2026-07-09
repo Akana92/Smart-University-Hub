@@ -234,9 +234,16 @@ def ask(req: AskRequest, pipe: RagPipeline = Depends(get_pipeline)):
     # сравнение вузов → сбалансированный ретривал по ВСЕМ вузам + справка (TASK-032): иначе ответ
     # однобокий (в базе KBTU-чанков кратно больше). Плюс промпт даёт плюсы/минусы и не отфутболивает.
     compare = uni_registry.is_compare_query(req.question)
-    balance = uni_registry.tenant_ids() if compare else None
-    brief = uni_registry.compare_brief() if compare else None
-    uni_filter = None if compare else req.university
+    if compare:
+        balance = uni_registry.tenant_ids()  # сравнение → по всем вузам поровну + общая справка
+        brief = uni_registry.compare_brief()
+        uni_filter = None
+    else:
+        balance = None
+        # вуз в фокусе диалога (из вопроса ИЛИ недавней истории) → сужаем поиск, чтобы follow-up
+        # «а студенческая жизнь?» не перескакивал на другой вуз, где чанков больше (TASK-033)
+        uni_filter = req.university or uni_registry.detect_focus_uni(req.question, history)
+        brief = uni_registry.uni_brief(uni_filter) if uni_filter else None
     t0 = time.perf_counter()
     try:
         res = pipe.answer(req.question, categories=cats, mode="advisor", university=uni_filter,
@@ -252,7 +259,8 @@ def ask(req: AskRequest, pipe: RagPipeline = Depends(get_pipeline)):
     latency_ms = round((time.perf_counter() - t0) * 1000)
     log_query({"request_id": rid, "tenant": TENANT, "engine": "A", "intent": "document_qa",
                "question": req.question, "category": req.category, "lang": lang, "compare": compare,
-               "refused": res["refused"], "reason": res.get("reason"), "chunks_used": res.get("chunks_used"),
+               "focus": uni_filter, "refused": res["refused"], "reason": res.get("reason"),
+               "chunks_used": res.get("chunks_used"),
                "retrieved": res.get("retrieved"), "answer": res["answer"], "citations": res["citations"],
                "latency_ms": latency_ms, "tokens": res.get("tokens")})
     return {"request_id": rid, "engine": "A", "intent": "document_qa", "refused": res["refused"],

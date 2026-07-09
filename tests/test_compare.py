@@ -34,10 +34,40 @@ def test_compare_brief_covers_all_universities():
     assert "Модель" in brief and U.tenant_ids() == ["kbtu", "kaznu", "nu"]
 
 
+# ── вуз-фокус диалога (TASK-033): follow-up не перескакивает на другой вуз ──
+def test_universities_in_text_word_boundary():
+    assert U.universities_in_text("Выбираю NU") == {"nu"}
+    assert U.universities_in_text("нужно подумать") == set()   # «nu» латиница ≠ «нужно» кириллица
+    assert U.universities_in_text("расскажи про kaznu") == {"kaznu"}  # не ловим «nu» внутри «kaznu»
+    assert U.universities_in_text("КазНУ или KBTU") == {"kaznu", "kbtu"}
+
+
+def test_detect_focus_from_question():
+    assert U.detect_focus_uni("какие условия в KBTU?") == "kbtu"
+
+
+def test_detect_focus_from_history():
+    hist = [{"role": "user", "content": "Выбираю NU, какие условия?"},
+            {"role": "assistant", "content": "Nazarbayev University предлагает Foundation Year..."}]
+    # текущий вопрос без вуза → берём вуз из недавней истории (NU), не перескакиваем на KBTU
+    assert U.detect_focus_uni("есть информация по студенческой жизни?", hist) == "nu"
+
+
+def test_detect_focus_ambiguous_is_none():
+    assert U.detect_focus_uni("сравни KBTU и КазНУ") is None       # два вуза → не сужаем
+    assert U.detect_focus_uni("как готовиться к ЕНТ?") is None     # ни одного → по всем
+
+
+def test_uni_brief_single():
+    b = U.uni_brief("nu")
+    assert b and "Nazarbayev" in b and "NUET" in b
+    assert U.uni_brief("nope") is None
+
+
 # ── промпт советника: удержание вместо отфутболивания ──
 def test_advisor_prompt_no_deflection():
     p = ADVISOR_SYSTEM_PROMPT.lower()
-    assert "не отправляй" in p and "приёмную комиссию" in p  # явный запрет отфутболивать
+    assert "запрещено" in p and "на сайте" in p  # явный запрет советовать внешние сайты вузов
     assert "на платформе" in p  # вместо этого — следующий шаг на платформе
     assert "сравнение вузов" in p or "сравни" in p  # есть блок про сравнение
 

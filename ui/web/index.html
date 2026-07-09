@@ -368,14 +368,19 @@
     margin:20px 2px 10px;grid-column:1/-1}
 
   /* ---------- assistant ---------- */
-  .askbox{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-start}
+  .askbox{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-start;
+    position:sticky;bottom:0;z-index:3;background:var(--bg-soft);padding-top:14px;margin-top:6px;
+    border-top:1px solid var(--line)}
   .askbox textarea{flex:1;min-height:56px;resize:vertical;min-width:240px;font-size:15.5px}
   .ask-context{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
   .ctx-pill{font-size:12px;font-family:var(--mono);color:var(--muted);border:1px dashed var(--line-strong);
     border-radius:999px;padding:5px 12px}
   .ctx-pill b{color:var(--ink-dim)}
 
-  .thread{margin-top:20px;display:flex;flex-direction:column;gap:14px}
+  .thread{margin-top:16px;display:flex;flex-direction:column;gap:14px;
+    max-height:min(58vh,600px);overflow-y:auto;overflow-x:hidden;padding:2px 6px 2px 2px;scroll-behavior:smooth}
+  .thread::-webkit-scrollbar{width:8px}
+  .chatpanel{display:flex;flex-direction:column}
   .msg-user{align-self:flex-end;max-width:80%;background:rgba(139,124,255,.12);border:1px solid rgba(139,124,255,.28);
     border-radius:16px 16px 4px 16px;padding:12px 16px;font-size:14.5px;color:var(--ink);
     opacity:0;animation:msgIn .4s var(--ease) forwards}
@@ -712,18 +717,19 @@
           <span class="tag llm" data-i18n="as_tag">🤖 LLM · если нет ответа выше</span>
         </div>
 
-        <div class="panel pad">
+        <div class="panel pad chatpanel">
           <div class="ask-context" id="askContext"></div>
-          <div class="askbox">
-            <textarea id="q" data-i18n-ph="as_ph" placeholder="Спроси как есть: можно ли пересдать экзамен с FX? Или: куда пройду со 104 баллами, физика и математика?" aria-label="Вопрос ассистенту"></textarea>
-            <button class="btn" id="askBtn"><span class="spin" aria-hidden="true"></span><span class="btxt" data-i18n="as_btn">Спросить →</span></button>
-          </div>
+          <div class="thread" id="thread"></div>
           <div class="suggest-row" id="suggestRow">
             <span class="suggest" data-i18n="suggest1" data-q="Можно ли пересдать экзамен с FX?">Можно ли пересдать экзамен с FX?</span>
             <span class="suggest" data-i18n="suggest2" data-q="Куда пройду со 104 баллами?">Куда я пройду со 104 баллами?</span>
             <span class="suggest" data-i18n="suggest3" data-q="Как рассчитывается GPA?">А как вообще считается GPA?</span>
           </div>
-          <div class="thread" id="thread"></div>
+          <div class="askbox">
+            <textarea id="q" rows="2" data-i18n-ph="as_ph" placeholder="Спроси как есть: можно ли пересдать экзамен с FX? Или: куда пройду со 104 баллами, физика и математика?" aria-label="Вопрос ассистенту"></textarea>
+            <button class="btn" id="askBtn"><span class="spin" aria-hidden="true"></span><span class="btxt" data-i18n="as_btn">Спросить →</span></button>
+          </div>
+          <div class="hint" style="margin-top:8px;font-size:11.5px" data-i18n="as_enter_hint">Enter — отправить, Shift+Enter — новая строка</div>
         </div>
 
         <div class="sec-head" style="margin-top:44px">
@@ -942,7 +948,8 @@ const I18N = {
     "foot_disc": "Проходные баллы 2025 года — ориентир, а не гарантия на 2026-й: итог конкурса зависит от числа грантов и уровня других абитуриентов в этом заходе.",
     "rc_page": "стр.",
     "list_join": " и ",
-    "eb_chip_ask": "куда пройду со {score} баллами"
+    "eb_chip_ask": "куда пройду со {score} баллами",
+    "as_enter_hint": "Enter — отправить, Shift+Enter — новая строка"
   },
   kk: {
   "nav_guide": "🎯 Талапкер гиды",
@@ -1117,7 +1124,8 @@ const I18N = {
   "foot_disc": "2025 жылғы өту балдары — 2026 жылға бағдар, кепілдік емес: конкурстың қорытындысы гранттар санына және осы кезектегі басқа талапкерлердің деңгейіне байланысты.",
   "rc_page": "б.",
   "list_join": " және ",
-  "eb_chip_ask": "{score} баллмен қайда өтемін"
+  "eb_chip_ask": "{score} баллмен қайда өтемін",
+  "as_enter_hint": "Enter — жіберу, Shift+Enter — жаңа жол"
 },
   en: {
   "nav_guide": "🎯 Applicant's Guide",
@@ -1292,7 +1300,8 @@ const I18N = {
   "foot_disc": "The 2025 cutoff scores are a reference point, not a guarantee for 2026: the final outcome depends on the number of grants and the level of other applicants in that round.",
   "rc_page": "p.",
   "list_join": " and ",
-  "eb_chip_ask": "where can I get in with {score} points"
+  "eb_chip_ask": "where can I get in with {score} points",
+  "as_enter_hint": "Enter to send, Shift+Enter for a new line"
 }
 };
 
@@ -1553,6 +1562,7 @@ renderAskContext();
 
 /* ---------- Assistant thread rendering ---------- */
 const thread = $("#thread");
+function scrollThread(){ thread.scrollTop = thread.scrollHeight; }  // лента прокручивается к последнему, не страница
 
 function addUserBubble(text){
   const div=document.createElement("div");
@@ -1566,7 +1576,7 @@ function addBotPlaceholder(){
   div.className="msg-bot";
   div.innerHTML=`<div class="head"><span class="avatar">✦</span><span>${t("as_thinking")}</span><span class="typing"><span></span><span></span><span></span></span></div>`;
   thread.appendChild(div);
-  div.scrollIntoView({behavior:"smooth", block:"end"});
+  scrollThread();
   return div;
 }
 
@@ -1689,11 +1699,11 @@ async function ask(question){
     thinking.innerHTML=`<div class="head"><span class="avatar">✦</span><span>${t("as_err_title")}</span></div><div class="ans-text">${t("as_err_pre")} ${esc(e.message)}</div>`;
   }finally{
     askBtn.classList.remove("loading"); askBtn.disabled=false;
-    thinking.scrollIntoView({behavior:"smooth", block:"end"});
+    scrollThread();
   }
 }
 askBtn.onclick=()=>ask();
-$("#q").addEventListener("keydown", e=>{ if(e.key==="Enter" && (e.ctrlKey||e.metaKey)) ask(); });
+$("#q").addEventListener("keydown", e=>{ if(e.key==="Enter" && !e.shiftKey){ e.preventDefault(); ask(); } });
 $("#suggestRow").querySelectorAll(".suggest").forEach(s=>{
   s.addEventListener("click", ()=>ask(s.getAttribute("data-q")));
 });

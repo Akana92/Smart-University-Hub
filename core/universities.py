@@ -3,6 +3,8 @@
 Сравнение — детерминированная таблица (0 токенов, по ресёрчу лучше графа); нарратив
 («сравни X и Y словами») закрывает существующий кросс-вуз ассистент. Детали — в pgvector.
 """
+import re
+
 UNIVERSITIES = [
     {
         "id": "kbtu", "name": "KBTU", "full": "Казахстанско-Британский технический университет",
@@ -219,8 +221,21 @@ _COMPARE_KW = ("сравн", "плюсы и минус", "плюсы-минус"
 _UNI_ALIASES = {
     "kbtu": ("kbtu", "кбту", "казахстанско-брит", "казахстанско брит"),
     "kaznu": ("казну", "kaznu", "аль-фараби", "аль фараби"),
-    "nu": ("nazarbayev", "назарбаев", "нуфип", "nufyp", "nuet"),
+    "nu": ("nu", "nazarbayev", "назарбаев", "нуфип", "nufyp", "nuet"),
 }
+
+
+def universities_in_text(text: str) -> set[str]:
+    """Множество вузов, упомянутых в тексте (по алиасам, с границами слова — чтобы «nu» не ловил
+    «нужно»/«kaznu»). Используется и для детекта сравнения, и для вуза-фокуса диалога."""
+    tl = (text or "").lower()
+    found = set()
+    for uid, aliases in _UNI_ALIASES.items():
+        for a in aliases:
+            if re.search(r"(?<![0-9a-zа-яё])" + re.escape(a) + r"(?![0-9a-zа-яё])", tl):
+                found.add(uid)
+                break
+    return found
 
 
 def is_compare_query(q: str) -> bool:
@@ -228,8 +243,25 @@ def is_compare_query(q: str) -> bool:
     ql = (q or "").lower()
     if any(k in ql for k in _COMPARE_KW):
         return True
-    hits = sum(1 for al in _UNI_ALIASES.values() if any(a in ql for a in al))
-    return hits >= 2
+    return len(universities_in_text(q)) >= 2
+
+
+def detect_focus_uni(question: str, history: list[dict] | None = None) -> str | None:
+    """Вуз, о котором идёт речь в диалоге: из текущего вопроса, иначе из последней реплики истории,
+    где упомянут ровно один вуз. Нужно, чтобы follow-up («а студенческая жизнь?») не перескакивал на
+    другой вуз, где чанков больше (TASK-033). Несколько вузов сразу или ни одного → None (поиск по всем)."""
+    q = universities_in_text(question)
+    if len(q) == 1:
+        return next(iter(q))
+    if len(q) >= 2:
+        return None
+    for turn in reversed(history or []):
+        h = universities_in_text(str((turn or {}).get("content", "")))
+        if len(h) == 1:
+            return next(iter(h))
+        if len(h) >= 2:
+            return None
+    return None
 
 
 def compare_brief(lang: str = "ru") -> str:
@@ -246,3 +278,16 @@ def compare_brief(lang: str = "ru") -> str:
             f"Foundation: {c.get('foundation', '—')}. Особенности: {'; '.join(u.get('highlights', []))}."
         )
     return "\n".join(lines)
+
+
+def uni_brief(uni_id: str, lang: str = "ru") -> str | None:
+    """Краткая справка по ОДНОМУ вузу (для focus-ответа советника, чтобы было чем ответить в контексте
+    диалога об этом вузе — даже если релевантных чанков мало)."""
+    for u in universities(lang=lang):
+        if u["id"] == uni_id:
+            c = u.get("compare", {})
+            return (f"СПРАВКА О ВУЗЕ {u['name']} ({u['city']}): {u.get('tagline', '')} "
+                    f"Модель: {c.get('model', '—')}; язык: {c.get('language', '—')}; "
+                    f"стоимость: {c.get('cost', '—')}; гранты: {c.get('grants', '—')}; "
+                    f"Foundation: {c.get('foundation', '—')}. Особенности: {'; '.join(u.get('highlights', []))}.")
+    return None

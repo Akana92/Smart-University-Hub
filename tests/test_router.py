@@ -162,6 +162,16 @@ def test_ask_non_compare_no_balance():
     assert FakePipeline.last["balance_tenants"] is None and FakePipeline.last["brief"] is None
 
 
+def test_ask_focus_from_history_scopes_retrieval():
+    # follow-up про NU (вуз в истории) → поиск сужается на NU, ответ не перескакивает на KBTU (TASK-033)
+    hist = [{"role": "user", "content": "Выбираю NU, какие условия?"},
+            {"role": "assistant", "content": "Nazarbayev University предлагает Foundation Year..."}]
+    client.post("/v1/ask", json={"question": "есть информация по студенческой жизни?", "history": hist})
+    assert FakePipeline.last["university"] == "nu"
+    assert FakePipeline.last["balance_tenants"] is None  # это не сравнение
+    assert FakePipeline.last["brief"] and "Nazarbayev" in FakePipeline.last["brief"]
+
+
 def test_recommend_endpoint(monkeypatch):
     monkeypatch.setattr(recommender, "recommend",
                         lambda s, pr, c=None, b=None: {"score": s, "results": [{"bucket": "pass"}]})
