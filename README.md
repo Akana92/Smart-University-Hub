@@ -124,6 +124,13 @@ python eval/gate.py                          # PASS/FAIL метрик проти
 Python 3.13 · FastAPI · Postgres + pgvector · LlamaIndex + OpenAI gpt-4o-mini · OpenAI
 text-embedding-3-large (3072, halfvec) · Ragas · один self-contained HTML/JS фронт (без сборки).
 
+**Две области зависимостей.** Полный пайплайн использует `requirements.txt`: **pymupdf / easyocr+torch**
+(парсинг PDF и OCR при индексации), **sentence-transformers** (локальный эмбеддер без ключа), **Ragas +
+LangChain + datasets** (оценка качества RAG), **Streamlit** (UI этапа 4). Docker-образ **рантайма** ставит
+только `requirements-app.txt` (сервинг API+UI): перечисленные тяжёлые библиотеки работающему сайту не нужны,
+поэтому в прод-образ (~402 МБ) не тянутся — а их результаты (индекс в `db/seed`, отчёт Ragas, judge-гейт) уже
+в репозитории. Кто хочет перезапустить индексацию/оценку — ставит полный `requirements.txt` (Вариант B выше).
+
 ## Честность данных (инварианты)
 
 - Ответы движка A — из документов; цитаты (`документ · стр. · раздел · URL · вуз`) — из метаданных чанков.
