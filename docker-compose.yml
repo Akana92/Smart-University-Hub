@@ -1,9 +1,13 @@
-# Корневая инфраструктура (ADR-016): одна Postgres+pgvector на движок A (RAG-чанки)
-# и, в будущем, движок B. Образ pgvector/pgvector уже содержит расширение vector.
-# Поднять:   docker compose up -d
-# Проверить: docker compose ps
-# DSN:       postgresql://postgres:postgres@localhost:55432/smartuni
-# ПОРТ 55432 (не 5432/5433!): на 5432 И 5433 висит нативный Postgres Windows (2 кластера) — конфликт.
+# Smart University — весь стек одной командой:  docker compose up -d --build
+#
+#   1) postgres (pgvector) с УЖЕ загруженным индексом из db/seed — переиндексация не нужна;
+#   2) app — FastAPI + встроенный веб-UI на http://localhost:8000  (админка: /admin).
+#
+# Ключ (опционально): для ответов AI-советника скопируйте .env.example -> .env и впишите
+# OPENAI_API_KEY. Без ключа навигатор грантов, FAQ, вузы и сравнение работают полностью,
+# а ассистент честно отвечает «недоступен».
+#
+# ПОРТ 55432 у Postgres (не 5432/5433): на 5432/5433 часто висит нативный Postgres Windows.
 services:
   postgres:
     image: pgvector/pgvector:pg16
@@ -16,11 +20,33 @@ services:
       - "55432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
+      # авто-загрузка индекса при ПЕРВОМ запуске (пустой том): чанки+эмбеддинги уже внутри
+      - ./db/seed:/docker-entrypoint-initdb.d:ro
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres -d smartuni"]
       interval: 5s
       timeout: 3s
       retries: 10
+
+  app:
+    build: .
+    container_name: smartuni-app
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      # внутри compose-сети адрес БД — по имени сервиса, а не localhost:55432
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/smartuni
+      EMBED_PROFILE: openai
+      LLM_PROFILE: openai
+      # ключ из .env (подстановка docker compose). Заглушка, если не задан: конструкция клиента
+      # не падает, а реальный вызов вернёт ошибку → ассистент отдаёт мягкое «недоступен».
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-sk-not-set-see-env-example}
+      # ADMIN_TOKEN: задайте, чтобы закрыть /admin (без него — открыт локально)
+      ADMIN_TOKEN: ${ADMIN_TOKEN:-}
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
 
 volumes:
   pgdata:

@@ -1,0 +1,15 @@
+# Smart University — зависимости РАНТАЙМА (сервинг API + встроенный веб-UI) для Docker-образа.
+# Только то, что реально импортит api.main при обслуживании запросов.
+# Тяжёлое (torch через easyocr/sentence-transformers, ragas, langchain, datasets, streamlit,
+# pymupdf, tiktoken) нужно лишь для ingestion/оценки/демо-эмбеддера — в прод-образ НЕ входит.
+# Полный набор для разработки/индексации/оценки — requirements.txt.
+fastapi==0.115.6
+uvicorn==0.34.0
+PyYAML==6.0.2
+python-dotenv==1.1.0
+numpy==2.4.6
+openai==2.44.0
+llama-index-core==0.14.23
+llama-index-llms-openai==0.7.9
+psycopg[binary]==3.3.4
+pgvector==0.4.2

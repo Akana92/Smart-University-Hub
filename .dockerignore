@@ -1,0 +1,39 @@
+# Не класть в образ приложения: секреты, VCS, кэши, тяжёлые исходники и то, что не нужно рантайму.
+# КРИТИЧНО: .env (ключ) НИКОГДА не попадает в образ — ключ подаётся через окружение из docker compose.
+.env
+.env.*
+!.env.example
+
+.git
+.gitignore
+.gitattributes
+.github/
+
+**/__pycache__/
+**/*.pyc
+**/*.pyo
+**/.omc/
+.omc/
+.venv/
+venv/
+env/
+node_modules/
+
+logs/
+*.log
+
+# seed монтируется в Postgres (init), в образ приложения не нужен
+db/seed/
+
+# не нужны рантайму: доки, тесты, оценка качества, курсовой Streamlit-UI
+docs/
+tests/
+eval/
+ui/streamlit_app.py
+
+# тяжёлые исходники ingestion и локальный sqlite-индекс (в проде используется Postgres)
+**/*.pdf
+data/kbtu/index.db
+
+.DS_Store
+Thumbs.db
