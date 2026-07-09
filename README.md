@@ -64,6 +64,7 @@ AI-платформа, которая помогает абитуриенту п
 ```bash
 docker compose up -d --build     # соберёт образ, поднимет БД (с данными) + приложение
 # → открыть http://localhost:8000     (админка: http://localhost:8000/admin)
+docker compose logs -f app       # (если нужно) смотреть логи приложения
 docker compose down              # остановить (данные в volume pgdata сохраняются)
 ```
 
